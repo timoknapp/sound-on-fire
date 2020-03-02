@@ -1,3 +1,5 @@
+on: 
+  push:
 name: SoundCloud on Fire
 jobs:
   soundcloud-on-fire:
