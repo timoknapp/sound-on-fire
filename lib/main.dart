@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:sound_on_fire/model/QueryResult.dart';
 import 'package:sound_on_fire/util/soundcloud.dart';
 
@@ -26,9 +25,9 @@ const MaterialColor color_sc = const MaterialColor(
 );
 
 // const String app_id = 1e3*String(Date.now()).substr(-8)+Math.floor(1e3*Math.random())
-const String client_id = "xTQtEeWzObWW93u9EUTviDSu5Y7Ulk0R";
-const String app_version = "1582892164";
-const String app_locale = "en";
+const String clientId = "xTQtEeWzObWW93u9EUTviDSu5Y7Ulk0R";
+const String appVersion = "1582892164";
+const String appLocale = "en";
 
 class MyApp extends StatefulWidget {
   @override
@@ -44,14 +43,14 @@ class _MyAppState extends State<MyApp> {
   void query(text) async {
     setState(() async {
       QueryResponse queryResponse =
-          await queryResults(text, client_id, app_version, app_locale);
+          await queryResults(text, clientId, appVersion, appLocale);
       text = queryResponse.collection[0].output;
     });
   }
 
   void search() async {
     // TODO: init of stream URL, will removed through search
-    String stream = await getStreamURL(client_id, "645337329");
+    String stream = await getStreamURL(clientId, "645337329");
     setState(() {
       streamURL = stream;
     });
@@ -61,11 +60,13 @@ class _MyAppState extends State<MyApp> {
     if (streamURL != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
+        print("Pause");
         setState(() {
           isPlaying = false;
         });
       } else {
         await audioPlayer.play(streamURL);
+        print("Play");
         setState(() {
           isPlaying = true;
         });
@@ -75,7 +76,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     audioPlayer = AudioPlayer();
   }

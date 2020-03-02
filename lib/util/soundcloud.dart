@@ -54,10 +54,10 @@ Future<String> getStreamURL(clientID, trackID) async {
   return "";
 }
 
-Future<QueryResponse> queryResults(String query, String client_id,
-    String app_version, String app_locale) async {
+Future<QueryResponse> queryResults(
+    String query, String clientId, String appVersion, String appLocale) async {
   final response = await http.get(
-      'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$client_id&limit=10&offset=0&linked_partitioning=1&app_version=$app_version&app_locale=$app_locale');
+      'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
 
   print('Response Status-Code: ${response.statusCode}');
   if (response.statusCode == 200) {
