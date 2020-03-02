@@ -28,6 +28,7 @@ const MaterialColor color_sc = const MaterialColor(
 const String clientId = "xTQtEeWzObWW93u9EUTviDSu5Y7Ulk0R";
 const String appVersion = "1582892164";
 const String appLocale = "en";
+const String trackId = "645337329";
 
 class MyApp extends StatefulWidget {
   @override
@@ -50,7 +51,8 @@ class _MyAppState extends State<MyApp> {
 
   void search() async {
     // TODO: init of stream URL, will removed through search
-    String stream = await getStreamURL(clientId, "645337329");
+    String stream = await getStreamURL(clientId, trackId);
+    print("Setting Track-ID: $trackId with following Stream-URL: $stream");
     setState(() {
       streamURL = stream;
     });
@@ -72,6 +74,17 @@ class _MyAppState extends State<MyApp> {
         });
       }
     }
+  }
+
+  void previous() {
+    print("Previous");
+    setState(() {
+      streamURL = "";
+    });
+  }
+
+  void forward() {
+    print("Forward");
   }
 
   @override
@@ -101,12 +114,21 @@ class _MyAppState extends State<MyApp> {
                 searchCallback: search,
               ),
               Expanded(
-                child: Text(
-                  streamURL == "" ? text : 'Track has been loaded: press Play',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      streamURL == ""
+                          ? text
+                          : 'Track has been loaded: press Play',
+                    ),
+                  ],
                 ),
               ),
               BottomBar(
-                playPause: playPause,
+                playPause: streamURL == "" ? null : playPause,
+                previous: previous,
+                forward: forward,
                 isPlaying: isPlaying,
               ),
             ],
@@ -148,9 +170,11 @@ class HeaderBar extends StatelessWidget {
 
 class BottomBar extends StatelessWidget {
   Function playPause;
+  Function previous;
+  Function forward;
   bool isPlaying;
 
-  BottomBar({this.playPause, this.isPlaying});
+  BottomBar({this.playPause, this.previous, this.forward, this.isPlaying});
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +184,7 @@ class BottomBar extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: FlatButton(
-              onPressed: () {},
+              onPressed: previous,
               child: Icon(Icons.fast_rewind),
             ),
           ),
@@ -172,7 +196,7 @@ class BottomBar extends StatelessWidget {
           ),
           Expanded(
             child: FlatButton(
-              onPressed: () {},
+              onPressed: forward,
               child: Icon(Icons.fast_forward),
             ),
           ),
