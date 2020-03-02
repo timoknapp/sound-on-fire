@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:beautifulsoup/beautifulsoup.dart';
+import 'package:sound_on_fire/model/QueryResult.dart';
 
 Future<String> fetchURL(url) async {
   final response = await http.get(
@@ -51,4 +52,20 @@ Future<String> getStreamURL(clientID, trackID) async {
     return urlInfo["url"];
   }
   return "";
+}
+
+Future<QueryResponse> queryResults(String query, String client_id,
+    String app_version, String app_locale) async {
+  final response = await http.get(
+      'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$client_id&limit=10&offset=0&linked_partitioning=1&app_version=$app_version&app_locale=$app_locale');
+
+  print('Response Status-Code: ${response.statusCode}');
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response, then parse the JSON.
+    print(response.body);
+    return QueryResponse.fromJson(json.decode(response.body));
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    throw Exception('Failed to query results');
+  }
 }

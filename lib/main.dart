@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sound_on_fire/model/QueryResult.dart';
+import 'package:sound_on_fire/util/soundcloud.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,13 +36,48 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String text = "Music will be played here";
+  String text = "Click 'Search' to retrieve track";
+  bool isPlaying = false;
+  var streamURL = "";
+  static AudioPlayer audioPlayer;
 
   void query(text) async {
     setState(() async {
-      QueryResponse queryResponse = await search(text);
+      QueryResponse queryResponse =
+          await queryResults(text, client_id, app_version, app_locale);
       text = queryResponse.collection[0].output;
     });
+  }
+
+  void search() async {
+    // TODO: init of stream URL, will removed through search
+    String stream = await getStreamURL(client_id, "645337329");
+    setState(() {
+      streamURL = stream;
+    });
+  }
+
+  void playPause() async {
+    if (streamURL != null) {
+      if (audioPlayer.state == AudioPlayerState.PLAYING) {
+        await audioPlayer.pause();
+        setState(() {
+          isPlaying = false;
+        });
+      } else {
+        await audioPlayer.play(streamURL);
+        setState(() {
+          isPlaying = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    audioPlayer = AudioPlayer();
   }
 
   @override
@@ -60,14 +97,18 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               HeaderBar(
-                searchCallback: query,
+                queryCallback: query,
+                searchCallback: search,
               ),
               Expanded(
                 child: Text(
-                  text,
+                  streamURL == "" ? text : 'Track has been loaded: press Play',
                 ),
               ),
-              BottomBar(),
+              BottomBar(
+                playPause: playPause,
+                isPlaying: isPlaying,
+              ),
             ],
           ),
         ),
@@ -78,8 +119,9 @@ class _MyAppState extends State<MyApp> {
 
 class HeaderBar extends StatelessWidget {
   Function searchCallback;
+  Function queryCallback;
 
-  HeaderBar({this.searchCallback});
+  HeaderBar({this.searchCallback, this.queryCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +131,11 @@ class HeaderBar extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: TextField(
-              onChanged: searchCallback,
+              onChanged: queryCallback,
             ),
           ),
           FlatButton(
-            onPressed: () {},
+            onPressed: searchCallback,
             child: Text(
               'Search',
             ),
@@ -105,6 +147,11 @@ class HeaderBar extends StatelessWidget {
 }
 
 class BottomBar extends StatelessWidget {
+  Function playPause;
+  bool isPlaying;
+
+  BottomBar({this.playPause, this.isPlaying});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,8 +166,8 @@ class BottomBar extends StatelessWidget {
           ),
           Expanded(
             child: FlatButton(
-              onPressed: () {},
-              child: Icon(Icons.play_arrow),
+              onPressed: playPause,
+              child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
             ),
           ),
           Expanded(
@@ -132,20 +179,5 @@ class BottomBar extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-Future<QueryResponse> search(String query) async {
-  final response = await http.get(
-      'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$client_id&limit=10&offset=0&linked_partitioning=1&app_version=$app_version&app_locale=$app_locale');
-
-  print('Response Status-Code: ${response.statusCode}');
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response, then parse the JSON.
-    print(response.body);
-    return QueryResponse.fromJson(json.decode(response.body));
-  } else {
-    // If the server did not return a 200 OK response, then throw an exception.
-    throw Exception('Failed to query results');
   }
 }
