@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/model/QueryResult.dart';
@@ -37,15 +34,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String text = "Click 'Search' to retrieve track";
+  List<Text> queryResult = [];
   bool isPlaying = false;
   var streamURL = "";
   static AudioPlayer audioPlayer;
 
   void query(text) async {
-    setState(() async {
-      QueryResponse queryResponse =
-          await queryResults(text, clientId, appVersion, appLocale);
-      text = queryResponse.collection[0].output;
+    QueryResponse queryResponse =
+        await queryResults(text, clientId, appVersion, appLocale);
+    setState(() {
+      queryResult.clear();
+      if (queryResponse.collection.length > 0) {
+        text = queryResponse.collection[0].output;
+        for (var result in queryResponse.collection.sublist(0, 5)) {
+          queryResult.add(Text(result.output));
+        }
+      }
     });
   }
 
@@ -114,15 +118,21 @@ class _MyAppState extends State<MyApp> {
                 searchCallback: search,
               ),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      streamURL == ""
-                          ? text
-                          : 'Track has been loaded: press Play',
-                    ),
-                  ],
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  constraints: BoxConstraints.expand(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: queryResult.isEmpty
+                        ? [
+                            Text(
+                              streamURL == ""
+                                  ? text
+                                  : 'Track has been loaded: press Play',
+                            ),
+                          ]
+                        : queryResult,
+                  ),
                 ),
               ),
               BottomBar(

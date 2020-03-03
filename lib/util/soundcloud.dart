@@ -56,16 +56,20 @@ Future<String> getStreamURL(clientID, trackID) async {
 
 Future<QueryResponse> queryResults(
     String query, String clientId, String appVersion, String appLocale) async {
-  final response = await http.get(
-      'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
+  if (query != "") {
+    final response = await http.get(
+        'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
 
-  print('Response Status-Code: ${response.statusCode}');
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response, then parse the JSON.
-    print(response.body);
-    return QueryResponse.fromJson(json.decode(response.body));
+    print('Response Status-Code: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response, then parse the JSON.
+      print(response.body);
+      return QueryResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response, then throw an exception.
+      throw Exception('Failed to query results');
+    }
   } else {
-    // If the server did not return a 200 OK response, then throw an exception.
-    throw Exception('Failed to query results');
+    return QueryResponse(collection: [], next_href: "", query_urn: "");
   }
 }
