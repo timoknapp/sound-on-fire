@@ -1,7 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:beautifulsoup/beautifulsoup.dart';
-import 'package:sound_on_fire/model/QueryResult.dart';
+import 'package:sound_on_fire/model/Query.dart';
+import 'package:sound_on_fire/model/Search.dart';
+
+const String scHost = 'https://soundcloud.com';
+const String scApiHost = 'https://api-v2.soundcloud.com';
 
 Future<String> fetchURL(url) async {
   final response = await http.get(
@@ -24,7 +29,7 @@ String findScriptURL(html) {
 }
 
 Future<String> getClientID() async {
-  String body = await fetchURL("https://soundcloud.com/mt-marcy/cold-nights");
+  String body = await fetchURL("$scHost/mt-marcy/cold-nights");
   String url = findScriptURL(body);
   String script = await fetchURL(url);
   RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
@@ -35,19 +40,26 @@ Future<String> getClientID() async {
   return "";
 }
 
-Future<String> getStreamURL(clientID, trackID) async {
-  String body = await fetchURL(
-      "https://api-v2.soundcloud.com/tracks/$trackID?client_id=$clientID");
+Future<String> getStreamURL(clientID, trackID, {transcodeURL = ""}) async {
+  String transcodingURL = transcodeURL;
+  if (transcodingURL != "") {
+    return getMediaUrl(clientID, transcodingURL);
+  }
+  String body =
+      await fetchURL("$scApiHost/tracks/$trackID?client_id=$clientID");
   Map<String, dynamic> trackInfo = jsonDecode(body);
-  String transcodingURL = "";
   for (var transcoding in trackInfo["media"]["transcodings"]) {
     if (transcoding["format"]["protocol"] == "progressive") {
       transcodingURL = transcoding["url"];
       break;
     }
   }
+  return getMediaUrl(clientID, transcodingURL);
+}
+
+Future<String> getMediaUrl(clientID, transcodingURL) async {
   if (transcodingURL != "") {
-    body = await fetchURL(transcodingURL + "?client_id=" + clientID);
+    String body = await fetchURL(transcodingURL + "?client_id=" + clientID);
     Map<String, dynamic> urlInfo = jsonDecode(body);
     return urlInfo["url"];
   }
@@ -58,7 +70,7 @@ Future<QueryResponse> queryResults(
     String query, String clientId, String appVersion, String appLocale) async {
   if (query != "") {
     final response = await http.get(
-        'https://api-v2.soundcloud.com/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
+        '$scApiHost/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
 
     print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
@@ -70,6 +82,27 @@ Future<QueryResponse> queryResults(
       throw Exception('Failed to query results');
     }
   } else {
-    return QueryResponse(collection: [], next_href: "", query_urn: "");
+    return QueryResponse(collection: [], nextHref: "", queryUrn: "");
+  }
+}
+
+Future<SearchResponse> searchResults(
+    String query, String clientId, String appVersion, String appLocale) async {
+  if (query != "") {
+    final response = await http.get(
+        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=20&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
+
+    print('Response Status-Code: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response, then parse the JSON.
+      print(response.body);
+      return SearchResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response, then throw an exception.
+      throw Exception('Failed to query results');
+    }
+  } else {
+    return SearchResponse(
+        collection: [], totalResults: 0, nextHref: "", queryUrn: "");
   }
 }

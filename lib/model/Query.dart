@@ -1,9 +1,9 @@
 class QueryResponse {
   final List<QueryResult> collection;
-  final String next_href;
-  final String query_urn;
+  final String nextHref;
+  final String queryUrn;
 
-  QueryResponse({this.collection, this.next_href, this.query_urn});
+  QueryResponse({this.collection, this.nextHref, this.queryUrn});
 
   factory QueryResponse.fromJson(Map<String, dynamic> json) {
     List<QueryResult> list = [];
@@ -14,8 +14,8 @@ class QueryResponse {
     }
     return QueryResponse(
       collection: list,
-      next_href: json['next_href'],
-      query_urn: json['query_urn'],
+      nextHref: json['next_href'],
+      queryUrn: json['query_urn'],
     );
   }
 }

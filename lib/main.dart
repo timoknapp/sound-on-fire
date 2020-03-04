@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:sound_on_fire/model/QueryResult.dart';
+import 'package:sound_on_fire/model/Query.dart';
+import 'package:sound_on_fire/model/Search.dart';
 import 'package:sound_on_fire/util/soundcloud.dart';
 
 void main() => runApp(MyApp());
@@ -34,15 +35,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String text = "Click 'Search' to retrieve track";
+  String searchInput;
   List<Text> queryResult = [];
   bool isPlaying = false;
   var streamURL = "";
   static AudioPlayer audioPlayer;
 
-  void query(text) async {
+  void query(input) async {
     QueryResponse queryResponse =
-        await queryResults(text, clientId, appVersion, appLocale);
+        await queryResults(input, clientId, appVersion, appLocale);
     setState(() {
+      searchInput = input;
       queryResult.clear();
       if (queryResponse.collection.length > 0) {
         text = queryResponse.collection[0].output;
@@ -55,10 +58,27 @@ class _MyAppState extends State<MyApp> {
 
   void search() async {
     // TODO: init of stream URL, will removed through search
-    String stream = await getStreamURL(clientId, trackId);
-    print("Setting Track-ID: $trackId with following Stream-URL: $stream");
+    // String stream = await getStreamURL(clientId, trackId);
+    // print("Setting Track-ID: $trackId with following Stream-URL: $stream");
+    // setState(() {
+    //   streamURL = stream;
+    // });
+    SearchResponse searchResponse =
+        await searchResults(searchInput, clientId, appVersion, appLocale);
+    String stream = "";
+    if (searchResponse.collection.length > 0) {
+      stream = await getStreamURL(clientId, searchResponse.collection[0].id,
+          transcodeURL: searchResponse.collection[0].transcodingURL);
+    }
     setState(() {
       streamURL = stream;
+      queryResult.clear();
+      if (searchResponse.collection.length > 0) {
+        for (var result in searchResponse.collection) {
+          queryResult.add(Text(
+              '${result.title} - ${result.printDuration()} - ${result.playbackCount} played'));
+        }
+      }
     });
   }
 
