@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('SoundCloud @ 🔥📺'),
+          title: Text(clientId.isEmpty ? 'Loading ...' : 'SoundCloud @ 🔥📺'),
         ),
         body: Center(
           child: Column(
