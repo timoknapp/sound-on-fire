@@ -29,7 +29,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String clientId = "";
-  String text = "Click 'Search' to retrieve track";
   String searchInput;
   List<Text> queryResult = [];
   bool isPlaying = false;
@@ -142,15 +141,7 @@ class _MyAppState extends State<MyApp> {
                   constraints: BoxConstraints.expand(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: queryResult.isEmpty
-                        ? [
-                            Text(
-                              streamURL == ""
-                                  ? text
-                                  : 'Track has been loaded: press Play',
-                            ),
-                          ]
-                        : queryResult,
+                    children: queryResult,
                   ),
                 ),
               ),
@@ -183,6 +174,9 @@ class HeaderBar extends StatelessWidget {
           Expanded(
             child: TextField(
               onChanged: queryCallback,
+              decoration: InputDecoration(
+                  hintText: 'Please enter a search term',
+                  contentPadding: const EdgeInsets.all(20.0)),
             ),
           ),
           FlatButton(
