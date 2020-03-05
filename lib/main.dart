@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/model/Query.dart';
 import 'package:sound_on_fire/model/Search.dart';
-import 'package:sound_on_fire/util/soundcloud.dart';
+import 'package:sound_on_fire/util/soundcloud.dart' as soundcloud;
 
 void main() => runApp(MyApp());
 
@@ -22,18 +22,13 @@ const MaterialColor color_sc = const MaterialColor(
   },
 );
 
-// const String app_id = 1e3*String(Date.now()).substr(-8)+Math.floor(1e3*Math.random())
-const String clientId = "xTQtEeWzObWW93u9EUTviDSu5Y7Ulk0R";
-const String appVersion = "1582892164";
-const String appLocale = "en";
-const String trackId = "645337329";
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  String clientId = "";
   String text = "Click 'Search' to retrieve track";
   String searchInput;
   List<Text> queryResult = [];
@@ -43,13 +38,12 @@ class _MyAppState extends State<MyApp> {
 
   void query(input) async {
     QueryResponse queryResponse =
-        await queryResults(input, clientId, appVersion, appLocale);
+        await soundcloud.queryResults(input, clientId);
     setState(() {
       searchInput = input;
       queryResult.clear();
       if (queryResponse.collection.length > 0) {
-        text = queryResponse.collection[0].output;
-        for (var result in queryResponse.collection.sublist(0, 5)) {
+        for (var result in queryResponse.collection.take(5).toList()) {
           queryResult.add(Text(result.output));
         }
       }
@@ -57,17 +51,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void search() async {
-    // TODO: init of stream URL, will removed through search
-    // String stream = await getStreamURL(clientId, trackId);
-    // print("Setting Track-ID: $trackId with following Stream-URL: $stream");
-    // setState(() {
-    //   streamURL = stream;
-    // });
     SearchResponse searchResponse =
-        await searchResults(searchInput, clientId, appVersion, appLocale);
+        await soundcloud.searchResults(searchInput, clientId);
     String stream = "";
+    //TODO: temporarily select first result as selected track
     if (searchResponse.collection.length > 0) {
-      stream = await getStreamURL(clientId, searchResponse.collection[0].id,
+      stream = await soundcloud.getStreamURL(
+          clientId, searchResponse.collection[0].id,
           transcodeURL: searchResponse.collection[0].transcodingURL);
     }
     setState(() {
@@ -111,10 +101,19 @@ class _MyAppState extends State<MyApp> {
     print("Forward");
   }
 
+  void _getClientId() async {
+    String id = await soundcloud.getClientID();
+    print('Client ID: $id');
+    setState(() {
+      clientId = id;
+    });
+  }
+
   @override
   void initState() {
-    super.initState();
+    _getClientId();
     audioPlayer = AudioPlayer();
+    super.initState();
   }
 
   @override
@@ -170,8 +169,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 class HeaderBar extends StatelessWidget {
-  Function searchCallback;
-  Function queryCallback;
+  final Function searchCallback;
+  final Function queryCallback;
 
   HeaderBar({this.searchCallback, this.queryCallback});
 
@@ -199,9 +198,9 @@ class HeaderBar extends StatelessWidget {
 }
 
 class BottomBar extends StatelessWidget {
-  Function playPause;
-  Function previous;
-  Function forward;
+  final Function playPause;
+  final Function previous;
+  final Function forward;
   bool isPlaying;
 
   BottomBar({this.playPause, this.previous, this.forward, this.isPlaying});

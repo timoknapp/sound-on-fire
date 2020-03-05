@@ -15,12 +15,12 @@ Future<String> fetchURL(url) async {
   return response.body.toString();
 }
 
-String findScriptURL(html) {
+String findScriptURL(html, prefix) {
   Beautifulsoup soup = Beautifulsoup(html);
   final scriptElements = soup.find_all("script");
   for (var element in scriptElements) {
     if (element.attributes["src"] != null) {
-      if (element.attributes["src"].contains("49-")) {
+      if (element.attributes["src"].contains("$prefix-")) {
         return element.attributes["src"];
       }
     }
@@ -30,12 +30,17 @@ String findScriptURL(html) {
 
 Future<String> getClientID() async {
   String body = await fetchURL("$scHost/mt-marcy/cold-nights");
-  String url = findScriptURL(body);
-  String script = await fetchURL(url);
-  RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
-  Iterable<Match> matches = exp.allMatches(script);
-  for (var match in matches) {
-    return match.group(1).toString();
+  for (var prefix in ['49', '48']) {
+    String url = findScriptURL(body, prefix);
+    String script = await fetchURL(url);
+    RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
+    Iterable<Match> matches = exp.allMatches(script);
+    if (matches.length == 0) {
+      continue;
+    }
+    for (var match in matches) {
+      return match.group(1).toString();
+    }
   }
   return "";
 }
@@ -66,16 +71,15 @@ Future<String> getMediaUrl(clientID, transcodingURL) async {
   return "";
 }
 
-Future<QueryResponse> queryResults(
-    String query, String clientId, String appVersion, String appLocale) async {
+Future<QueryResponse> queryResults(String query, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$scApiHost/search/queries?q=$query&client_id=$clientId&limit=10&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
+        '$scApiHost/search/queries?q=$query&client_id=$clientId&limit=10&offset=0');
 
     print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response, then parse the JSON.
-      print(response.body);
+      // print(response.body);
       return QueryResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response, then throw an exception.
@@ -86,11 +90,10 @@ Future<QueryResponse> queryResults(
   }
 }
 
-Future<SearchResponse> searchResults(
-    String query, String clientId, String appVersion, String appLocale) async {
+Future<SearchResponse> searchResults(String query, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=20&offset=0&linked_partitioning=1&app_version=$appVersion&app_locale=$appLocale');
+        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=20&offset=0');
 
     print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
