@@ -29,10 +29,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String clientId = "";
-  String searchInput;
-  List<Text> queryResult = [];
+  String searchInput = "";
+  List<ListElement> results = [];
   bool isPlaying = false;
   var streamURL = "";
+  String selectedTrack = "No track selected";
   static AudioPlayer audioPlayer;
 
   void query(input) async {
@@ -40,10 +41,15 @@ class _MyAppState extends State<MyApp> {
         await soundcloud.queryResults(input, clientId);
     setState(() {
       searchInput = input;
-      queryResult.clear();
+      results.clear();
       if (queryResponse.collection.length > 0) {
         for (var result in queryResponse.collection.take(5).toList()) {
-          queryResult.add(Text(result.output));
+          results.add(ListElement(
+            text: result.output,
+            onClick: () {
+              search();
+            },
+          ));
         }
       }
     });
@@ -52,22 +58,31 @@ class _MyAppState extends State<MyApp> {
   void search() async {
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
-    String stream = "";
-    //TODO: temporarily select first result as selected track
-    if (searchResponse.collection.length > 0) {
-      stream = await soundcloud.getStreamURL(
-          clientId, searchResponse.collection[0].id,
-          transcodeURL: searchResponse.collection[0].transcodingURL);
-    }
     setState(() {
-      streamURL = stream;
-      queryResult.clear();
+      results.clear();
       if (searchResponse.collection.length > 0) {
         for (var result in searchResponse.collection) {
-          queryResult.add(Text(
-              '${result.title} - ${result.printDuration()} - ${result.playbackCount} played'));
+          results.add(ListElement(
+            text:
+                '${result.title} - ${result.printDuration()} - ${result.playbackCount} played',
+            onClick: () {
+              selectTrack(result);
+            },
+          ));
         }
       }
+    });
+  }
+
+  void selectTrack(SearchResult track) async {
+    String stream = await soundcloud.getStreamURL(
+      clientId,
+      track.id,
+      transcodeURL: track.transcodingURL,
+    );
+    setState(() {
+      selectedTrack = track.title;
+      streamURL = stream;
     });
   }
 
@@ -110,6 +125,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    results.clear();
     _getClientId();
     audioPlayer = AudioPlayer();
     super.initState();
@@ -141,7 +157,7 @@ class _MyAppState extends State<MyApp> {
                   constraints: BoxConstraints.expand(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: queryResult,
+                    children: results,
                   ),
                 ),
               ),
@@ -150,10 +166,28 @@ class _MyAppState extends State<MyApp> {
                 previous: previous,
                 forward: forward,
                 isPlaying: isPlaying,
+                trackName: selectedTrack,
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ListElement extends StatelessWidget {
+  final Function onClick;
+  final String text;
+
+  ListElement({this.text, this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: new Text(
+        text,
       ),
     );
   }
@@ -195,36 +229,47 @@ class BottomBar extends StatelessWidget {
   final Function playPause;
   final Function previous;
   final Function forward;
-  bool isPlaying;
+  final bool isPlaying;
+  final String trackName;
 
-  BottomBar({this.playPause, this.previous, this.forward, this.isPlaying});
+  BottomBar(
+      {this.playPause,
+      this.previous,
+      this.forward,
+      this.isPlaying,
+      this.trackName});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: FlatButton(
-              onPressed: previous,
-              child: Icon(Icons.fast_rewind),
-            ),
+    return Column(
+      children: <Widget>[
+        Text(trackName),
+        Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  onPressed: previous,
+                  child: Icon(Icons.fast_rewind),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  onPressed: playPause,
+                  child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  onPressed: forward,
+                  child: Icon(Icons.fast_forward),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: FlatButton(
-              onPressed: playPause,
-              child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-            ),
-          ),
-          Expanded(
-            child: FlatButton(
-              onPressed: forward,
-              child: Icon(Icons.fast_forward),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
