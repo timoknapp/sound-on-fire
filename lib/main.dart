@@ -184,8 +184,8 @@ class ListElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onClick,
+    return FlatButton(
+      onPressed: onClick,
       child: new Text(
         text,
       ),
