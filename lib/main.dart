@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/model/Query.dart';
 import 'package:sound_on_fire/model/Search.dart';
 import 'package:sound_on_fire/util/soundcloud.dart' as soundcloud;
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
   var streamURL = "";
   String selectedTrack = "No track selected";
   static AudioPlayer audioPlayer;
+  FocusNode btnFocus;
 
   void query(input) async {
     print("Query");
@@ -64,13 +66,15 @@ class _MyAppState extends State<MyApp> {
       results.clear();
       if (searchResponse.collection.length > 0) {
         for (var result in searchResponse.collection) {
-          results.add(ListElement(
-            text:
-                '${result.title} - ${result.printDuration()} - ${result.playbackCount} played',
-            onClick: () {
-              selectTrack(result);
-            },
-          ));
+          results.add(
+            ListElement(
+              text:
+                  '${result.title} - ${result.printDuration()} - ${result.playbackCount} played',
+              onClick: () {
+                selectTrack(result);
+              },
+            ),
+          );
         }
       }
     });
@@ -130,6 +134,7 @@ class _MyAppState extends State<MyApp> {
     results.clear();
     _getClientId();
     audioPlayer = AudioPlayer();
+    btnFocus = FocusNode();
     super.initState();
   }
 
@@ -161,6 +166,11 @@ class _MyAppState extends State<MyApp> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: results,
                   ),
+                  // Keyboard(
+                  //   onKeyboardAction: (key) {
+                  //     print("$key");
+                  //   },
+                  // )
                 ),
               ),
               BottomBar(
@@ -214,10 +224,17 @@ class HeaderBar extends StatelessWidget {
                 hintText: 'Please enter a search term',
                 contentPadding: const EdgeInsets.all(20.0),
               ),
-              onEditingComplete: searchCallback,
-              onSubmitted: (text) {
+              onEditingComplete: () {
+                print("edit Complete");
+                FocusScope.of(context).unfocus();
                 searchCallback();
               },
+              // onSubmitted: (text) {
+              //   print("Submit");
+              //   FocusScope.of(context).unfocus();
+              //   searchCallback();
+              // },
+              // focusNode: focusNode,
             ),
           ),
           FlatButton(
