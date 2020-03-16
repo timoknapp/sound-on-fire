@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   static AudioPlayer audioPlayer;
 
   void query(input) async {
+    print("Query");
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
     setState(() {
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void search() async {
+    print("Search");
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
     setState(() {
@@ -209,8 +211,13 @@ class HeaderBar extends StatelessWidget {
             child: TextField(
               onChanged: queryCallback,
               decoration: InputDecoration(
-                  hintText: 'Please enter a search term',
-                  contentPadding: const EdgeInsets.all(20.0)),
+                hintText: 'Please enter a search term',
+                contentPadding: const EdgeInsets.all(20.0),
+              ),
+              onEditingComplete: searchCallback,
+              onSubmitted: (text) {
+                searchCallback();
+              },
             ),
           ),
           FlatButton(
