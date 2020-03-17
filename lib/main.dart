@@ -289,13 +289,15 @@ class HeaderBar extends StatelessWidget {
                 FocusScope.of(context).unfocus();
                 searchCallback();
               },
+              focusNode: inputFocus,
               controller: TextEditingController(text: inputText),
+              readOnly: true,
+              showCursor: true,
               // onSubmitted: (text) {
               //   print("Submit");
               //   FocusScope.of(context).unfocus();
               //   searchCallback();
               // },
-              focusNode: inputFocus,
             ),
           ),
           FlatButton(
