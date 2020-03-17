@@ -36,10 +36,10 @@ class _MyAppState extends State<MyApp> {
   var streamURL = "";
   String selectedTrack = "No track selected";
   static AudioPlayer audioPlayer;
-  FocusNode btnFocus;
+  FocusNode inputFocus;
 
   void query(input) async {
-    print("Query");
+    print("Query: $input");
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
     setState(() {
@@ -59,6 +59,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void search() async {
+    // TODO: remove focus statement here, if not eplicitly needed
+    FocusScope.of(context).unfocus();
     print("Search");
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
@@ -78,6 +80,30 @@ class _MyAppState extends State<MyApp> {
         }
       }
     });
+  }
+
+  void keyboardInput(key) {
+    print(key);
+    String input = searchInput;
+    if (key == "BACK") {
+      if (input.length > 0) {
+        input = input.substring(0, input.length - 1);
+      }
+    } else {
+      input += key;
+    }
+    setState(() {
+      searchInput = input;
+    });
+    if (input.isNotEmpty) {
+      query(input);
+    }
+  }
+
+  void inputFocusListener() {
+    print(
+        "Has focus: ${inputFocus.hasFocus} | has primary focus: ${inputFocus.hasPrimaryFocus}");
+    setState(() {});
   }
 
   void selectTrack(SearchResult track) async {
@@ -134,8 +160,18 @@ class _MyAppState extends State<MyApp> {
     results.clear();
     _getClientId();
     audioPlayer = AudioPlayer();
-    btnFocus = FocusNode();
+    inputFocus = FocusNode();
+    inputFocus.addListener(() {
+      inputFocusListener();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    inputFocus.dispose();
+    results.clear();
+    super.dispose();
   }
 
   @override
@@ -157,20 +193,37 @@ class _MyAppState extends State<MyApp> {
               HeaderBar(
                 queryCallback: query,
                 searchCallback: search,
+                inputText: searchInput,
+                inputFocus: inputFocus,
               ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   constraints: BoxConstraints.expand(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: results,
-                  ),
-                  // Keyboard(
-                  //   onKeyboardAction: (key) {
-                  //     print("$key");
-                  //   },
-                  // )
+                  child: inputFocus.hasPrimaryFocus
+                      ? Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 5,
+                              child: Keyboard(
+                                onKeyboardAction: keyboardInput,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: results,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: results,
+                        ),
                 ),
               ),
               BottomBar(
@@ -208,8 +261,15 @@ class ListElement extends StatelessWidget {
 class HeaderBar extends StatelessWidget {
   final Function searchCallback;
   final Function queryCallback;
+  final String inputText;
+  final FocusNode inputFocus;
 
-  HeaderBar({this.searchCallback, this.queryCallback});
+  HeaderBar({
+    this.searchCallback,
+    this.queryCallback,
+    this.inputText,
+    this.inputFocus,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -229,12 +289,13 @@ class HeaderBar extends StatelessWidget {
                 FocusScope.of(context).unfocus();
                 searchCallback();
               },
+              controller: TextEditingController(text: inputText),
               // onSubmitted: (text) {
               //   print("Submit");
               //   FocusScope.of(context).unfocus();
               //   searchCallback();
               // },
-              // focusNode: focusNode,
+              focusNode: inputFocus,
             ),
           ),
           FlatButton(
