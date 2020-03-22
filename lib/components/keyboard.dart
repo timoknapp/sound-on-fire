@@ -11,7 +11,7 @@ class Keyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       child: new Column(
-        children: <Row>[
+        children: <Widget>[
           Row(
             children: <Widget>[
               KeyboardButton(
@@ -190,6 +190,7 @@ class KeyboardButton extends StatelessWidget {
     return ButtonTheme(
       height: 25,
       minWidth: 40,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: FlatButton(
         child: Text(text),
         onPressed: onClick,
