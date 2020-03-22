@@ -1,10 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:sound_on_fire/components/header_bar.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
+import 'package:sound_on_fire/components/list_element.dart';
 import 'package:sound_on_fire/model/Query.dart';
 import 'package:sound_on_fire/model/Search.dart';
 import 'package:sound_on_fire/util/soundcloud.dart' as soundcloud;
+
+import 'components/bottom_bar.dart';
 
 void main() => runApp(MyApp());
 
@@ -243,178 +246,6 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ListElement extends StatelessWidget {
-  final Function onClick;
-  final String title;
-  final String subtitle;
-  final String imageUrl;
-
-  ListElement({
-    @required this.onClick,
-    @required this.title,
-    this.subtitle,
-    this.imageUrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return subtitle == null
-        ? Card(
-            child: ListTile(
-              title: Text(title),
-              onTap: onClick,
-            ),
-          )
-        : Card(
-            child: ListTile(
-              leading: imageUrl != null ? Image.network(imageUrl) : null,
-              title: Text(title),
-              subtitle: Text(subtitle),
-              onTap: onClick,
-            ),
-          );
-  }
-}
-
-class HeaderBar extends StatelessWidget {
-  final Function searchCallback;
-  final Function queryCallback;
-  final String inputText;
-  final FocusNode inputFocus;
-
-  HeaderBar({
-    this.searchCallback,
-    this.queryCallback,
-    this.inputText,
-    this.inputFocus,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: RawKeyboardListener(
-        focusNode: inputFocus,
-        onKey: (RawKeyEvent event) {
-          if (event is RawKeyDownEvent &&
-              event.data is RawKeyEventDataAndroid) {
-            RawKeyDownEvent rawKeyDownEvent = event;
-            RawKeyEventDataAndroid rawKeyEventDataAndroid =
-                rawKeyDownEvent.data;
-            print("tv launcher sample ${rawKeyEventDataAndroid.keyCode}");
-            switch (rawKeyEventDataAndroid.keyCode) {
-              case 23:
-                print("center");
-                break;
-              case 19:
-                // FocusScope.of(context).requestFocus(focusNodes[2]);
-                print("UP");
-                break;
-              case 20:
-                // FocusScope.of(context).requestFocus(focusNodes[1]);
-                print("DOWN");
-                FocusScope.of(context).unfocus();
-                break;
-              case 21:
-                // FocusScope.of(context).requestFocus(focusNodes[1]);
-                print("LEFT");
-                break;
-              case 22:
-                // FocusScope.of(context).requestFocus(focusNodes[1]);
-                print("RIGHT");
-                break;
-              default:
-                break;
-            }
-          }
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                onChanged: queryCallback,
-                decoration: InputDecoration(
-                  hintText: 'Please enter a search term',
-                  contentPadding: const EdgeInsets.all(20.0),
-                ),
-                onEditingComplete: () {
-                  print("edit Complete");
-                  FocusScope.of(context).unfocus();
-                  searchCallback();
-                },
-                // focusNode: inputFocus,
-                controller: TextEditingController(text: inputText),
-                readOnly: true,
-                showCursor: true,
-                // onSubmitted: (text) {
-                //   print("Submit");
-                //   FocusScope.of(context).unfocus();
-                //   searchCallback();
-                // },
-              ),
-            ),
-            FlatButton(
-              onPressed: searchCallback,
-              child: Text(
-                'Search',
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BottomBar extends StatelessWidget {
-  final Function playPause;
-  final Function previous;
-  final Function forward;
-  final bool isPlaying;
-  final String trackName;
-
-  BottomBar(
-      {this.playPause,
-      this.previous,
-      this.forward,
-      this.isPlaying,
-      this.trackName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(trackName),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: FlatButton(
-                  onPressed: previous,
-                  child: Icon(Icons.fast_rewind),
-                ),
-              ),
-              Expanded(
-                child: FlatButton(
-                  onPressed: playPause,
-                  child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-                ),
-              ),
-              Expanded(
-                child: FlatButton(
-                  onPressed: forward,
-                  child: Icon(Icons.fast_forward),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
