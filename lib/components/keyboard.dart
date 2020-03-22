@@ -14,161 +14,186 @@ class Keyboard extends StatelessWidget {
         children: <Row>[
           Row(
             children: <Widget>[
-              new FlatButton(
-                child: new Text("A"),
-                onPressed: () => this.onKeyboardAction("a"),
-                autofocus: true,
+              KeyboardButton(
+                text: "A",
+                onClick: () => this.onKeyboardAction("a"),
+                autoFocus: true,
               ),
-              new FlatButton(
-                child: new Text("B"),
-                onPressed: () => this.onKeyboardAction("b"),
-                autofocus: false,
+              KeyboardButton(
+                text: "B",
+                onClick: () => this.onKeyboardAction("b"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("C"),
-                onPressed: () => this.onKeyboardAction("c"),
-                autofocus: false,
+              KeyboardButton(
+                text: "C",
+                onClick: () => this.onKeyboardAction("c"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("D"),
-                onPressed: () => this.onKeyboardAction("d"),
-                autofocus: false,
+              KeyboardButton(
+                text: "D",
+                onClick: () => this.onKeyboardAction("d"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("E"),
-                onPressed: () => this.onKeyboardAction("e"),
-                autofocus: false,
+              KeyboardButton(
+                text: "E",
+                onClick: () => this.onKeyboardAction("e"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("F"),
-                onPressed: () => this.onKeyboardAction("f"),
-                autofocus: false,
+              KeyboardButton(
+                text: "F",
+                onClick: () => this.onKeyboardAction("f"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("G"),
-                onPressed: () => this.onKeyboardAction("g"),
-                autofocus: false,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              new FlatButton(
-                child: new Text("H"),
-                onPressed: () => this.onKeyboardAction("h"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("I"),
-                onPressed: () => this.onKeyboardAction("i"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("J"),
-                onPressed: () => this.onKeyboardAction("j"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("K"),
-                onPressed: () => this.onKeyboardAction("k"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("L"),
-                onPressed: () => this.onKeyboardAction("l"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("M"),
-                onPressed: () => this.onKeyboardAction("m"),
-                autofocus: false,
-              ),
-              new FlatButton(
-                child: new Text("N"),
-                onPressed: () => this.onKeyboardAction("n"),
-                autofocus: false,
+              KeyboardButton(
+                text: "G",
+                onClick: () => this.onKeyboardAction("g"),
+                autoFocus: false,
               ),
             ],
           ),
           Row(
             children: <Widget>[
-              new FlatButton(
-                child: new Text("O"),
-                onPressed: () => this.onKeyboardAction("o"),
-                autofocus: false,
+              KeyboardButton(
+                text: "H",
+                onClick: () => this.onKeyboardAction("h"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("P"),
-                onPressed: () => this.onKeyboardAction("p"),
-                autofocus: false,
+              KeyboardButton(
+                text: "I",
+                onClick: () => this.onKeyboardAction("i"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("Q"),
-                onPressed: () => this.onKeyboardAction("q"),
-                autofocus: false,
+              KeyboardButton(
+                text: "J",
+                onClick: () => this.onKeyboardAction("j"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("R"),
-                onPressed: () => this.onKeyboardAction("r"),
-                autofocus: false,
+              KeyboardButton(
+                text: "K",
+                onClick: () => this.onKeyboardAction("k"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("S"),
-                onPressed: () => this.onKeyboardAction("s"),
-                autofocus: false,
+              KeyboardButton(
+                text: "L",
+                onClick: () => this.onKeyboardAction("l"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("T"),
-                onPressed: () => this.onKeyboardAction("t"),
-                autofocus: false,
+              KeyboardButton(
+                text: "M",
+                onClick: () => this.onKeyboardAction("m"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("U"),
-                onPressed: () => this.onKeyboardAction("u"),
-                autofocus: false,
+              KeyboardButton(
+                text: "N",
+                onClick: () => this.onKeyboardAction("n"),
+                autoFocus: false,
               ),
             ],
           ),
           Row(
             children: <Widget>[
-              new FlatButton(
-                child: new Text("V"),
-                onPressed: () => this.onKeyboardAction("v"),
-                autofocus: false,
+              KeyboardButton(
+                text: "O",
+                onClick: () => this.onKeyboardAction("o"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("W"),
-                onPressed: () => this.onKeyboardAction("w"),
-                autofocus: false,
+              KeyboardButton(
+                text: "P",
+                onClick: () => this.onKeyboardAction("P"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("X"),
-                onPressed: () => this.onKeyboardAction("x"),
-                autofocus: false,
+              KeyboardButton(
+                text: "Q",
+                onClick: () => this.onKeyboardAction("q"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("Y"),
-                onPressed: () => this.onKeyboardAction("y"),
-                autofocus: false,
+              KeyboardButton(
+                text: "R",
+                onClick: () => this.onKeyboardAction("r"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("Z"),
-                onPressed: () => this.onKeyboardAction("z"),
-                autofocus: false,
+              KeyboardButton(
+                text: "S",
+                onClick: () => this.onKeyboardAction("s"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("SPACE"),
-                onPressed: () => this.onKeyboardAction(" "),
-                autofocus: false,
+              KeyboardButton(
+                text: "T",
+                onClick: () => this.onKeyboardAction("t"),
+                autoFocus: false,
               ),
-              new FlatButton(
-                child: new Text("BACK"),
-                onPressed: () => this.onKeyboardAction("BACK"),
-                autofocus: false,
+              KeyboardButton(
+                text: "U",
+                onClick: () => this.onKeyboardAction("u"),
+                autoFocus: false,
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              KeyboardButton(
+                text: "V",
+                onClick: () => this.onKeyboardAction("v"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "W",
+                onClick: () => this.onKeyboardAction("w"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "X",
+                onClick: () => this.onKeyboardAction("x"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "Y",
+                onClick: () => this.onKeyboardAction("y"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "Z",
+                onClick: () => this.onKeyboardAction("z"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "SPACE",
+                onClick: () => this.onKeyboardAction(" "),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "BACK",
+                onClick: () => this.onKeyboardAction("BACK"),
+                autoFocus: false,
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class KeyboardButton extends StatelessWidget {
+  final String text;
+  final Function onClick;
+  final bool autoFocus;
+
+  const KeyboardButton({
+    this.text,
+    this.onClick,
+    this.autoFocus,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonTheme(
+      height: 25,
+      minWidth: 40,
+      child: FlatButton(
+        child: Text(text),
+        onPressed: onClick,
+        autofocus: autoFocus,
       ),
     );
   }

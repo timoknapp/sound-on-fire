@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sound_on_fire/components/header_bar.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/components/list_element.dart';
@@ -41,52 +42,59 @@ class _MyAppState extends State<MyApp> {
   var streamURL = "";
   SearchResult selectedTrack;
   static AudioPlayer audioPlayer;
-  FocusNode inputFocus;
+  // FocusNode inputFocus;
+
+  final Map<LogicalKeySet, Intent> _shortcuts = {
+    LogicalKeySet(LogicalKeyboardKey.select): const Intent(ActivateAction.key),
+  };
 
   void query(input) async {
     print("Query: $input");
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
+    List<ListElement> tmp = [];
+    if (queryResponse.collection.length > 0) {
+      for (var result in queryResponse.collection.take(3).toList()) {
+        tmp.add(ListElement(
+          title: result.output,
+          onClick: () {
+            searchInput = result.output;
+            search();
+          },
+        ));
+      }
+    }
     setState(() {
       searchInput = input;
       queryResults.clear();
-      if (queryResponse.collection.length > 0) {
-        for (var result in queryResponse.collection.take(5).toList()) {
-          queryResults.add(ListElement(
-            title: result.output,
-            onClick: () {
-              searchInput = result.output;
-              search();
-            },
-          ));
-        }
-      }
+      queryResults = tmp;
     });
   }
 
   void search() async {
-    // TODO: remove focus statement here, if not eplicitly needed
-    FocusScope.of(context).unfocus();
-    print("Search");
+    print("Search: $searchInput | $clientId");
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
+    List<ListElement> tmp = [];
+    if (searchResponse.collection.length > 0) {
+      for (var result in searchResponse.collection) {
+        print(result.title);
+        tmp.add(
+          ListElement(
+            title: result.title,
+            subtitle:
+                '${result.printDuration()} -  ${result.playbackCount} plays',
+            imageUrl: result.artwork,
+            onClick: () {
+              selectTrack(result);
+            },
+          ),
+        );
+      }
+    }
     setState(() {
       searchResults.clear();
-      if (searchResponse.collection.length > 0) {
-        for (var result in searchResponse.collection) {
-          searchResults.add(
-            ListElement(
-              title: result.title,
-              subtitle:
-                  '${result.printDuration()} -  ${result.playbackCount} plays',
-              imageUrl: result.artwork,
-              onClick: () {
-                selectTrack(result);
-              },
-            ),
-          );
-        }
-      }
+      searchResults = tmp;
     });
   }
 
@@ -108,11 +116,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void inputFocusListener() {
-    print(
-        "Has focus: ${inputFocus.hasFocus} | has primary focus: ${inputFocus.hasPrimaryFocus}");
-    setState(() {});
-  }
+  // void inputFocusListener() {
+  //   print(
+  //       "Has focus: ${inputFocus.hasFocus} | has primary focus: ${inputFocus.hasPrimaryFocus}");
+  //   setState(() {});
+  // }
 
   void selectTrack(SearchResult track) async {
     String stream = await soundcloud.getStreamURL(
@@ -176,16 +184,16 @@ class _MyAppState extends State<MyApp> {
     searchResults.clear();
     _getClientId();
     audioPlayer = AudioPlayer();
-    inputFocus = FocusNode();
-    inputFocus.addListener(() {
-      inputFocusListener();
-    });
+    // inputFocus = FocusNode();
+    // inputFocus.addListener(() {
+    //   inputFocusListener();
+    // });
     super.initState();
   }
 
   @override
   void dispose() {
-    inputFocus.dispose();
+    // inputFocus.dispose();
     queryResults.clear();
     searchResults.clear();
     super.dispose();
@@ -193,65 +201,75 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SoundCloud',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: color_sc,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(clientId.isEmpty ? 'Loading ...' : 'SoundCloud @ 🔥📺'),
+    return Shortcuts(
+      shortcuts: _shortcuts,
+      child: MaterialApp(
+        title: 'SoundCloud',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: color_sc,
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              HeaderBar(
-                queryCallback: query,
-                searchCallback: search,
-                inputText: searchInput,
-                inputFocus: inputFocus,
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  constraints: BoxConstraints.expand(),
-                  child: inputFocus.hasFocus
-                      ? Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 5,
-                              child: Keyboard(
-                                onKeyboardAction: keyboardInput,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: queryResults,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      : ListView(
-                          children: searchResults,
-                        ),
+        home: Scaffold(
+          // appBar: AppBar(
+          //   title: Text(clientId.isEmpty ? 'Loading ...' : 'SoundCloud @ 🔥📺'),
+          // ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                HeaderBar(
+                  queryCallback: query,
+                  searchCallback: search,
+                  inputText: searchInput,
+                  // inputFocus: inputFocus,
                 ),
-              ),
-              BottomBar(
-                playPause: streamURL == "" ? null : playPause,
-                previous: previous,
-                forward: forward,
-                stop: stop,
-                isPlaying: isPlaying,
-                track: selectedTrack,
-                player: audioPlayer,
-              ),
-            ],
+                Expanded(
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      constraints: BoxConstraints.expand(),
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  // flex: 5,
+                                  child: Keyboard(
+                                    onKeyboardAction: keyboardInput,
+                                  ),
+                                ),
+                                Expanded(
+                                  // flex: 2,
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: queryResults,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView(
+                              children: searchResults,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+                BottomBar(
+                  playPause: streamURL == "" ? null : playPause,
+                  previous: previous,
+                  forward: forward,
+                  stop: stop,
+                  isPlaying: isPlaying,
+                  track: selectedTrack,
+                  player: audioPlayer,
+                ),
+              ],
+            ),
           ),
         ),
       ),
