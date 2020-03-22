@@ -63,7 +63,6 @@ class SearchResult {
         break;
       }
     }
-    print(json['artwork_url']);
     return SearchResult(
       id: json['id'],
       title: json['title'],
