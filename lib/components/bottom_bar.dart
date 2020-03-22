@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/model/Search.dart';
 
@@ -8,6 +9,7 @@ class BottomBar extends StatelessWidget {
   final Function stop;
   final bool isPlaying;
   final SearchResult track;
+  final AudioPlayer player;
 
   BottomBar({
     this.playPause,
@@ -16,6 +18,7 @@ class BottomBar extends StatelessWidget {
     this.stop,
     this.isPlaying,
     this.track,
+    this.player,
   });
 
   @override
@@ -37,8 +40,12 @@ class BottomBar extends StatelessWidget {
                       ? Image.network(track.artwork)
                       : null,
                   title: Text(track.title),
-                  subtitle: Text(
-                      '${track.printDuration()} -  ${track.playbackCount} plays'),
+                  subtitle: Row(
+                    children: <Widget>[
+                      Text(
+                          '${track.printDuration()} -  ${track.playbackCount} plays'),
+                    ],
+                  ),
                   trailing: FlatButton(
                     onPressed: stop,
                     child: Icon(Icons.stop),

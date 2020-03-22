@@ -249,6 +249,7 @@ class _MyAppState extends State<MyApp> {
                 stop: stop,
                 isPlaying: isPlaying,
                 track: selectedTrack,
+                player: audioPlayer,
               ),
             ],
           ),
