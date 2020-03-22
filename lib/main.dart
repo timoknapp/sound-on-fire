@@ -85,7 +85,6 @@ class _MyAppState extends State<MyApp> {
     List<ListElement> tmp = [];
     if (searchResponse.collection.length > 0) {
       for (var result in searchResponse.collection) {
-        print(result.title);
         tmp.add(
           ListElement(
             title: result.title,
