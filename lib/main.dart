@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   List<ListElement> searchResults = [];
   bool isPlaying = false;
   var streamURL = "";
-  String selectedTrack = "No track selected";
+  SearchResult selectedTrack;
   static AudioPlayer audioPlayer;
   FocusNode inputFocus;
 
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
       transcodeURL: track.transcodingURL,
     );
     setState(() {
-      selectedTrack = track.title;
+      selectedTrack = track;
       streamURL = stream;
     });
   }
@@ -146,13 +146,20 @@ class _MyAppState extends State<MyApp> {
 
   void previous() {
     print("Previous");
-    setState(() {
-      streamURL = "";
-    });
   }
 
   void forward() {
     print("Forward");
+  }
+
+  void stop() async {
+    print("Stop");
+    await audioPlayer.stop();
+    setState(() {
+      streamURL = "";
+      isPlaying = false;
+      selectedTrack = null;
+    });
   }
 
   void _getClientId() async {
@@ -239,8 +246,9 @@ class _MyAppState extends State<MyApp> {
                 playPause: streamURL == "" ? null : playPause,
                 previous: previous,
                 forward: forward,
+                stop: stop,
                 isPlaying: isPlaying,
-                trackName: selectedTrack,
+                track: selectedTrack,
               ),
             ],
           ),

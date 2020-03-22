@@ -8,7 +8,7 @@ A Flutter based Soundcloud App for your Fire TV.
 
 The current implementation looks like this:
 
-<img width="100%" screenshot src="screenshots/flutter_04.png">
+<img width="100%" screenshot src="screenshots/flutter_05.png">
 
 ## Contribution
 
