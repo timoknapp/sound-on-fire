@@ -1,3 +1,6 @@
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 class SearchResponse {
   final List<SearchResult> collection;
   final int totalResults;
@@ -32,6 +35,8 @@ class SearchResult {
   final Duration duration;
   final int playbackCount;
   final String artwork;
+  final int likesCount;
+  final DateTime date;
 
   SearchResult({
     this.id,
@@ -42,6 +47,8 @@ class SearchResult {
     this.duration,
     this.playbackCount,
     this.artwork,
+    this.likesCount,
+    this.date,
   });
 
   String printDuration() {
@@ -53,6 +60,25 @@ class SearchResult {
     String twoDigitMinutes = twoDigits(this.duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(this.duration.inSeconds.remainder(60));
     return "${twoDigits(this.duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  String printPlaycount() {
+    var numberFormat = NumberFormat.compact(locale: 'de');
+    return numberFormat.format(this.playbackCount);
+  }
+
+  String printLikescount() {
+    var numberFormat = NumberFormat.compact(locale: 'de');
+    return numberFormat.format(this.likesCount);
+  }
+
+  String printUploadSince() {
+    var now = DateTime.now();
+    var old = this.date;
+    Duration difference = now.difference(old);
+    final timeAgo = now.subtract(difference);
+
+    return timeago.format(timeAgo);
   }
 
   factory SearchResult.fromJson(Map<String, dynamic> json) {
@@ -72,6 +98,8 @@ class SearchResult {
       duration: Duration(milliseconds: json['duration']),
       playbackCount: json['playback_count'],
       artwork: json['artwork_url'],
+      likesCount: json['likes_count'],
+      date: DateTime.parse(json['display_date']),
     );
   }
 }

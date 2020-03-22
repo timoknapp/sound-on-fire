@@ -91,10 +91,7 @@ class _MyAppState extends State<MyApp> {
       for (var result in searchResponse.collection) {
         tmp.add(
           ListElement(
-            title: result.title,
-            subtitle:
-                '${result.printDuration()} -  ${result.playbackCount} plays',
-            imageUrl: result.artwork,
+            result: result,
             onClick: () {
               selectTrack(result);
             },
@@ -130,12 +127,6 @@ class _MyAppState extends State<MyApp> {
       query(input);
     }
   }
-
-  // void inputFocusListener() {
-  //   print(
-  //       "Has focus: ${inputFocus.hasFocus} | has primary focus: ${inputFocus.hasPrimaryFocus}");
-  //   setState(() {});
-  // }
 
   void selectTrack(SearchResult track) async {
     String stream = await soundcloud.getStreamURL(
@@ -223,6 +214,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     queryResults.clear();
     searchResults.clear();
+    audioPlayer.dispose();
     super.dispose();
   }
 
@@ -256,6 +248,7 @@ class _MyAppState extends State<MyApp> {
                     child: Column(
                       children: <Widget>[
                         Expanded(
+                          flex: 4,
                           child: Row(
                             children: <Widget>[
                               Expanded(
@@ -276,6 +269,7 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                         Expanded(
+                          flex: 5,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: searchResults,
