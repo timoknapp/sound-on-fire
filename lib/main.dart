@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/model/Query.dart';
 import 'package:sound_on_fire/model/Search.dart';
@@ -50,8 +51,10 @@ class _MyAppState extends State<MyApp> {
           results.add(ListElement(
             text: result.output,
             onClick: () {
+              searchInput = result.output;
               search();
             },
+            lightTheme: true,
           ));
         }
       }
@@ -70,11 +73,11 @@ class _MyAppState extends State<MyApp> {
         for (var result in searchResponse.collection) {
           results.add(
             ListElement(
-              text:
-                  '${result.title} - ${result.printDuration()} - ${result.playbackCount} played',
+              result: result,
               onClick: () {
                 selectTrack(result);
               },
+              lightTheme: false,
             ),
           );
         }
@@ -200,7 +203,7 @@ class _MyAppState extends State<MyApp> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   constraints: BoxConstraints.expand(),
-                  child: inputFocus.hasPrimaryFocus
+                  child: inputFocus.hasFocus
                       ? Row(
                           children: <Widget>[
                             Expanded(
@@ -220,8 +223,7 @@ class _MyAppState extends State<MyApp> {
                             )
                           ],
                         )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      : ListView(
                           children: results,
                         ),
                 ),
@@ -243,18 +245,36 @@ class _MyAppState extends State<MyApp> {
 
 class ListElement extends StatelessWidget {
   final Function onClick;
+  final SearchResult result;
+  final bool lightTheme;
   final String text;
 
-  ListElement({this.text, this.onClick});
+  ListElement({
+    this.result,
+    @required this.onClick,
+    @required this.lightTheme,
+    this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: onClick,
-      child: new Text(
-        text,
-      ),
-    );
+    return lightTheme
+        ? FlatButton(
+            onPressed: onClick,
+            child: new Text(
+              text,
+            ),
+          )
+        : Card(
+            child: ListTile(
+              leading:
+                  result.artwork != null ? Image.network(result.artwork) : null,
+              title: Text(result.title),
+              subtitle: Text(
+                  '${result.printDuration()} -  ${result.playbackCount} plays'),
+              onTap: onClick,
+            ),
+          );
   }
 }
 
@@ -274,39 +294,75 @@ class HeaderBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              onChanged: queryCallback,
-              decoration: InputDecoration(
-                hintText: 'Please enter a search term',
-                contentPadding: const EdgeInsets.all(20.0),
-              ),
-              onEditingComplete: () {
-                print("edit Complete");
+      child: RawKeyboardListener(
+        focusNode: inputFocus,
+        onKey: (RawKeyEvent event) {
+          if (event is RawKeyDownEvent &&
+              event.data is RawKeyEventDataAndroid) {
+            RawKeyDownEvent rawKeyDownEvent = event;
+            RawKeyEventDataAndroid rawKeyEventDataAndroid =
+                rawKeyDownEvent.data;
+            print("tv launcher sample ${rawKeyEventDataAndroid.keyCode}");
+            switch (rawKeyEventDataAndroid.keyCode) {
+              case 23:
+                print("center");
+                break;
+              case 19:
+                // FocusScope.of(context).requestFocus(focusNodes[2]);
+                print("UP");
+                break;
+              case 20:
+                // FocusScope.of(context).requestFocus(focusNodes[1]);
+                print("DOWN");
                 FocusScope.of(context).unfocus();
-                searchCallback();
-              },
-              focusNode: inputFocus,
-              controller: TextEditingController(text: inputText),
-              readOnly: true,
-              showCursor: true,
-              // onSubmitted: (text) {
-              //   print("Submit");
-              //   FocusScope.of(context).unfocus();
-              //   searchCallback();
-              // },
+                break;
+              case 21:
+                // FocusScope.of(context).requestFocus(focusNodes[1]);
+                print("LEFT");
+                break;
+              case 22:
+                // FocusScope.of(context).requestFocus(focusNodes[1]);
+                print("RIGHT");
+                break;
+              default:
+                break;
+            }
+          }
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                onChanged: queryCallback,
+                decoration: InputDecoration(
+                  hintText: 'Please enter a search term',
+                  contentPadding: const EdgeInsets.all(20.0),
+                ),
+                onEditingComplete: () {
+                  print("edit Complete");
+                  FocusScope.of(context).unfocus();
+                  searchCallback();
+                },
+                // focusNode: inputFocus,
+                controller: TextEditingController(text: inputText),
+                readOnly: true,
+                showCursor: true,
+                // onSubmitted: (text) {
+                //   print("Submit");
+                //   FocusScope.of(context).unfocus();
+                //   searchCallback();
+                // },
+              ),
             ),
-          ),
-          FlatButton(
-            onPressed: searchCallback,
-            child: Text(
-              'Search',
+            FlatButton(
+              onPressed: searchCallback,
+              child: Text(
+                'Search',
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -93,7 +93,7 @@ Future<QueryResponse> queryResults(String query, String clientId) async {
 Future<SearchResponse> searchResults(String query, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=7&offset=0');
+        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=20&offset=0');
 
     print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {

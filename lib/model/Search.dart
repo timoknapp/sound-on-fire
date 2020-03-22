@@ -31,15 +31,18 @@ class SearchResult {
   final String transcodingURL;
   final Duration duration;
   final int playbackCount;
+  final String artwork;
 
-  SearchResult(
-      {this.id,
-      this.title,
-      this.description,
-      this.uri,
-      this.transcodingURL,
-      this.duration,
-      this.playbackCount});
+  SearchResult({
+    this.id,
+    this.title,
+    this.description,
+    this.uri,
+    this.transcodingURL,
+    this.duration,
+    this.playbackCount,
+    this.artwork,
+  });
 
   String printDuration() {
     String twoDigits(int n) {
@@ -60,6 +63,7 @@ class SearchResult {
         break;
       }
     }
+    print(json['artwork_url']);
     return SearchResult(
       id: json['id'],
       title: json['title'],
@@ -68,6 +72,7 @@ class SearchResult {
       transcodingURL: transcodingURL,
       duration: Duration(milliseconds: json['duration']),
       playbackCount: json['playback_count'],
+      artwork: json['artwork_url'],
     );
   }
 }
