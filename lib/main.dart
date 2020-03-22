@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
   var streamURL = "";
   SearchResult selectedTrack;
   static AudioPlayer audioPlayer;
+  AudioPlayerState audioPlayerState;
   // FocusNode inputFocus;
 
   final Map<LogicalKeySet, Intent> _shortcuts = {
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       },
     ));
     if (queryResponse.collection.length > 0) {
-      for (var result in queryResponse.collection.take(3).toList()) {
+      for (var result in queryResponse.collection.take(2).toList()) {
         tmp.add(ListElement(
           title: result.output,
           onClick: () {
@@ -143,6 +144,7 @@ class _MyAppState extends State<MyApp> {
       selectedTrack = track;
       streamURL = stream;
     });
+    await audioPlayer.play(stream);
   }
 
   void playPause() async {
@@ -150,15 +152,15 @@ class _MyAppState extends State<MyApp> {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
         print("Pause");
-        setState(() {
-          isPlaying = false;
-        });
+        // setState(() {
+        //   isPlaying = false;
+        // });
       } else {
         await audioPlayer.play(streamURL);
         print("Play");
-        setState(() {
-          isPlaying = true;
-        });
+        // setState(() {
+        //   isPlaying = true;
+        // });
       }
     }
   }
@@ -189,22 +191,33 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _initAudioPlayer() {
+    audioPlayer = AudioPlayer();
+
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (!mounted) return;
+      setState(() {
+        if (state == AudioPlayerState.PLAYING) {
+          isPlaying = true;
+        } else {
+          isPlaying = false;
+        }
+        audioPlayerState = state;
+      });
+    });
+  }
+
   @override
   void initState() {
     queryResults.clear();
     searchResults.clear();
     _getClientId();
-    audioPlayer = AudioPlayer();
-    // inputFocus = FocusNode();
-    // inputFocus.addListener(() {
-    //   inputFocusListener();
-    // });
+    _initAudioPlayer();
     super.initState();
   }
 
   @override
   void dispose() {
-    // inputFocus.dispose();
     queryResults.clear();
     searchResults.clear();
     super.dispose();
@@ -221,9 +234,11 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: color_sc,
         ),
         home: Scaffold(
-          // appBar: AppBar(
-          //   title: Text(clientId.isEmpty ? 'Loading ...' : 'SoundCloud @ 🔥📺'),
-          // ),
+          appBar: clientId.isEmpty
+              ? AppBar(
+                  title: Text('Loading ...'),
+                )
+              : null,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -233,39 +248,39 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Expanded(
                   child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      constraints: BoxConstraints.expand(),
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  // flex: 5,
-                                  child: Keyboard(
-                                    onKeyboardAction: keyboardInput,
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    constraints: BoxConstraints.expand(),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Keyboard(
+                                  onKeyboardAction: keyboardInput,
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: queryResults,
                                   ),
                                 ),
-                                Expanded(
-                                  // flex: 2,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: queryResults,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
-                          Expanded(
-                            child: ListView(
-                              children: searchResults,
-                            ),
+                        ),
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: searchResults,
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 BottomBar(
                   playPause: streamURL == "" ? null : playPause,

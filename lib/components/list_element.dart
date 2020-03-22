@@ -22,12 +22,21 @@ class ListElement extends StatelessWidget {
               onTap: onClick,
             ),
           )
+        // : Card(
+        //     child: ListTile(
+        //       leading: imageUrl != null ? Image.network(imageUrl) : null,
+        //       title: Text(title),
+        //       subtitle: Text(subtitle),
+        //       onTap: onClick,
+        //     ),
+        // );
         : Card(
-            child: ListTile(
-              leading: imageUrl != null ? Image.network(imageUrl) : null,
-              title: Text(title),
-              subtitle: Text(subtitle),
-              onTap: onClick,
+            child: Column(
+              children: <Widget>[
+                Text(title),
+                Text(subtitle),
+                imageUrl != null ? Image.network(imageUrl) : null,
+              ],
             ),
           );
   }
