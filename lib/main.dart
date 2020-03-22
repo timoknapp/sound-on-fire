@@ -53,14 +53,12 @@ class _MyAppState extends State<MyApp> {
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
     List<ListElement> tmp = [];
-    tmp.add(
-      ListElement(
-        title: input,
-        onClick: () {
-          search();
-        },
-      )
-    );
+    tmp.add(ListElement(
+      title: input,
+      onClick: () {
+        search();
+      },
+    ));
     if (queryResponse.collection.length > 0) {
       for (var result in queryResponse.collection.take(3).toList()) {
         tmp.add(ListElement(
@@ -113,11 +111,16 @@ class _MyAppState extends State<MyApp> {
       if (input.length > 0) {
         input = input.substring(0, input.length - 1);
       }
+    } else if (key == "CLEAR") {
+      input = "";
     } else {
       input += key;
     }
     setState(() {
       searchInput = input;
+      if (key == "CLEAR") {
+        queryResults.clear();
+      }
     });
     if (input.isNotEmpty) {
       query(input);
@@ -225,6 +228,9 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
                 Expanded(
                   child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),

@@ -49,10 +49,6 @@ class Keyboard extends StatelessWidget {
                 onClick: () => this.onKeyboardAction("g"),
                 autoFocus: false,
               ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
               KeyboardButton(
                 text: "H",
                 onClick: () => this.onKeyboardAction("h"),
@@ -63,6 +59,16 @@ class Keyboard extends StatelessWidget {
                 onClick: () => this.onKeyboardAction("i"),
                 autoFocus: false,
               ),
+              KeyboardButton(
+                text: "BACK",
+                icon: Icon(Icons.backspace),
+                onClick: () => this.onKeyboardAction("BACK"),
+                autoFocus: false,
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
               KeyboardButton(
                 text: "J",
                 onClick: () => this.onKeyboardAction("j"),
@@ -88,10 +94,6 @@ class Keyboard extends StatelessWidget {
                 onClick: () => this.onKeyboardAction("n"),
                 autoFocus: false,
               ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
               KeyboardButton(
                 text: "O",
                 onClick: () => this.onKeyboardAction("o"),
@@ -113,6 +115,15 @@ class Keyboard extends StatelessWidget {
                 autoFocus: false,
               ),
               KeyboardButton(
+                text: "CLEAR",
+                onClick: () => this.onKeyboardAction("CLEAR"),
+                autoFocus: false,
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              KeyboardButton(
                 text: "S",
                 onClick: () => this.onKeyboardAction("s"),
                 autoFocus: false,
@@ -127,10 +138,6 @@ class Keyboard extends StatelessWidget {
                 onClick: () => this.onKeyboardAction("u"),
                 autoFocus: false,
               ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
               KeyboardButton(
                 text: "V",
                 onClick: () => this.onKeyboardAction("v"),
@@ -157,13 +164,67 @@ class Keyboard extends StatelessWidget {
                 autoFocus: false,
               ),
               KeyboardButton(
+                text: "-",
+                onClick: () => this.onKeyboardAction("-"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
                 text: "SPACE",
                 onClick: () => this.onKeyboardAction(" "),
                 autoFocus: false,
               ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
               KeyboardButton(
-                text: "BACK",
-                onClick: () => this.onKeyboardAction("BACK"),
+                text: "0",
+                onClick: () => this.onKeyboardAction("0"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "1",
+                onClick: () => this.onKeyboardAction("1"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "2",
+                onClick: () => this.onKeyboardAction("2"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "3",
+                onClick: () => this.onKeyboardAction("3"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "4",
+                onClick: () => this.onKeyboardAction("4"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "5",
+                onClick: () => this.onKeyboardAction("5"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "6",
+                onClick: () => this.onKeyboardAction("6"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "7",
+                onClick: () => this.onKeyboardAction("7"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "8",
+                onClick: () => this.onKeyboardAction("8"),
+                autoFocus: false,
+              ),
+              KeyboardButton(
+                text: "9",
+                onClick: () => this.onKeyboardAction("9"),
                 autoFocus: false,
               ),
             ],
@@ -177,22 +238,24 @@ class Keyboard extends StatelessWidget {
 class KeyboardButton extends StatelessWidget {
   final String text;
   final Function onClick;
+  final Icon icon;
   final bool autoFocus;
 
   const KeyboardButton({
     this.text,
     this.onClick,
+    this.icon,
     this.autoFocus,
   });
 
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-      height: 25,
-      minWidth: 40,
+      height: 30,
+      minWidth: 45,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: FlatButton(
-        child: Text(text),
+        child: icon != null ? icon : Text(text),
         onPressed: onClick,
         autofocus: autoFocus,
       ),
