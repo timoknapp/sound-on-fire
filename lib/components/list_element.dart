@@ -15,14 +15,8 @@ class ListElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return subtitle == null
-        ? Card(
-            child: ListTile(
-              title: Text(title),
-              onTap: onClick,
-            ),
-          )
-        // : Card(
+    return
+        // Card(
         //     child: ListTile(
         //       leading: imageUrl != null ? Image.network(imageUrl) : null,
         //       title: Text(title),
@@ -30,14 +24,14 @@ class ListElement extends StatelessWidget {
         //       onTap: onClick,
         //     ),
         // );
-        : Card(
-            child: Column(
-              children: <Widget>[
-                Text(title),
-                Text(subtitle),
-                imageUrl != null ? Image.network(imageUrl) : null,
-              ],
-            ),
-          );
+        Card(
+      child: Column(
+        children: <Widget>[
+          Text(title),
+          Text(subtitle),
+          imageUrl != null ? Image.network(imageUrl) : null,
+        ],
+      ),
+    );
   }
 }

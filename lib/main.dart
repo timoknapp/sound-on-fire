@@ -36,7 +36,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String clientId = "";
   String searchInput = "";
-  List<ListElement> queryResults = [];
+  List<Card> queryResults = [];
   List<ListElement> searchResults = [];
   bool isPlaying = false;
   var streamURL = "";
@@ -53,21 +53,25 @@ class _MyAppState extends State<MyApp> {
     print("Query: $input");
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
-    List<ListElement> tmp = [];
-    tmp.add(ListElement(
-      title: input,
-      onClick: () {
-        search();
-      },
+    List<Card> tmp = [];
+    tmp.add(Card(
+      child: ListTile(
+        title: Text(input),
+        onTap: () {
+          search();
+        },
+      ),
     ));
     if (queryResponse.collection.length > 0) {
       for (var result in queryResponse.collection.take(2).toList()) {
-        tmp.add(ListElement(
-          title: result.output,
-          onClick: () {
-            searchInput = result.output;
-            search();
-          },
+        tmp.add(Card(
+          child: ListTile(
+            title: Text(result.output),
+            onTap: () {
+              searchInput = result.output;
+              search();
+            },
+          ),
         ));
       }
     }
