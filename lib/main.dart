@@ -53,6 +53,14 @@ class _MyAppState extends State<MyApp> {
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
     List<ListElement> tmp = [];
+    tmp.add(
+      ListElement(
+        title: input,
+        onClick: () {
+          search();
+        },
+      )
+    );
     if (queryResponse.collection.length > 0) {
       for (var result in queryResponse.collection.take(3).toList()) {
         tmp.add(ListElement(
@@ -217,12 +225,6 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                HeaderBar(
-                  queryCallback: query,
-                  searchCallback: search,
-                  inputText: searchInput,
-                  // inputFocus: inputFocus,
-                ),
                 Expanded(
                   child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
