@@ -32,7 +32,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String clientId = "";
   String searchInput = "";
-  List<ListElement> results = [];
+  List<ListElement> queryResults = [];
+  List<ListElement> searchResults = [];
   bool isPlaying = false;
   var streamURL = "";
   String selectedTrack = "No track selected";
@@ -45,16 +46,15 @@ class _MyAppState extends State<MyApp> {
         await soundcloud.queryResults(input, clientId);
     setState(() {
       searchInput = input;
-      results.clear();
+      queryResults.clear();
       if (queryResponse.collection.length > 0) {
         for (var result in queryResponse.collection.take(5).toList()) {
-          results.add(ListElement(
-            text: result.output,
+          queryResults.add(ListElement(
+            title: result.output,
             onClick: () {
               searchInput = result.output;
               search();
             },
-            lightTheme: true,
           ));
         }
       }
@@ -68,16 +68,18 @@ class _MyAppState extends State<MyApp> {
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
     setState(() {
-      results.clear();
+      searchResults.clear();
       if (searchResponse.collection.length > 0) {
         for (var result in searchResponse.collection) {
-          results.add(
+          searchResults.add(
             ListElement(
-              result: result,
+              title: result.title,
+              subtitle:
+                  '${result.printDuration()} -  ${result.playbackCount} plays',
+              imageUrl: result.artwork,
               onClick: () {
                 selectTrack(result);
               },
-              lightTheme: false,
             ),
           );
         }
@@ -160,7 +162,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    results.clear();
+    queryResults.clear();
+    searchResults.clear();
     _getClientId();
     audioPlayer = AudioPlayer();
     inputFocus = FocusNode();
@@ -173,7 +176,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     inputFocus.dispose();
-    results.clear();
+    queryResults.clear();
+    searchResults.clear();
     super.dispose();
   }
 
@@ -217,14 +221,14 @@ class _MyAppState extends State<MyApp> {
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: results,
+                                  children: queryResults,
                                 ),
                               ),
                             )
                           ],
                         )
                       : ListView(
-                          children: results,
+                          children: searchResults,
                         ),
                 ),
               ),
@@ -245,33 +249,31 @@ class _MyAppState extends State<MyApp> {
 
 class ListElement extends StatelessWidget {
   final Function onClick;
-  final SearchResult result;
-  final bool lightTheme;
-  final String text;
+  final String title;
+  final String subtitle;
+  final String imageUrl;
 
   ListElement({
-    this.result,
     @required this.onClick,
-    @required this.lightTheme,
-    this.text,
+    @required this.title,
+    this.subtitle,
+    this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    return lightTheme
-        ? FlatButton(
-            onPressed: onClick,
-            child: new Text(
-              text,
+    return subtitle == null
+        ? Card(
+            child: ListTile(
+              title: Text(title),
+              onTap: onClick,
             ),
           )
         : Card(
             child: ListTile(
-              leading:
-                  result.artwork != null ? Image.network(result.artwork) : null,
-              title: Text(result.title),
-              subtitle: Text(
-                  '${result.printDuration()} -  ${result.playbackCount} plays'),
+              leading: imageUrl != null ? Image.network(imageUrl) : null,
+              title: Text(title),
+              subtitle: Text(subtitle),
               onTap: onClick,
             ),
           );
