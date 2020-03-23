@@ -37,129 +37,126 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        track == null
-            ? Text("")
-            : Container(
-                width: MediaQuery.of(context).size.width * 1,
-                height: 65,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: KeyboardButton(
-                                autoFocus: false,
-                                icon: Icon(Icons.fast_rewind),
-                                onClick: previous,
-                              ),
-                            ),
-                            Expanded(
-                              child: KeyboardButton(
-                                autoFocus: false,
-                                icon: Icon(
-                                    isPlaying ? Icons.pause : Icons.play_arrow),
-                                onClick: playPause,
-                              ),
-                            ),
-                            Expanded(
-                              child: KeyboardButton(
-                                autoFocus: false,
-                                icon: Icon(Icons.fast_forward),
-                                onClick: forward,
-                              ),
-                            ),
-                            Expanded(
-                              child: KeyboardButton(
-                                autoFocus: false,
-                                icon: Icon(Icons.stop),
-                                onClick: stop,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+    return Container(
+      width: MediaQuery.of(context).size.width * 1,
+      height: 65,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: KeyboardButton(
+                      autoFocus: false,
+                      icon: Icon(Icons.fast_rewind),
+                      onClick: track != null ? previous : null,
                     ),
-                    Expanded(
-                      flex: 6,
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Text(printDuration()),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: Container(
-                                child: Slider(
-                                  value: duration.inSeconds.toDouble(),
-                                  min: 0,
-                                  max: track.duration.inSeconds.toDouble(),
-                                  divisions: track.duration.inSeconds,
-                                  onChanged: (double value) {},
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                child: Text(track.printDuration()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                  ),
+                  Expanded(
+                    child: KeyboardButton(
+                      autoFocus: false,
+                      icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                      onClick: track != null ? playPause : null,
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                child: track.artwork != null
-                                    ? Image.network(track.artwork)
-                                    : FlutterLogo(),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 7,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    track.title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                  ),
+                  Expanded(
+                    child: KeyboardButton(
+                      autoFocus: false,
+                      icon: Icon(Icons.fast_forward),
+                      onClick: track != null ? forward : null,
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: KeyboardButton(
+                      autoFocus: false,
+                      icon: Icon(Icons.stop),
+                      onClick: track != null ? stop : null,
+                    ),
+                  ),
+                ],
               ),
-      ],
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      // padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(track != null ? printDuration() : ""),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 12,
+                    child: Container(
+                      child: track != null
+                          ? Slider(
+                              value: duration.inSeconds.toDouble(),
+                              min: 0,
+                              max: track.duration.inSeconds.toDouble(),
+                              divisions: track.duration.inSeconds,
+                              onChanged: (double value) {},
+                            )
+                          : Text("no selection"),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      // padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(track != null ? track.printDuration() : ""),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: track != null
+                        ? Container(
+                            child: track.artwork != null
+                                ? Image.network(track.artwork)
+                                : FlutterLogo(),
+                          )
+                        : Text(""),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          track != null ? track.title : "",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

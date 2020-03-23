@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sound_on_fire/components/header_bar.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/components/list_element.dart';
 import 'package:sound_on_fire/model/Query.dart';
@@ -43,7 +42,6 @@ class _MyAppState extends State<MyApp> {
   SearchResult selectedTrack;
   static AudioPlayer audioPlayer;
   AudioPlayerState audioPlayerState;
-  // FocusNode inputFocus;
   Duration duration = Duration();
 
   final Map<LogicalKeySet, Intent> _shortcuts = {
@@ -147,15 +145,9 @@ class _MyAppState extends State<MyApp> {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
         print("Pause");
-        // setState(() {
-        //   isPlaying = false;
-        // });
       } else {
         await audioPlayer.play(streamURL);
         print("Play");
-        // setState(() {
-        //   isPlaying = true;
-        // });
       }
     }
   }
@@ -230,7 +222,7 @@ class _MyAppState extends State<MyApp> {
     return Shortcuts(
       shortcuts: _shortcuts,
       child: MaterialApp(
-        title: 'SoundCloud',
+        title: 'SoundOnFire',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: color_sc,
@@ -238,7 +230,7 @@ class _MyAppState extends State<MyApp> {
         home: Scaffold(
           appBar: clientId.isEmpty
               ? AppBar(
-                  title: Text('Loading ...'),
+                  title: Text('Loading ... 🔊☁️ 🔥📺'),
                 )
               : null,
           body: Center(
@@ -259,13 +251,13 @@ class _MyAppState extends State<MyApp> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                flex: 6,
+                                flex: 5,
                                 child: Keyboard(
                                   onKeyboardAction: keyboardInput,
                                 ),
                               ),
                               Expanded(
-                                flex: 4,
+                                flex: 5,
                                 child: Container(
                                   child: Column(
                                     crossAxisAlignment:
@@ -273,7 +265,14 @@ class _MyAppState extends State<MyApp> {
                                     children: queryResults,
                                   ),
                                 ),
-                              )
+                              ),
+                              // Expanded(
+                              //   flex: 2,
+                              //   child: Container(
+                              //     constraints: BoxConstraints.expand(),
+                              //     color: Colors.white,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

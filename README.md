@@ -1,4 +1,4 @@
-# 🔊☁️ 🔥📺  Sound on Fire 
+# 🔊☁️ 🔥📺  SoundOnFire 
 
 ![SoundCloud on Fire](https://github.com/tea-mo903/sound-on-fire/workflows/SoundCloud%20on%20Fire/badge.svg)
 

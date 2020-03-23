@@ -1,4 +1,4 @@
-package com.example.sound_on_fire
+package com.soundonfire.app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

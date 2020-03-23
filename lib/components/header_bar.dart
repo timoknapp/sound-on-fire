@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class HeaderBar extends StatelessWidget {
   final Function searchCallback;
   final Function queryCallback;
   final String inputText;
-  // final FocusNode inputFocus;
 
   HeaderBar({
     this.searchCallback,
     this.queryCallback,
     this.inputText,
-    // this.inputFocus,
   });
 
   @override
