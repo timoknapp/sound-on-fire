@@ -105,7 +105,19 @@ class BottomBar extends StatelessWidget {
                               divisions: track.duration.inSeconds,
                               onChanged: (double value) {},
                             )
-                          : Text("no selection"),
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(" 🔊☁️ 🔥📺"),
+                                Text(
+                                  "SoundOnFire",
+                                  style: const TextStyle(
+                                    color: Color(0xffff5500),
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                   Expanded(
