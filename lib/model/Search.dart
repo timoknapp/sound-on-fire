@@ -63,12 +63,12 @@ class SearchResult {
   }
 
   String printPlaycount() {
-    var numberFormat = NumberFormat.compact(locale: 'de');
+    var numberFormat = NumberFormat.compact(locale: 'en');
     return numberFormat.format(this.playbackCount);
   }
 
   String printLikescount() {
-    var numberFormat = NumberFormat.compact(locale: 'de');
+    var numberFormat = NumberFormat.compact(locale: 'en');
     return numberFormat.format(this.likesCount);
   }
 
