@@ -76,7 +76,7 @@ Future<QueryResponse> queryResults(String query, String clientId) async {
     final response = await http.get(
         '$scApiHost/search/queries?q=$query&client_id=$clientId&limit=7&offset=0');
 
-    print('Response Status-Code: ${response.statusCode}');
+    // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response, then parse the JSON.
       // print(response.body);
@@ -95,10 +95,10 @@ Future<SearchResponse> searchResults(String query, String clientId) async {
     final response = await http.get(
         '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=40&offset=0');
 
-    print('Response Status-Code: ${response.statusCode}');
+    // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response, then parse the JSON.
-      print(response.body);
+      // print(response.body);
       return SearchResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response, then throw an exception.

@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   void query(input) async {
-    print("Query: $input");
+    // print("Query: $input");
     QueryResponse queryResponse =
         await soundcloud.queryResults(input, clientId);
     List<Card> tmp = [];
@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void search() async {
-    print("Search: $searchInput | $clientId");
+    // print("Search: $searchInput");
     SearchResponse searchResponse =
         await soundcloud.searchResults(searchInput, clientId);
     List<ListElement> tmp = [];
@@ -105,7 +105,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void keyboardInput(key) {
-    print(key);
     String input = searchInput;
     if (key == "BACK") {
       if (input.length > 0) {
