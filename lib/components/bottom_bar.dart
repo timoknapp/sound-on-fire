@@ -49,6 +49,8 @@ class BottomBar extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -87,6 +89,8 @@ class BottomBar extends StatelessWidget {
                     Expanded(
                       flex: 6,
                       child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -120,6 +124,8 @@ class BottomBar extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -135,7 +141,14 @@ class BottomBar extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(track.title),
+                                  Text(
+                                    track.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
