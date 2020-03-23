@@ -12,7 +12,7 @@ The current implementation looks like this:
 
 ### Features planned:
 
-- ✔️ omprehensive Footer (Current Track, Play/Pause, etc.)
+- ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
 - In-App Update
 - Add App Icon and Splash-Screen
 - Install Guide in README
