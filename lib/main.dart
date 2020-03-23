@@ -252,11 +252,13 @@ class _MyAppState extends State<MyApp> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
+                                flex: 6,
                                 child: Keyboard(
                                   onKeyboardAction: keyboardInput,
                                 ),
                               ),
                               Expanded(
+                                flex: 4,
                                 child: Container(
                                   child: Column(
                                     crossAxisAlignment:

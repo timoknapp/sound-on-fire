@@ -12,8 +12,9 @@ class ListElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onClick,
+      focusColor: Color(0xffff5500),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.20,
         child: Card(
