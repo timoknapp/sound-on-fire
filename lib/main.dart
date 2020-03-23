@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   static AudioPlayer audioPlayer;
   AudioPlayerState audioPlayerState;
   // FocusNode inputFocus;
+  Duration duration = Duration();
 
   final Map<LogicalKeySet, Intent> _shortcuts = {
     LogicalKeySet(LogicalKeyboardKey.select): const Intent(ActivateAction.key),
@@ -199,6 +200,12 @@ class _MyAppState extends State<MyApp> {
         audioPlayerState = state;
       });
     });
+
+    audioPlayer.onAudioPositionChanged.listen((Duration d) {
+      setState(() {
+        duration = d;
+      });
+    });
   }
 
   @override
@@ -287,6 +294,7 @@ class _MyAppState extends State<MyApp> {
                   isPlaying: isPlaying,
                   track: selectedTrack,
                   player: audioPlayer,
+                  duration: duration,
                 ),
               ],
             ),

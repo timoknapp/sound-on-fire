@@ -10,6 +10,7 @@ class BottomBar extends StatelessWidget {
   final bool isPlaying;
   final SearchResult track;
   final AudioPlayer player;
+  final Duration duration;
 
   BottomBar({
     this.playPause,
@@ -19,6 +20,7 @@ class BottomBar extends StatelessWidget {
     this.isPlaying,
     this.track,
     this.player,
+    this.duration,
   });
 
   @override
@@ -52,6 +54,15 @@ class BottomBar extends StatelessWidget {
                   ),
                 ),
               ),
+        track == null ?
+            Text("") :
+        Slider(
+          value: duration.inSeconds.toDouble(),
+          min: 0,
+          max: track.duration.inSeconds.toDouble(),
+          divisions: track.duration.inSeconds,
+          onChanged: (double value) {},
+        ),
         Container(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
