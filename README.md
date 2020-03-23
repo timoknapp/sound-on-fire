@@ -10,6 +10,14 @@ The current implementation looks like this:
 
 <img width="100%" screenshot src="screenshots/flutter_06.png">
 
+### Features planned:
+
+- Comprehensive Footer (Current Track, Play/Pause, etc.)
+- In-App Update
+- Add App Icon and Splash-Screen
+- Install Guide in README
+- Implementation of FireTV Hardkeys (Play/Pause, Previous, Forward)
+
 ## Contribution
 
 PRs Welcome!
