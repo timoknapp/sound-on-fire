@@ -18,7 +18,7 @@ The current implementation looks like this:
 - App Icon
 - Installation Guide in README.MD
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
-- ✔️ Disable Screensaver
+- Disable Screensaver
 - **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
 
 ## Contribution
