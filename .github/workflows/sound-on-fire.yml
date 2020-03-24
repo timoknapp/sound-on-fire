@@ -1,5 +1,10 @@
-on: 
+on:
   push:
+    paths:
+      - "android/**"
+      - "ios/**"
+      - "lib/**"
+      - "test/**"
 name: SoundCloud on Fire
 jobs:
   soundcloud-on-fire:

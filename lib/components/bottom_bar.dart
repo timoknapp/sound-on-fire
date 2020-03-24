@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/components/small_button.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/util/constants.dart';
