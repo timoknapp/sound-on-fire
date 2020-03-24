@@ -2,7 +2,7 @@
 
 ![SoundCloud on Fire](https://github.com/tea-mo903/sound-on-fire/workflows/SoundCloud%20on%20Fire/badge.svg)
 
-A Flutter based Soundcloud App for your Fire TV.
+A Flutter based SoundCloud App for your Fire TV.
 
 ## Currently under development!
 
@@ -15,7 +15,7 @@ The current implementation looks like this:
 - ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
 - Use Slider to scroll through track
 - In-App Update
-- App Icon and Splash-Screen
+- App Icon
 - Installation Guide in README.MD
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
 - ✔️ Disable Screensaver
