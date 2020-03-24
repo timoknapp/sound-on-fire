@@ -2,7 +2,7 @@
 
 ![SoundCloud on Fire](https://github.com/tea-mo903/sound-on-fire/workflows/SoundCloud%20on%20Fire/badge.svg)
 
-A Flutter based Soundcloud App for your Fire TV.
+A Flutter based SoundCloud App for your Fire TV.
 
 ## Currently under development!
 
