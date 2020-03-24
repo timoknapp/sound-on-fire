@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:beautifulsoup/beautifulsoup.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
-
-const String scHost = 'https://soundcloud.com';
-const String scApiHost = 'https://api-v2.soundcloud.com';
+import 'package:sound_on_fire/util/constants.dart';
 
 Future<String> fetchUrl(url) async {
   final response = await http.get(
@@ -28,7 +26,7 @@ String findScriptUrl(html, prefix) {
 }
 
 Future<String> getClientId() async {
-  String body = await fetchUrl("$scHost/mt-marcy/cold-nights");
+  String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
   for (var prefix in ['49', '48']) {
     String url = findScriptUrl(body, prefix);
     String script = await fetchUrl(url);
@@ -50,7 +48,7 @@ Future<String> getStreamUrl(clientID, trackID, {transcodeURL = ""}) async {
     return getMediaUrl(clientID, transcodingURL);
   }
   String body =
-      await fetchUrl("$scApiHost/tracks/$trackID?client_id=$clientID");
+      await fetchUrl("$soundCloudApiHost/tracks/$trackID?client_id=$clientID");
   Map<String, dynamic> trackInfo = jsonDecode(body);
   for (var transcoding in trackInfo["media"]["transcodings"]) {
     if (transcoding["format"]["protocol"] == "progressive") {
@@ -73,7 +71,7 @@ Future<String> getMediaUrl(clientID, transcodingURL) async {
 Future<AutocompleteResponse> queryResults(String query, int limit, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$scApiHost/search/queries?q=$query&client_id=$clientId&limit=$limit&offset=0');
+        '$soundCloudApiHost/search/queries?q=$query&client_id=$clientId&limit=$limit&offset=0');
 
     // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
@@ -92,7 +90,7 @@ Future<AutocompleteResponse> queryResults(String query, int limit, String client
 Future<SearchResponse> searchTracks(String query, int limit, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$scApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=0');
+        '$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=0');
 
     // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {

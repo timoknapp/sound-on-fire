@@ -7,7 +7,7 @@ import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/components/track_tile.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
-import 'package:sound_on_fire/services/soundcloud.dart' as soundcloudService;
+import 'package:sound_on_fire/services/soundcloud.dart' as soundCloudService;
 
 class HomeScreen extends StatefulWidget {
   final String clientId;
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getAutocomplete(String query) async {
-    AutocompleteResponse autocompleteResponse = await soundcloudService.queryResults(query, 2, widget.clientId);
+    AutocompleteResponse autocompleteResponse = await soundCloudService.queryResults(query, 2, widget.clientId);
     List<AutocompleteItem> tmp = [];
     tmp.add(AutocompleteItem(text: query, onClick: () => searchTracks(query),));
     for(var response in autocompleteResponse.collection.take(2))
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void searchTracks(String query) async {
-    SearchResponse searchResponse = await soundcloudService.searchTracks(query, 40, widget.clientId);
+    SearchResponse searchResponse = await soundCloudService.searchTracks(query, 40, widget.clientId);
     List<TrackTile> tmp = [];
     for(var track in searchResponse.collection)
       tmp.add(TrackTile(track: track, onClick: () => selectTrack(track),));
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void selectTrack(Track track) async {
-    String streamUrl = await soundcloudService.getStreamUrl(
+    String streamUrl = await soundCloudService.getStreamUrl(
       widget.clientId,
       track.id,
       transcodeURL: track.transcodingURL,
