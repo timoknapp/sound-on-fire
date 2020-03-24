@@ -8,15 +8,18 @@ A Flutter based Soundcloud App for your Fire TV.
 
 The current implementation looks like this:
 
-<img width="100%" style="border: #000;border-style: solid;border-width: 10px;" src="screenshots/flutter_01.png">
+<img width="100%" src="screenshots/flutter_01.png">
 
 ### Features planned:
 
 - ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
+- Use Slider to scroll though track
 - In-App Update
 - App Icon and Splash-Screen
 - Install Guide in README
 - Implementation of FireTV Hardkeys (Play/Pause, Previous, Forward)
+- Disable Screensaver
+- **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
 
 ## Contribution
 
