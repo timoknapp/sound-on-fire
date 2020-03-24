@@ -25,7 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       clientId = id;
     });
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return HomeScreen(
         clientId: clientId,
       );
