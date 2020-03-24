@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:sound_on_fire/model/Search.dart';
+import 'package:sound_on_fire/models/Track.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
-class ListElement extends StatelessWidget {
+class TrackTile extends StatelessWidget {
+  final Track track;
   final Function onClick;
-  final SearchResult result;
 
-  ListElement({
+  TrackTile({
+    @required this.track,
     @required this.onClick,
-    @required this.result,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onClick,
-      focusColor: Color(0xffff5500),
+      focusColor: primaryOrange,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.20,
         child: Card(
@@ -28,8 +29,8 @@ class ListElement extends StatelessWidget {
                 Center(
                   child: Container(
                     height: 100,
-                    child: result.artwork != null
-                        ? Image.network(result.artwork)
+                    child: track.artwork != null
+                        ? Image.network(track.artwork)
                         : FlutterLogo(
                             size: 100,
                           ),
@@ -37,7 +38,7 @@ class ListElement extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  result.title,
+                  track.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -46,7 +47,7 @@ class ListElement extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  result.printDuration(),
+                  track.printDuration(),
                   style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.black54,
@@ -54,7 +55,7 @@ class ListElement extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '${result.printPlaycount()} played',
+                  '${track.printPlaycount()} played',
                   style: const TextStyle(
                     fontSize: 12.0,
                     color: Colors.black87,
@@ -64,7 +65,7 @@ class ListElement extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  '${result.printUploadSince()} · ${result.printLikescount()} 🖤',
+                  '${track.printUploadSince()} · ${track.printLikescount()} 🖤',
                   style: const TextStyle(
                     fontSize: 12.0,
                     color: Colors.black54,

@@ -1,27 +1,26 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
-import 'package:sound_on_fire/model/Search.dart';
+import 'package:sound_on_fire/models/Track.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
 class BottomBar extends StatelessWidget {
   final Function playPause;
-  final Function previous;
+  final Function backward;
   final Function forward;
   final Function stop;
-  final bool isPlaying;
-  final SearchResult track;
-  final AudioPlayer player;
-  final Duration duration;
+  final Track track;
+  final AudioPlayer audioPlayer;
+  final Duration currentAudioPosition;
 
   BottomBar({
     this.playPause,
-    this.previous,
+    this.backward,
     this.forward,
     this.stop,
-    this.isPlaying,
     this.track,
-    this.player,
-    this.duration,
+    this.audioPlayer,
+    this.currentAudioPosition,
   });
 
   String printDuration() {
@@ -30,9 +29,9 @@ class BottomBar extends StatelessWidget {
       return "0$n";
     }
 
-    String twoDigitMinutes = twoDigits(this.duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(this.duration.inSeconds.remainder(60));
-    return "${twoDigits(this.duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    String twoDigitMinutes = twoDigits(this.currentAudioPosition.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(this.currentAudioPosition.inSeconds.remainder(60));
+    return "${twoDigits(this.currentAudioPosition.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override
@@ -53,13 +52,13 @@ class BottomBar extends StatelessWidget {
                     child: KeyboardButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_rewind),
-                      onClick: track != null ? previous : null,
+                      onClick: track != null ? backward : null,
                     ),
                   ),
                   Expanded(
                     child: KeyboardButton(
                       autoFocus: false,
-                      icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                      icon: Icon(audioPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
                       onClick: track != null ? playPause : null,
                     ),
                   ),
@@ -99,7 +98,7 @@ class BottomBar extends StatelessWidget {
                     child: Container(
                       child: track != null
                           ? Slider(
-                              value: duration.inSeconds.toDouble(),
+                              value: currentAudioPosition.inSeconds.toDouble(),
                               min: 0,
                               max: track.duration.inSeconds.toDouble(),
                               divisions: track.duration.inSeconds,
@@ -112,7 +111,7 @@ class BottomBar extends StatelessWidget {
                                 Text(
                                   "SoundOnFire",
                                   style: const TextStyle(
-                                    color: Color(0xffff5500),
+                                    color: primaryOrange,
                                     fontSize: 17,
                                   ),
                                 ),
