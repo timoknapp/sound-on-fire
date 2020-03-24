@@ -7,6 +7,7 @@ import 'package:sound_on_fire/components/track_tile.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/services/soundcloud.dart' as soundcloudService;
+import 'package:sound_on_fire/util/wakelock.dart';
 
 class HomeScreen extends StatefulWidget {
   final String clientId;
@@ -41,12 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _initAudioPlayer();
+    Wakelock.enable();
     super.initState();
   }
 
   @override
   void dispose() {
     audioPlayer.dispose();
+    Wakelock.disable();
     super.dispose();
   }
 
@@ -203,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       )
-    );
+      );
   }
 
 }
