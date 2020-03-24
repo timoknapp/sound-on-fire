@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
@@ -81,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       transcodeURL: track.transcodingURL,
     );
     audioPlayer.play(streamUrl);
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     currentAudioPosition = Duration(seconds: 0);
     setState(() {
       selectedTrack = track;
@@ -111,8 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (selectedTrackUrl != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
+        await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
         await audioPlayer.play(selectedTrackUrl);
+        await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }
     }
     setState(() {});
@@ -136,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void stop() async {
     await audioPlayer.stop();
+    await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     selectedTrack = null;
     selectedTrackUrl = null;
     setState(() {});
@@ -203,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       )
-    );
+      );
   }
 
 }
