@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
+import 'package:sound_on_fire/components/small_button.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/util/constants.dart';
 
@@ -29,8 +30,10 @@ class BottomBar extends StatelessWidget {
       return "0$n";
     }
 
-    String twoDigitMinutes = twoDigits(this.currentAudioPosition.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(this.currentAudioPosition.inSeconds.remainder(60));
+    String twoDigitMinutes =
+        twoDigits(this.currentAudioPosition.inMinutes.remainder(60));
+    String twoDigitSeconds =
+        twoDigits(this.currentAudioPosition.inSeconds.remainder(60));
     return "${twoDigits(this.currentAudioPosition.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
@@ -49,28 +52,30 @@ class BottomBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    child: KeyboardButton(
+                    child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_rewind),
                       onClick: track != null ? backward : null,
                     ),
                   ),
                   Expanded(
-                    child: KeyboardButton(
+                    child: SmallButton(
                       autoFocus: false,
-                      icon: Icon(audioPlayer.state == AudioPlayerState.PLAYING ? Icons.pause : Icons.play_arrow),
+                      icon: Icon(audioPlayer.state == AudioPlayerState.PLAYING
+                          ? Icons.pause
+                          : Icons.play_arrow),
                       onClick: track != null ? playPause : null,
                     ),
                   ),
                   Expanded(
-                    child: KeyboardButton(
+                    child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_forward),
                       onClick: track != null ? forward : null,
                     ),
                   ),
                   Expanded(
-                    child: KeyboardButton(
+                    child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.stop),
                       onClick: track != null ? stop : null,
