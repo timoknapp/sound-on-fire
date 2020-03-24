@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sound_on_fire/screens/home.dart';
 import 'package:sound_on_fire/screens/loading.dart';
 
 void main() => runApp(MyApp());
@@ -41,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: color_sc,
         ),
-        home: LoadingScreen()
+        home: LoadingScreen(),
       ),
     );
   }
