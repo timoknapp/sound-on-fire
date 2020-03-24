@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
@@ -7,7 +8,6 @@ import 'package:sound_on_fire/components/track_tile.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/services/soundcloud.dart' as soundcloudService;
-import 'package:sound_on_fire/util/wakelock.dart';
 
 class HomeScreen extends StatefulWidget {
   final String clientId;
@@ -42,14 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _initAudioPlayer();
-    Wakelock.enable();
     super.initState();
   }
 
   @override
   void dispose() {
     audioPlayer.dispose();
-    Wakelock.disable();
     super.dispose();
   }
 
@@ -84,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       transcodeURL: track.transcodingURL,
     );
     audioPlayer.play(streamUrl);
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     currentAudioPosition = Duration(seconds: 0);
     setState(() {
       selectedTrack = track;
@@ -114,8 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (selectedTrackUrl != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
+        await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
         await audioPlayer.play(selectedTrackUrl);
+        await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }
     }
     setState(() {});
@@ -139,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void stop() async {
     await audioPlayer.stop();
+    await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     selectedTrack = null;
     selectedTrackUrl = null;
     setState(() {});
