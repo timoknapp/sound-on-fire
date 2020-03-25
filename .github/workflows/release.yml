@@ -1,0 +1,61 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: SoundOnFire Create Release
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable" # or: 'dev' or 'beta'
+
+      - name: Prepare & Build
+        id: prepare-build
+        run: |
+          flutter pub get
+          ./buildAndroid.sh release
+          echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
+          echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
+
+      - name: Upload articfact
+        uses: actions/upload-artifact@v1
+        with:
+          name: SoundOnFire
+          path: ${{ steps.prepare-build.outputs.dir }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ steps.prepare-build.outputs.dir }}
+          asset_name: ${{ steps.prepare-build.outputs.file }}
+          asset_content_type: application/apk

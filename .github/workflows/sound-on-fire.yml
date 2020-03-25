@@ -1,10 +1,9 @@
 on:
   push:
-    # TEMPORARY DEACTIVATED
-    # paths:
-    #   - "android/**"
-    #   - "lib/**"
-    #   - "test/**"
+    paths:
+      - "android/**"
+      - "lib/**"
+      - "test/**"
 name: SoundCloud on Fire
 jobs:
   soundcloud-on-fire:
@@ -17,25 +16,17 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable" # or: 'dev' or 'beta'
-      # - run: flutter pub get
-      # - run: flutter build apk
+
       - name: Prepare & Build
         id: prepare-build
         run: |
           flutter pub get
           ./buildAndroid.sh release
-          echo "::set-env name=ARTIFACT_PATH::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
+          echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
-      - name: Create a Release APK
+      - name: Upload articfact
         uses: actions/upload-artifact@v1
         with:
           name: SoundOnFire
           path: ${{ steps.prepare-build.outputs.dir }}
-          # path: build/app/outputs/apk/release/app-release.apk
-      # - name: Get yarn cache
-      #   id: yarn-cache
-      #   run: echo "::set-output name=dir::$(yarn cache dir)"
-      # - uses: actions/upload-artifact@v1
-      #   with:
-      #     path: ${{ steps.yarn-cache.outputs.dir }}
