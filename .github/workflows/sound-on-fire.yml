@@ -20,24 +20,22 @@ jobs:
       # - run: flutter pub get
       # - run: flutter build apk
       - name: Prepare & Build
+        id: prepare-build
         run: |
           flutter pub get
           ./buildAndroid.sh release
           echo "::set-env name=ARTIFACT_PATH::$(cat tmp_artifact_path.txt)"
-          echo $ARTIFACT_PATH
-
-      # - name: Set Env variables
-      #   uses: allenevans/set-env@v1.0.0
-      #   with:
-      #     ARTIFACT_PATH: $(cat tmp_artifact_path.txt)
-      # - name: Printenv
-      #   run: |
-      #     echo "ARTIFACT_PATH=${ARTIFACT_PATH}"
-      #     printenv
+          echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
 
       - name: Create a Release APK
         uses: actions/upload-artifact@v1
         with:
           name: SoundOnFire
-          path: ${env.ARTIFACT_PATH}
+          path: ${{ steps.prepare-build.outputs.dir }}
           # path: build/app/outputs/apk/release/app-release.apk
+      # - name: Get yarn cache
+      #   id: yarn-cache
+      #   run: echo "::set-output name=dir::$(yarn cache dir)"
+      # - uses: actions/upload-artifact@v1
+      #   with:
+      #     path: ${{ steps.yarn-cache.outputs.dir }}
