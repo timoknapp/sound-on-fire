@@ -39,10 +39,10 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: |
-            # Changelog:
           draft: false
           prerelease: true
+          # body: |
+          #   # Changelog:
 
       - name: Upload Release Asset
         id: upload-release-asset
