@@ -13,13 +13,15 @@ The current implementation looks like this:
 ### Features planned:
 
 - ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
-- Use Slider to scroll through track
-- In-App Update
-- App Icon
-- Installation Guide in README.MD
-- FireTV Hardkeys (Play/Pause, Previous, Forward)
 - ✔️ Disable Screensaver
+- In-App Update
+- FireTV Hardkeys (Play/Pause, Previous, Forward)
+- App Icon
+- Installation Guide in `README.MD`
+- Use Slider to scroll through track
+- Store favorite tracks locally
 - ✔️ **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
+- **BUG:** When playing has ended, its still showing `pause` icon
 
 ## Contribution
 
