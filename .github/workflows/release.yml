@@ -4,11 +4,11 @@ on:
     tags:
       - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
-name: SoundOnFire Create Release
+name: SoundOnFire Release
 
 jobs:
   build:
-    name: Upload Release Asset
+    name: Prepare, Build, Release, Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,16 +27,9 @@ jobs:
       - name: Prepare & Build
         id: prepare-build
         run: |
-          flutter pub get
           ./buildAndroid.sh release
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
-
-      - name: Upload articfact
-        uses: actions/upload-artifact@v1
-        with:
-          name: SoundOnFire
-          path: ${{ steps.prepare-build.outputs.dir }}
 
       - name: Create Release
         id: create_release
@@ -46,6 +39,8 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body: |
+            # Changelog:
           draft: false
           prerelease: true
 

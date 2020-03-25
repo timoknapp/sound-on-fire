@@ -4,29 +4,34 @@ on:
       - "android/**"
       - "lib/**"
       - "test/**"
-name: SoundCloud on Fire
+name: SoundOnFire Development
 jobs:
-  soundcloud-on-fire:
+  build:
+    name: Prepare, Build, Release, Publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
           java-version: "12.x"
-      - uses: subosito/flutter-action@v1
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
         with:
           channel: "stable" # or: 'dev' or 'beta'
 
       - name: Prepare & Build
         id: prepare-build
         run: |
-          flutter pub get
-          ./buildAndroid.sh release
+          ./buildAndroid.sh debug
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
       - name: Upload articfact
         uses: actions/upload-artifact@v1
         with:
-          name: SoundOnFire
+          name: ${{ steps.prepare-build.outputs.file }}
           path: ${{ steps.prepare-build.outputs.dir }}
