@@ -30,15 +30,14 @@ jobs:
       #   uses: allenevans/set-env@v1.0.0
       #   with:
       #     ARTIFACT_PATH: $(cat tmp_artifact_path.txt)
-
-      - name: Printenv
-        run: |
-          echo "ARTIFACT_PATH=${ARTIFACT_PATH}"
-          printenv
+      # - name: Printenv
+      #   run: |
+      #     echo "ARTIFACT_PATH=${ARTIFACT_PATH}"
+      #     printenv
 
       - name: Create a Release APK
         uses: actions/upload-artifact@v1
         with:
           name: SoundOnFire
-          path: $ARTIFACT_PATH
+          path: ${env.ARTIFACT_PATH}
           # path: build/app/outputs/apk/release/app-release.apk
