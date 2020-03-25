@@ -21,7 +21,7 @@ The current implementation looks like this:
 - Use Slider to scroll through track
 - Store favorite tracks locally
 - ✔️ **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
-- **BUG:** When playing has ended, its still showing `pause` icon
+- ✔️ **BUG:** When playing has ended, its still showing `pause` icon
 
 ## Contribution
 

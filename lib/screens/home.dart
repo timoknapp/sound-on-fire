@@ -35,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
         currentAudioPosition = d;
       });
     });
+    audioPlayer.onPlayerCompletion.listen((data) {
+      setState(() {});
+    });
   }
 
   @override
