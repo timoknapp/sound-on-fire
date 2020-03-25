@@ -7,7 +7,7 @@ on:
 name: SoundOnFire Development
 jobs:
   build:
-    name: Prepare, Build, Release, Publish
+    name: Prepare, Build, Upload
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

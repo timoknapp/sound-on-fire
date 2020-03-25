@@ -54,3 +54,4 @@ jobs:
           asset_path: ${{ steps.prepare-build.outputs.dir }}
           asset_name: ${{ steps.prepare-build.outputs.file }}
           asset_content_type: application/apk
+      # Add VS App Center Distribution

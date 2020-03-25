@@ -1,6 +1,12 @@
 # 🔊☁️ 🔥📺  SoundOnFire 
 
-![SoundCloud on Fire](https://github.com/tea-mo903/sound-on-fire/workflows/SoundCloud%20on%20Fire/badge.svg)
+![beta build](https://img.shields.io/github/workflow/status/tea-mo903/sound-on-fire/SoundOnFire%20Development?label=beta)
+![release build](https://img.shields.io/github/workflow/status/tea-mo903/sound-on-fire/SoundOnFire%20Create%20Release?label=release)
+<a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/v/release/tea-mo903/sound-on-fire?include_prereleases)</a> <!-- PRE-RElEASE -->
+<a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/release-date-pre/tea-mo903/sound-on-fire)</a>
+<a href="https://github.com/tea-mo903/sound-on-fire/graphs/contributors">![](https://img.shields.io/github/contributors/tea-mo903/sound-on-fire)</a>
+<!-- <a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/release-date/tea-mo903/sound-on-fire)</a> --> <!-- RElEASE -->
+
 
 A Flutter based SoundCloud App for your Fire TV.
 
