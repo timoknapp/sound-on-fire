@@ -54,4 +54,11 @@ jobs:
           asset_path: ${{ steps.prepare-build.outputs.dir }}
           asset_name: ${{ steps.prepare-build.outputs.file }}
           asset_content_type: application/apk
-      # Add VS App Center Distribution
+
+      - name: Upload to App Center
+        uses: wzieba/App-Center-action@v1.0.0
+        with:
+          appName: timo_knapp/SoundOnFire
+          token: ${{secrets.APP_CENTER_API_TOKEN}}
+          group: public
+          file: ${{ steps.prepare-build.outputs.dir }}
