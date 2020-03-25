@@ -19,13 +19,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   static AudioPlayer audioPlayer;
   static AudioPlayerState audioPlayerState;
 
   String searchQuery = "";
   Track selectedTrack;
-  String selectedTrackUrl;
   List<AutocompleteItem> autocompleteItems = [];
   List<TrackTile> trackTiles = [];
   Duration currentAudioPosition;
@@ -52,11 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getAutocomplete(String query) async {
-    AutocompleteResponse autocompleteResponse = await soundCloudService.queryResults(query, 2, widget.clientId);
+    AutocompleteResponse autocompleteResponse =
+        await soundCloudService.queryResults(query, 2, widget.clientId);
     List<AutocompleteItem> tmp = [];
-    tmp.add(AutocompleteItem(text: query, onClick: () => searchTracks(query),));
-    for(var response in autocompleteResponse.collection.take(2))
-      tmp.add(AutocompleteItem(text: response.output, onClick: () => searchTracks(response.output),));
+    tmp.add(AutocompleteItem(
+      text: query,
+      onClick: () => searchTracks(query),
+    ));
+    for (var response in autocompleteResponse.collection.take(2))
+      tmp.add(AutocompleteItem(
+        text: response.output,
+        onClick: () => searchTracks(response.output),
+      ));
     setState(() {
       searchQuery = query;
       autocompleteItems.clear();
@@ -65,10 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void searchTracks(String query) async {
-    SearchResponse searchResponse = await soundCloudService.searchTracks(query, 40, widget.clientId);
+    SearchResponse searchResponse =
+        await soundCloudService.searchTracks(query, 40, widget.clientId);
     List<TrackTile> tmp = [];
-    for(var track in searchResponse.collection)
-      tmp.add(TrackTile(track: track, onClick: () => selectTrack(track),));
+    for (var track in searchResponse.collection)
+      tmp.add(TrackTile(
+        track: track,
+        onClick: () => selectTrack(track),
+      ));
     setState(() {
       trackTiles.clear();
       trackTiles = tmp;
@@ -82,11 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
       transcodeURL: track.transcodingURL,
     );
     audioPlayer.play(streamUrl);
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+    await FlutterWindowManager.addFlags(
+        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     currentAudioPosition = Duration(seconds: 0);
     setState(() {
+      track.setStreamUrl(streamUrl);
       selectedTrack = track;
-      selectedTrackUrl = streamUrl;
     });
   }
 
@@ -110,20 +120,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void playPause() async {
-    if (selectedTrackUrl != null) {
+    if (selectedTrack.streamUrl != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
-        await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+        await FlutterWindowManager.clearFlags(
+            FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
-        await audioPlayer.play(selectedTrackUrl);
-        await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+        await audioPlayer.play(selectedTrack.streamUrl);
+        await FlutterWindowManager.addFlags(
+            FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }
     }
     setState(() {});
   }
 
   void backward() {
-    if(currentAudioPosition.inSeconds >= 10) {
+    if (currentAudioPosition.inSeconds >= 10) {
       audioPlayer.seek(currentAudioPosition + Duration(seconds: -10));
     } else {
       audioPlayer.seek(Duration(seconds: 0));
@@ -131,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void forward() {
-    if(selectedTrack.duration.inSeconds - currentAudioPosition.inSeconds > 10) {
+    if (selectedTrack.duration.inSeconds - currentAudioPosition.inSeconds >
+        10) {
       audioPlayer.seek(currentAudioPosition + Duration(seconds: 10));
     } else {
       audioPlayer.seek(selectedTrack.duration);
@@ -140,10 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void stop() async {
     await audioPlayer.stop();
-    await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
-    selectedTrack = null;
-    selectedTrackUrl = null;
-    setState(() {});
+    await FlutterWindowManager.clearFlags(
+        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+    setState(() {
+      selectedTrack = null;
+    });
   }
 
   @override
@@ -176,8 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             flex: 5,
                             child: Container(
                               child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: autocompleteItems,
                               ),
                             ),
@@ -197,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             BottomBar(
-              playPause: selectedTrackUrl == "" ? null : playPause,
+              playPause: playPause,
               backward: backward,
               forward: forward,
               stop: stop,
@@ -207,8 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      )
-      );
+      ),
+    );
   }
-
 }

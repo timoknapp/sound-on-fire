@@ -77,7 +77,7 @@ class BottomBar extends StatelessWidget {
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.stop),
-                      onClick: track != null ? stop : null,
+                      onClick: stop,
                     ),
                   ),
                 ],

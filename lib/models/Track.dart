@@ -32,6 +32,7 @@ class Track {
   final String description;
   final String uri;
   final String transcodingURL;
+  String streamUrl;
   final Duration duration;
   final int playbackCount;
   final String artwork;
@@ -49,7 +50,12 @@ class Track {
     this.artwork,
     this.likesCount,
     this.date,
+    this.streamUrl,
   });
+
+  void setStreamUrl(String streamUrl) {
+    this.streamUrl = streamUrl;
+  }
 
   String printDuration() {
     String twoDigits(int n) {
