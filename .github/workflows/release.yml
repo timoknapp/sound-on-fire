@@ -56,7 +56,7 @@ jobs:
           asset_content_type: application/apk
 
       - name: Upload to App Center
-        uses: wzieba/App-Center-action@v1.0.0
+        uses: wzieba/AppCenter-Github-Action@v1.0.0
         with:
           appName: timo_knapp/SoundOnFire
           token: ${{secrets.APP_CENTER_API_TOKEN}}
