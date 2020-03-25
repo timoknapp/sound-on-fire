@@ -1,9 +1,10 @@
 on:
   push:
-    paths:
-      - "android/**"
-      - "lib/**"
-      - "test/**"
+    # TEMPORARY DEACTIVATED
+    # paths:
+    #   - "android/**"
+    #   - "lib/**"
+    #   - "test/**"
 name: SoundCloud on Fire
 jobs:
   soundcloud-on-fire:
