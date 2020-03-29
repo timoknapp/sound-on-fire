@@ -24,6 +24,8 @@ The current implementation looks like this:
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
 - App Icon
 - Installation Guide in `README.MD`
+- Fetch more search results while scrolling
+- Continue playing, when track finished
 - Use Slider to scroll through track
 - Store favorite tracks locally
 - ✔️ **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
