@@ -13,7 +13,7 @@ flutter build apk
 fileName=$path/$archiveName
 
 # Rename artifact
-mv -f "$path/app-$1.apk" "$fileName"
+mv -f "$path/app-release.apk" "$fileName"
 echo "Moved: $fileName"
 echo $fileName > tmp_artifact_path.txt
 echo $archiveName > tmp_artifact_name.txt

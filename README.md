@@ -1,3 +1,5 @@
+<img width="50%" src="screenshots/sound_on_fire_logo.png">
+
 # 🔊☁️ 🔥📺  SoundOnFire 
 
 ![beta build](https://img.shields.io/github/workflow/status/tea-mo903/sound-on-fire/SoundOnFire%20Development?label=beta)
@@ -22,7 +24,7 @@ The current implementation looks like this:
 - ✔️ Disable Screensaver
 - In-App Update
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
-- App Icon
+- ✔️ App Icon
 - Installation Guide in `README.MD`
 - Fetch more search results while scrolling
 - Continue playing, when track finished
