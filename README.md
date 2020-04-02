@@ -35,3 +35,10 @@ The current implementation looks like this:
 ## Contribution
 
 PRs Welcome!
+
+### Setup Version Bump as git-hook
+
+```
+# in project dir
+cp .github/scripts/pre-commit.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+```
