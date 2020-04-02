@@ -9,7 +9,6 @@
 <a href="https://github.com/tea-mo903/sound-on-fire/graphs/contributors">![](https://img.shields.io/github/contributors/tea-mo903/sound-on-fire)</a>
 <!-- <a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/release-date/tea-mo903/sound-on-fire)</a> --> <!-- RElEASE -->
 
-
 A Flutter based SoundCloud App for your Fire TV.
 
 ## Currently under development!
