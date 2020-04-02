@@ -11,7 +11,7 @@
 
 A Flutter based SoundCloud App for your Fire TV.
 
-## Currently under development!
+## Still work in progress
 
 The current implementation looks like this:
 
