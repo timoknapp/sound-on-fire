@@ -1,4 +1,4 @@
-<img width="50%" src="screenshots/sound_on_fire_logo.png">
+<img width="50%" src="screenshots/logo_with_bg.png">
 
 # 🔊☁️ 🔥📺  SoundOnFire 
 
