@@ -11,7 +11,7 @@
 
 A Flutter based SoundCloud App for your Fire TV.
 
-## Still work in progress
+## Work in progress
 
 The current implementation looks like this:
 
@@ -19,18 +19,29 @@ The current implementation looks like this:
 
 ### Features planned:
 
-- ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
-- ✔️ Disable Screensaver
 - In-App Update
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
-- ✔️ App Icon
-- Installation Guide in `README.MD`
 - Fetch more search results while scrolling
 - Continue playing, when track finished
 - Use Slider to scroll through track
 - Store favorite tracks locally
+- ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
+- ✔️ Disable Screensaver
+- ✔️ App Icon
+- ✔️ Installation Guide in `README.MD`
 - ✔️ **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
 - ✔️ **BUG:** When playing has ended, its still showing `pause` icon
+
+## Getting Started
+
+In order to get started with **SoundOnFire** on your FireTV, you need to do the following:
+- Download the latest Release from one of those: 
+    - [GitHub](https://github.com/tea-mo903/sound-on-fire/releases) 
+    - [Microsoft App-Center](https://install.appcenter.ms/users/timo_knapp/apps/soundonfire/distribution_groups/public)
+- Install the `.apk` on your FireTV
+    - with you Android Smartphone using this [App](https://play.google.com/store/apps/details?id=mobi.koni.appstofiretv&hl=en)
+    - with your computer or another FireTV App [reade here](https://www.howtogeek.com/336602/how-to-sideload-apps-on-the-fire-tv-and-fire-tv-stick/)
+- Once the **SoundOnFire** App has been installed on your FireTV, it will directly pop up on the bottom right of your screen. Otherwhise you will find it under: `Home > Your Apps > All Apps > SoundOnFire`
 
 ## Contribution
 
