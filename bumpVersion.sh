@@ -13,3 +13,4 @@ new="version: $newAppVersionName+$newAppVersionCode"
 
 # Replace Version in pubspec.yaml
 sed -i '' "s/$old/$new/g" pubspec.yaml
+git add pubspec.yaml
