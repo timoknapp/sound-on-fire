@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
@@ -26,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Track selectedTrack;
   List<AutocompleteItem> autocompleteItems = [];
   List<TrackTile> trackTiles = [];
+  ListQueue<Track> playlist = ListQueue<Track>();
   Duration currentAudioPosition;
 
   void _initAudioPlayer() {
@@ -36,7 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
     audioPlayer.onPlayerCompletion.listen((data) {
-      setState(() {});
+      setState(() {
+        // playlist.removeFirst();
+        playlist = ListQueue<Track>.from(playlist.skip(1));
+        currentAudioPosition = Duration(seconds: 0);
+      });
+      if(playlist.isEmpty == false) {
+        selectTrack(playlist.first);
+      }
     });
   }
 
@@ -93,13 +103,33 @@ class _HomeScreenState extends State<HomeScreen> {
       track.id,
       transcodeURL: track.transcodingURL,
     );
-    audioPlayer.play(streamUrl);
-    await FlutterWindowManager.addFlags(
-        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
-    currentAudioPosition = Duration(seconds: 0);
     setState(() {
       track.setStreamUrl(streamUrl);
-      selectedTrack = track;
+      currentAudioPosition = Duration(seconds: 0);
+    });
+    setPlaylist(track);
+    audioPlayer.play(track.streamUrl);
+    await FlutterWindowManager.addFlags(
+        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+  }
+
+  void setPlaylist(Track track) {
+    print("Playlist length: ${playlist.length}");
+    ListQueue<Track> tmp = ListQueue<Track>();
+    bool trackFound = false;
+    for (var i = 0; i < trackTiles.length; i++) {
+      TrackTile tt = trackTiles[i];
+      if (tt.track.id == track.id) {
+        trackFound = true;
+      }
+      if (trackFound) {
+        tmp.add(tt.track);
+      }
+    }
+    print("Playlist length: ${tmp.length}");
+    setState(() {
+      playlist.clear();
+      playlist = tmp;
     });
   }
 
@@ -123,13 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void playPause() async {
-    if (selectedTrack.streamUrl != null) {
+    if (playlist.first.streamUrl != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
-        await audioPlayer.play(selectedTrack.streamUrl);
+        await audioPlayer.play(playlist.first.streamUrl);
         await FlutterWindowManager.addFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }
@@ -146,11 +176,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void forward() {
-    if (selectedTrack.duration.inSeconds - currentAudioPosition.inSeconds >
+    if (playlist.first.duration.inSeconds - currentAudioPosition.inSeconds >
         10) {
       audioPlayer.seek(currentAudioPosition + Duration(seconds: 10));
     } else {
-      audioPlayer.seek(selectedTrack.duration);
+      audioPlayer.seek(playlist.first.duration);
     }
   }
 
@@ -159,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await FlutterWindowManager.clearFlags(
         FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
     setState(() {
-      selectedTrack = null;
+      playlist.clear();
     });
   }
 
@@ -217,9 +247,9 @@ class _HomeScreenState extends State<HomeScreen> {
               backward: backward,
               forward: forward,
               stop: stop,
-              track: selectedTrack,
+              track: playlist.isEmpty ? null : playlist.first,
               audioPlayer: audioPlayer,
-              currentAudioPosition: currentAudioPosition,
+              currentAudioPosition: playlist.isEmpty || currentAudioPosition == null ? Duration(seconds: 0) : currentAudioPosition,
             ),
           ],
         ),

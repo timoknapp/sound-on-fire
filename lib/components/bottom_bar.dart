@@ -94,16 +94,16 @@ class BottomBar extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(track != null ? printDuration() : ""),
+                      child: Text(track != null && currentAudioPosition != null ? printDuration() : ""),
                     ),
                   ),
                   Expanded(
                     flex: 12,
                     child: Container(
-                      child: track != null
+                      child: track != null && currentAudioPosition != null
                           ? Slider(
                               value: currentAudioPosition.inSeconds.toDouble(),
-                              min: 0,
+                              min: 0.0,
                               max: track.duration.inSeconds.toDouble(),
                               divisions: track.duration.inSeconds,
                               onChanged: (double value) {},
