@@ -83,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void searchTracks(String query) async {
+    getAutocomplete(query);
     SearchResponse searchResponse =
         await soundCloudService.searchTracks(query, 40, widget.clientId);
     List<TrackTile> tmp = [];
