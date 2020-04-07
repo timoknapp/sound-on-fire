@@ -26,7 +26,7 @@ jobs:
       - name: Prepare & Build
         id: prepare-build
         run: |
-          ./buildAndroid.sh release
+          ./.github/scripts/buildAndroid.sh release
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
