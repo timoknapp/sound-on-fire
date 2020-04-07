@@ -60,6 +60,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 ),
               ),
               Text("v${_packageInfo.version}+${_packageInfo.buildNumber}"),
+              SizedBox(height: 2,)
             ],
           ),
         ));
