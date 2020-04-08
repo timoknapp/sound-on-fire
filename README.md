@@ -11,7 +11,7 @@
 
 A Flutter based SoundCloud App for your Fire TV.
 
-## Work in progress
+## 🚧 Work in progress
 
 <img width="100%" src="screenshots/flutter_01.png">
 
@@ -28,7 +28,7 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 
 ## Features planned
 
-- In-App Update
+- 🚧 In-App Update
 - FireTV Hardkeys (Play/Pause, Previous, Forward)
 - Fetch more search results while scrolling
 - Use Slider to scroll through track
