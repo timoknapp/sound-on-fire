@@ -2,12 +2,12 @@
 
 # 🔊☁️ 🔥📺  SoundOnFire 
 
-![beta build](https://img.shields.io/github/workflow/status/tea-mo903/sound-on-fire/SoundOnFire%20Development?label=beta)
-![release build](https://img.shields.io/github/workflow/status/tea-mo903/sound-on-fire/SoundOnFire%20Release?label=release)
-<a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/v/release/tea-mo903/sound-on-fire?include_prereleases)</a> <!-- PRE-RElEASE -->
-<a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/release-date-pre/tea-mo903/sound-on-fire)</a>
-<a href="https://github.com/tea-mo903/sound-on-fire/graphs/contributors">![](https://img.shields.io/github/contributors/tea-mo903/sound-on-fire)</a>
-<!-- <a href="https://github.com/tea-mo903/sound-on-fire/releases">![](https://img.shields.io/github/release-date/tea-mo903/sound-on-fire)</a> --> <!-- RElEASE -->
+![beta build](https://img.shields.io/github/workflow/status/timoknapp/sound-on-fire/SoundOnFire%20Development?label=beta)
+![release build](https://img.shields.io/github/workflow/status/timoknapp/sound-on-fire/SoundOnFire%20Release?label=release)
+<a href="https://github.com/timoknapp/sound-on-fire/releases">![](https://img.shields.io/github/v/release/timoknapp/sound-on-fire?include_prereleases)</a> <!-- PRE-RElEASE -->
+<a href="https://github.com/timoknapp/sound-on-fire/releases">![](https://img.shields.io/github/release-date-pre/timoknapp/sound-on-fire)</a>
+<a href="https://github.com/timoknapp/sound-on-fire/graphs/contributors">![](https://img.shields.io/github/contributors/timoknapp/sound-on-fire)</a>
+<!-- <a href="https://github.com/timoknapp/sound-on-fire/releases">![](https://img.shields.io/github/release-date/timoknapp/sound-on-fire)</a> --> <!-- RElEASE -->
 
 A Flutter based SoundCloud App for your Fire TV.
 
@@ -19,7 +19,7 @@ A Flutter based SoundCloud App for your Fire TV.
 
 In order to get started with **SoundOnFire** on your FireTV, you need to do the following:
 - Download the latest Release from one of those: 
-    - [GitHub](https://github.com/tea-mo903/sound-on-fire/releases) 
+    - [GitHub](https://github.com/timoknapp/sound-on-fire/releases) 
     - [Microsoft App-Center](https://install.appcenter.ms/users/timo_knapp/apps/soundonfire/distribution_groups/public)
 - Install the `.apk` on your FireTV
     - with you Android Smartphone using this [App](https://play.google.com/store/apps/details?id=mobi.koni.appstofiretv&hl=en)
