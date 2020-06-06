@@ -31,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ListQueue<Track> playlist = ListQueue<Track>();
   Duration currentAudioPosition;
 
+  ScrollController _scrollController;
+
   void _initAudioPlayer() {
     audioPlayer = AudioPlayer();
     audioPlayer.onAudioPositionChanged.listen((Duration d) {
@@ -44,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         playlist = ListQueue<Track>.from(playlist.skip(1));
         currentAudioPosition = Duration(seconds: 0);
       });
-      if(playlist.isEmpty == false) {
+      if (playlist.isEmpty == false) {
         selectTrack(playlist.first);
       }
     });
@@ -54,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _initAudioPlayer();
     super.initState();
+
+    _scrollController = ScrollController();
   }
 
   @override
@@ -83,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void searchTracks(String query) async {
+    _scrollController.jumpTo(0);
     getAutocomplete(query);
     SearchResponse searchResponse =
         await soundCloudService.searchTracks(query, 40, widget.clientId);
@@ -235,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       flex: 5,
                       child: ListView(
+                        controller: _scrollController,
                         scrollDirection: Axis.horizontal,
                         children: trackTiles,
                       ),
@@ -250,7 +256,10 @@ class _HomeScreenState extends State<HomeScreen> {
               stop: stop,
               track: playlist.isEmpty ? null : playlist.first,
               audioPlayer: audioPlayer,
-              currentAudioPosition: playlist.isEmpty || currentAudioPosition == null ? Duration(seconds: 0) : currentAudioPosition,
+              currentAudioPosition:
+                  playlist.isEmpty || currentAudioPosition == null
+                      ? Duration(seconds: 0)
+                      : currentAudioPosition,
             ),
           ],
         ),
