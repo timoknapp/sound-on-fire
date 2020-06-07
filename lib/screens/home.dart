@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
   static AudioPlayerState audioPlayerState;
 
@@ -33,6 +33,34 @@ class _HomeScreenState extends State<HomeScreen> {
   Duration currentAudioPosition;
 
   ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _initAudioPlayer();
+    super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // print(state);
+    if ([
+      AppLifecycleState.detached,
+      AppLifecycleState.inactive,
+      AppLifecycleState.paused,
+    ].contains(state)) {
+      playPause(forcePause: true);
+    }
+  }
 
   void _initAudioPlayer() {
     audioPlayer = AudioPlayer();
@@ -51,20 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
         selectTrack(playlist.first);
       }
     });
-  }
-
-  @override
-  void initState() {
-    _initAudioPlayer();
-    super.initState();
-
-    _scrollController = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
   }
 
   void getAutocomplete(String query) async {
@@ -159,9 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void playPause() async {
+  void playPause({bool forcePause = false}) async {
     if (playlist.first.streamUrl != null) {
-      if (audioPlayer.state == AudioPlayerState.PLAYING) {
+      if (audioPlayer.state == AudioPlayerState.PLAYING || forcePause) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
