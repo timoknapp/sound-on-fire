@@ -32,7 +32,7 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 
 - 🚧 In-App Update
 - Stop playing when App crashes
-- FireTV Hardkeys (Play/Pause, Previous, Forward)
+- ✔️ FireTV Hardkeys (Play/Pause, Rewind, Forward)
 - Fetch more search results while scrolling
 - Use Slider to scroll through track
 - Store favorite tracks locally

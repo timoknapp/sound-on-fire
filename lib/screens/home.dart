@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
@@ -173,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  void backward() {
+  void fastRewind() {
     if (currentAudioPosition.inSeconds >= 10) {
       audioPlayer.seek(currentAudioPosition + Duration(seconds: -10));
     } else {
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void forward() {
+  void fastForward() {
     if (playlist.first.duration.inSeconds - currentAudioPosition.inSeconds >
         10) {
       audioPlayer.seek(currentAudioPosition + Duration(seconds: 10));
@@ -199,69 +200,84 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _handleHardKeyEvents(RawKeyEvent event) {
+    if (event is RawKeyDownEvent) {
+      if (event.physicalKey == PhysicalKeyboardKey.mediaPlayPause)
+        playPause();
+      else if (event.physicalKey == PhysicalKeyboardKey.mediaRewind)
+        fastRewind();
+      else if (event.physicalKey == PhysicalKeyboardKey.mediaFastForward)
+        fastForward();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 5,
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                constraints: BoxConstraints.expand(),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 4,
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 5,
-                            child: Keyboard(
-                              onKeyboardAction: onKeyboardAction,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: autocompleteItems,
+      body: RawKeyboardListener(
+        focusNode: FocusNode(skipTraversal: true),
+        onKey: _handleHardKeyEvents,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 5,
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  constraints: BoxConstraints.expand(),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 5,
+                              child: Keyboard(
+                                onKeyboardAction: onKeyboardAction,
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: autocompleteItems,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: ListView(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        children: trackTiles,
+                      Expanded(
+                        flex: 5,
+                        child: ListView(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          children: trackTiles,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            BottomBar(
-              playPause: playPause,
-              backward: backward,
-              forward: forward,
-              stop: stop,
-              track: playlist.isEmpty ? null : playlist.first,
-              audioPlayer: audioPlayer,
-              currentAudioPosition:
-                  playlist.isEmpty || currentAudioPosition == null
-                      ? Duration(seconds: 0)
-                      : currentAudioPosition,
-            ),
-          ],
+              BottomBar(
+                playPause: playPause,
+                backward: fastRewind,
+                forward: fastForward,
+                stop: stop,
+                track: playlist.isEmpty ? null : playlist.first,
+                audioPlayer: audioPlayer,
+                currentAudioPosition:
+                    playlist.isEmpty || currentAudioPosition == null
+                        ? Duration(seconds: 0)
+                        : currentAudioPosition,
+              ),
+            ],
+          ),
         ),
       ),
     );
