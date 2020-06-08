@@ -31,12 +31,12 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 ## Features planned
 
 - 🚧 In-App Update
-- ✔️ Stop playing when App crashes/closes/pauses
-- ✔️ FireTV Remote support hardkeys (Play/Pause, Rewind, Forward)
 - Fetch more search results while scrolling
 - Use Slider to scroll through track
 - Store favorite tracks locally
 - Pair Smartphone to be used as remote Keyboard
+- ✔️ Stop playing when App crashes/closes/pauses
+- ✔️ FireTV Remote support hardkeys (Play/Pause, Rewind, Forward)
 - ✔️ Continue playing, when track finished (Playlist)
 - ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
 - ✔️ Disable Screensaver
