@@ -27,7 +27,7 @@ String findScriptUrl(html, prefix) {
 
 Future<String> getClientId() async {
   String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
-  for (var prefix in ['49', '48']) {
+  for (var prefix in ['49', '48', '47', '46']) {
     String url = findScriptUrl(body, prefix);
     String script = await fetchUrl(url);
     RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
