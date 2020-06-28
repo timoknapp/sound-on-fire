@@ -12,31 +12,21 @@ Future<String> fetchUrl(url) async {
   return response.body.toString();
 }
 
-String findScriptUrl(html, prefix) {
-  Beautifulsoup soup = Beautifulsoup(html);
+Future<String> getClientId() async {
+  String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
+  Beautifulsoup soup = Beautifulsoup(body);
   final scriptElements = soup.find_all("script");
   for (var element in scriptElements) {
     if (element.attributes["src"] != null) {
-      if (element.attributes["src"].contains("$prefix-")) {
-        return element.attributes["src"];
+      String script = await fetchUrl(element.attributes["src"]);
+      RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
+      Iterable<Match> matches = exp.allMatches(script);
+      if (matches.length == 0) {
+        continue;
       }
-    }
-  }
-  return "";
-}
-
-Future<String> getClientId() async {
-  String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
-  for (var prefix in ['46', '47', '49', '48']) {
-    String url = findScriptUrl(body, prefix);
-    String script = await fetchUrl(url);
-    RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
-    Iterable<Match> matches = exp.allMatches(script);
-    if (matches.length == 0) {
-      continue;
-    }
-    for (var match in matches) {
-      return match.group(1).toString();
+      for (var match in matches) {
+        return match.group(1).toString();
+      }
     }
   }
   return "";
@@ -68,7 +58,8 @@ Future<String> getMediaUrl(clientID, transcodingURL) async {
   return "";
 }
 
-Future<AutocompleteResponse> queryResults(String query, int limit, String clientId) async {
+Future<AutocompleteResponse> queryResults(
+    String query, int limit, String clientId) async {
   if (query != "") {
     final response = await http.get(
         '$soundCloudApiHost/search/queries?q=$query&client_id=$clientId&limit=$limit&offset=0');
@@ -87,7 +78,8 @@ Future<AutocompleteResponse> queryResults(String query, int limit, String client
   }
 }
 
-Future<SearchResponse> searchTracks(String query, int limit, String clientId) async {
+Future<SearchResponse> searchTracks(
+    String query, int limit, String clientId) async {
   if (query != "") {
     final response = await http.get(
         '$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=0');
