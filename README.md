@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="50%" src="screenshots/logo_with_bg.png">
+    <img width="30%" src="screenshots/logo_with_bg.png">
 </p>
 
 # 🔊☁️ 🔥📺  SoundOnFire 
