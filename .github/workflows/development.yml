@@ -50,7 +50,7 @@ jobs:
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
-      - name: Upload articfact
+      - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
           name: ${{ steps.prepare-build.outputs.file }}
