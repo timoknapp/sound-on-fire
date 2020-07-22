@@ -58,9 +58,9 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 
 PRs Welcome!
 
-### Setup Version Bump as git-hook
+<!-- ### Setup Version Bump as git-hook
 
 ```
 # in project dir
 cp .github/scripts/pre-commit.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-```
+``` -->
