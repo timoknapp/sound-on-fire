@@ -14,6 +14,22 @@ jobs:
     name: Prepare, Build, Upload
     runs-on: ubuntu-latest
     steps:
+      - name: VB Checkout code
+        uses: actions/checkout@v2
+
+      - name: VB Step 1
+        run: ./.github/scripts/bumpVersion.sh
+
+      - name: VB Step 2
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: timoknapp
+          author_email: mail@timoknapp.com
+          message: "[VERSION BUMP]"
+          add: "pubspec.yaml"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
