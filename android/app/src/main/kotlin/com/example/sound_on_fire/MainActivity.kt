@@ -16,10 +16,10 @@ class MainActivity: FlutterActivity() {
         //Distribute.setEnabledForDebuggableBuild(true)
         //AppCenter.start(application, "774cf36d-66c2-42cd-84b6-9147b5a8cc0f", Analytics::class.java, Crashes::class.java, Distribute::class.java)
         // AppUpdater
-        AppUpdater appUpdater = new AppUpdater(this)
-            .setUpdateFrom(UpdateFrom.JSON)
-            .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
-            .start();
+        // AppUpdater appUpdater = new AppUpdater(this)
+        //     .setUpdateFrom(UpdateFrom.JSON)
+        //     .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
+        //     .start();
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
 }
