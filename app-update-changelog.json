@@ -1,0 +1,8 @@
+{
+    "latestVersion": "v1.0.0",
+    "latestVersionCode": 22,
+    "url": "https://github.com/timoknapp/sound-on-fire/releases",
+    "releaseNotes": [
+        "- fix soundcloud client ID retrieval"
+    ]
+}
