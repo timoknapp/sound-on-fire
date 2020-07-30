@@ -28,23 +28,22 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
     - with your computer or another FireTV App [reade here](https://www.howtogeek.com/336602/how-to-sideload-apps-on-the-fire-tv-and-fire-tv-stick/)
 - Once the **SoundOnFire** App has been installed on your FireTV, it will directly pop up on the bottom right of your screen. Otherwhise you will find it under: `Home > Your Apps > All Apps > SoundOnFire`
 
-## Features planned
+## Roadmap
 
-- 🚧 In-App Update
-- Fetch more search results while scrolling
-- Use Slider to scroll through track
-- Store favorite tracks locally
-- Pair Smartphone to be used as remote Keyboard
-    - pairing with QR
-    - sync input via simple backend service
-    - host pairing app on web
-- ✔️ Stop playing when App crashes/closes/pauses
-- ✔️ FireTV Remote support hardkeys (Play/Pause, Rewind, Forward)
-- ✔️ Continue playing, when track finished (Playlist)
-- ✔️ Comprehensive Footer (Current Track, Play/Pause, etc.)
-- ✔️ Disable Screensaver
-- ✔️ App Icon
-- ✔️ Installation Guide in `README.MD`
+This is currently the roadmap, please feel free to request additions/changes.
+
+| Feature                                                      | Progress |
+| :----------------------------------------------------------- | :------: |
+| Stop playing when App crashes/closes/pauses                  |    ✅    |
+| FireTV Remote hardkey support (Play/Pause, Rewind, Forward)  |    ✅    |
+| Playlist mode (Continue playing, when track finished)        |    ✅    |
+| Disable Screensaver                                          |    ✅    |
+| Comprehensive Footer (Current Track, Play/Pause, etc.)       |    ✅    |
+| In-App Update                                                |    🔜    |
+| Fetch more results while scrolling                           |    🔜    |
+| Use Slider to scroll through track                           |    🔜    |
+| Save favorite tracks locally                                 |    🔜    |
+| Pair Smartphone to be used as remote Keyboard (QR)           |    🔜    |
 
 ## Known Issues
 
