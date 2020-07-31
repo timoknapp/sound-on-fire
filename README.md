@@ -33,15 +33,15 @@ This is currently the roadmap, please feel free to request additions/changes.
 | Feature                                                      | Progress |
 | :----------------------------------------------------------- | :------: |
 | Stop playing when App crashes/closes/pauses                  |    ✅    |
-| FireTV Remote hardkey support (Play/Pause, Rewind, Forward)  |    ✅    |
+| FireTV remote hardkey support (Play/Pause, Rewind, Forward)  |    ✅    |
 | Playlist mode (Continue playing, when track finished)        |    ✅    |
-| Disable Screensaver                                          |    ✅    |
+| Screensaver disabled when playing                            |    ✅    |
 | Comprehensive Footer (Current Track, Play/Pause, etc.)       |    ✅    |
 | In-App Update                                                |    🔜    |
-| Fetch more results while scrolling                           |    🔜    |
+| Autofetch search results                                     |    🔜    |
+| Smartphone as Remote (Paring via QR)                         |    🔜    |
+| Store favorites locally                                      |    🔜    |
 | Use Slider to scroll through track                           |    🔜    |
-| Save favorite tracks locally                                 |    🔜    |
-| Pair Smartphone to be used as remote Keyboard (QR)           |    🔜    |
 
 ## Known Issues
 
