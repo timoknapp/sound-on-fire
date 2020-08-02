@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
-  static AudioPlayerState audioPlayerState;
 
   String searchQuery = "";
   Track selectedTrack;
