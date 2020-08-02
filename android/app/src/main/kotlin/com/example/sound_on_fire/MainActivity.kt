@@ -1,6 +1,8 @@
 package com.example.sound_on_fire
 
 import androidx.annotation.NonNull;
+import com.github.javiersantos.appupdater.AppUpdater
+import com.github.javiersantos.appupdater.enums.UpdateFrom
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugins.GeneratedPluginRegistrant
@@ -16,10 +18,10 @@ class MainActivity: FlutterActivity() {
         //Distribute.setEnabledForDebuggableBuild(true)
         //AppCenter.start(application, "774cf36d-66c2-42cd-84b6-9147b5a8cc0f", Analytics::class.java, Crashes::class.java, Distribute::class.java)
         // AppUpdater
-        // AppUpdater appUpdater = new AppUpdater(this)
-        //     .setUpdateFrom(UpdateFrom.JSON)
-        //     .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
-        //     .start();
+        val appUpdater = AppUpdater(this)
+                .setUpdateFrom(UpdateFrom.JSON)
+                .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
+                .start()
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
 }
