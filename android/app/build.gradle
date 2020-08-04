@@ -70,5 +70,6 @@ dependencies {
     // implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     // implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
     // AppUpdater https://github.com/javiersantos/AppUpdater
-    implementation 'com.github.javiersantos:AppUpdater:2.7'
+//    implementation 'com.github.javiersantos:AppUpdater:2.7'
+    implementation 'com.github.MurtadhaS:AppUpdater:2.9'
 }

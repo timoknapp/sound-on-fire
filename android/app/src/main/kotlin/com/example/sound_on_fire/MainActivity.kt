@@ -20,7 +20,10 @@ class MainActivity: FlutterActivity() {
         // AppUpdater
         val appUpdater = AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.JSON)
-                .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
+//                .setUpdateJSON("https://raw.githubusercontent.com/timoknapp/sound-on-fire/master/app-update-changelog.json")
+                .setUpdateJSON("https://timoknapp.com/sound-on-fire/app-update-changelog.json")
+//                .setUpdateFrom(UpdateFrom.GITHUB)
+//                .setGitHubUserAndRepo("timoknapp", "sound-on-fire")
                 .start()
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
