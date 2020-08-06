@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Map<LogicalKeySet, Intent> _shortcuts = {
-    LogicalKeySet(LogicalKeyboardKey.select): const Intent(ActivateAction.key),
+    LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),//Intent(ActivateAction.key),
   };
 
   @override
