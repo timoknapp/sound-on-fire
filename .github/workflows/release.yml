@@ -54,6 +54,20 @@ jobs:
           asset_name: ${{ steps.prepare-build.outputs.file }}
           asset_content_type: application/apk
 
+      - name: Generate In-App Update Config
+        id: update-config
+        run: ./.github/scripts/updateAppChangelog.sh
+
+      - name: Update In-App Update Config
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: timoknapp
+          author_email: mail@timoknapp.com
+          message: "[IN APP UPDATE CONF]"
+          add: "app-update-changelog.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1.0.0
         with:

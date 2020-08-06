@@ -30,7 +30,7 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 
 When the App startes, it will automatically check for new releases of SoundOnFire and will notify you if there is an update availabe. You will then have three option: Don't show again, Dismiss or **Update** (recommended)
 
-<img width="60%" src="screenshots/app-update.png">
+<img width="70%" src="screenshots/app-update.png">
 
 ## Roadmap
 
