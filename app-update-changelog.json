@@ -1,7 +1,7 @@
 {
     "latestVersion": "v1.0.0",
     "latestVersionCode": 31,
-    "url": "https://timoknapp.com/sound-on-fire/SoundOnFire-v1.0.0+31-beta.apk",
+    "url": "https://github.com/timoknapp/sound-on-fire/releases/download/v1.0.0%2B22/SoundOnFire-v1.0.0+22-release.apk",
     "releaseNotes": [
         "- fix soundcloud client ID retrieval"
     ]
