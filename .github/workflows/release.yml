@@ -56,7 +56,7 @@ jobs:
 
       - name: Generate In-App Update Config
         id: update-config
-        run: ./.github/scripts/updateAppChangelog.sh
+        run: ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
 
       - name: Update In-App Update Config
         uses: EndBug/add-and-commit@v4
