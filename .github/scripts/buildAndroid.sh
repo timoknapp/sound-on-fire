@@ -7,6 +7,11 @@ path="build/app/outputs/apk/release"
 
 echo "Build .apk as artifact-type: $1 | $archiveName"
 
+# TODO: replace keystore pw and alias in android/key.properties
+# ${{ secrets.KEYSTORE_PASSWORD }}
+# ${{ secrets.KEY_PASSWORD }}
+# ${{ secrets.KEY_ALIAS }}
+
 # Build .apk with flutter command
 flutter pub get
 flutter build apk
