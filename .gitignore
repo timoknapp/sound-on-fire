@@ -39,3 +39,5 @@ lib/generated_plugin_registrant.dart
 # GitHub Actions related tmp files
 tmp_artifact_path.txt
 tmp_artifact_name.txt
+
+#android/key.properties
