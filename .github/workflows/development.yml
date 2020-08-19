@@ -17,6 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Restore Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > sound-on-fire.jks.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch sound-on-fire.jks.asc > android/sound-on-fire.jks
+
       - name: VB Step 1
         run: ./.github/scripts/bumpVersion.sh
 

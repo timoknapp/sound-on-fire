@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Restore Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > sound-on-fire.jks.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch sound-on-fire.jks.asc > android/sound-on-fire.jks
+
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
