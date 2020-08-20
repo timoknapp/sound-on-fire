@@ -7,7 +7,6 @@ path="build/app/outputs/apk/release"
 
 echo "Build .apk as artifact-type: $1 | $archiveName"
 
-# TODO: replace keystore pw and alias in android/key.properties
 ksPw="$2"  
 keyPW="$3"
 keyAlias="$4"

@@ -30,7 +30,7 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
 
 When the App startes, it will automatically check for new releases of SoundOnFire and will notify you if there is an update availabe. You will then have three option: Don't show again, Dismiss or **Update** (recommended)
 
-<img width="70%" src="screenshots/app-update.png">
+<img width="90%" src="screenshots/app-update.png">
 
 ## Roadmap
 
@@ -43,7 +43,7 @@ This is currently the roadmap, please feel free to request additions/changes.
 | Playlist mode (Continue playing, when track finished)        |    ✅    |
 | Screensaver disabled when playing                            |    ✅    |
 | Comprehensive Footer (Current Track, Play/Pause, etc.)       |    ✅    |
-| In-App Update                                                |    🔜    |
+| In-App Update                                                |    ✅    |
 | Autofetch search results                                     |    🔜    |
 | Smartphone as Remote (Paring via QR)                         |    🔜    |
 | Store favorites locally                                      |    🔜    |
