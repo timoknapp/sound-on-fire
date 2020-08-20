@@ -8,9 +8,12 @@ path="build/app/outputs/apk/release"
 echo "Build .apk as artifact-type: $1 | $archiveName"
 
 # TODO: replace keystore pw and alias in android/key.properties
-# ${{ secrets.KEYSTORE_PASSWORD }}
-# ${{ secrets.KEY_PASSWORD }}
-# ${{ secrets.KEY_ALIAS }}
+ksPw="${{ secrets.KEYSTORE_PASSWORD }}"
+keyPW="${{ secrets.KEY_PASSWORD }}"
+keyAlias="${{ secrets.KEY_ALIAS }}"
+sed -i "s/KEYSTORE_PASSWORD/$ksPw/g" android/key.properties
+sed -i "s/KEY_PASSWORD/$keyPW/g" android/key.properties
+sed -i "s/KEY_ALIAS/$keyAlias/g" android/key.properties
 
 # Build .apk with flutter command
 flutter pub get
