@@ -53,9 +53,6 @@ This is currently the roadmap, please feel free to request additions/changes.
 
 - **BUG:** When track ends in Playlist, sometimes an error occurs related to the bottom-bar slider:
     - `'package:flutter/src/material/slider.dart': Failed assertion: line 132 pos 15: 'value >= min && value <= max': is not true.`
-- ✔️ **BUG:** Play Song > Pause > Stop: breaks the focus on FireTV 
-- ✔️ **BUG:** When playing has ended, its still showing `pause` icon
-
 
 ## Contribution
 
