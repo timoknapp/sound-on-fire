@@ -61,6 +61,10 @@ This is currently the roadmap, please feel free to request additions/changes.
 
 PRs Welcome!
 
+## Privacy
+
+Read [here](PRIVACY.md)
+
 <!-- ### Setup Version Bump as git-hook
 
 ```
