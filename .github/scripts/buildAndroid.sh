@@ -10,9 +10,11 @@ echo "Build .apk as artifact-type: $1 | $archiveName"
 ksPw="$2"  
 keyPW="$3"
 keyAlias="$4"
+appCenterSecret="$5"
 sed -i "s/KEYSTORE_PASSWORD/$ksPw/g" android/key.properties
 sed -i "s/KEY_PASSWORD/$keyPW/g" android/key.properties
 sed -i "s/KEY_ALIAS/$keyAlias/g" android/key.properties
+sed -i "s/APP_CENTER_SECRET/$appCenterSecret/g" android/app/src/main/kotlin/com/example/sound_on_fire/MainActivity.kt
 
 # Build .apk with flutter command
 flutter pub get
