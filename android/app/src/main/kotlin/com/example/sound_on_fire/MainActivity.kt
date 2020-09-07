@@ -16,7 +16,7 @@ import com.microsoft.appcenter.crashes.Crashes
 class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         //Distribute.setEnabledForDebuggableBuild(true)
-        //AppCenter.start(application, "APP_CENTER_SECRET", Analytics::class.java, Crashes::class.java)
+        AppCenter.start(application, "APP_CENTER_SECRET", Analytics::class.java, Crashes::class.java)
         // AppUpdater
         val appUpdater = AppUpdater(this)
             .setUpdateFrom(UpdateFrom.JSON)
