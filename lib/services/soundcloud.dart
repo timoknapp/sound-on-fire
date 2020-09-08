@@ -79,10 +79,10 @@ Future<AutocompleteResponse> queryResults(
 }
 
 Future<SearchResponse> searchTracks(
-    String query, int limit, String clientId) async {
+    String query, int limit, int offset, String clientId) async {
   if (query != "") {
     final response = await http.get(
-        '$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=0');
+        '$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=$offset');
 
     // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
