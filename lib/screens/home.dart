@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
 
-  int initSearchLimit = 20;
+  int searchLimit = 10;
   String searchQuery = "";
   Track selectedTrack;
   List<AutocompleteItem> autocompleteItems = [];
@@ -35,17 +35,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   ScrollController _scrollController;
 
   void _scrollControlListener() {
-    double refreshOffset = _scrollController.position.maxScrollExtent * 0.85;
+    double refreshOffset = _scrollController.position.maxScrollExtent;
     // print(
     //     "Offset: ${_scrollController.offset}, maxScrollExtent: ${_scrollController.position.maxScrollExtent}, OutOfRange: ${_scrollController.position.outOfRange}");
     if (_scrollController.offset >= refreshOffset &&
         !_scrollController.position.outOfRange) {
-      print("refresh: tracks: ${trackTiles.length}");
-      // if (searchQuery.isNotEmpty) {
-      //   // TODO: offset must not be 0, it should be the trackTiles.length-1
-      //   searchTracks(searchQuery, trackTiles.length + initSearchLimit,
-      //       trackTiles.length - 1);
-      // }
+      // print("refresh: tracks: ${trackTiles.length}");
+      if (searchQuery.isNotEmpty) {
+        searchTracks(searchQuery, searchLimit, trackTiles.length);
+      }
     }
   }
 
@@ -103,12 +101,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     List<AutocompleteItem> tmp = [];
     tmp.add(AutocompleteItem(
       text: query,
-      onClick: () => searchTracks(query, initSearchLimit, 0),
+      onClick: () => initSearchTracks(query, searchLimit, 0),
     ));
     for (var response in autocompleteResponse.collection.take(2))
       tmp.add(AutocompleteItem(
         text: response.output,
-        onClick: () => searchTracks(response.output, initSearchLimit, 0),
+        onClick: () => initSearchTracks(response.output, searchLimit, 0),
       ));
     setState(() {
       searchQuery = query;
@@ -118,24 +116,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void searchTracks(String query, int limit, int offset) async {
-    print("search");
-    // TODO: rework this part, such that it only jumps to index 0 if it new search!
-    if (limit == initSearchLimit) {
-      _scrollController.jumpTo(0);
-    }
-    getAutocomplete(query);
+    // print("search: offset=$offset limit=$limit");
     SearchResponse searchResponse = await soundCloudService.searchTracks(
         query, limit, offset, widget.clientId);
-    List<TrackTile> tmp = [];
+    List<TrackTile> tmp = []..addAll(trackTiles);
     for (var track in searchResponse.collection)
       tmp.add(TrackTile(
         track: track,
         onClick: () => selectTrack(track),
       ));
+    // print("search: response=${tmp.length} trackTiles=${trackTiles.length}");
     setState(() {
       trackTiles.clear();
       trackTiles = tmp;
     });
+  }
+
+  void initSearchTracks(String query, int limit, int offset) async {
+    if (offset == 0) {
+      trackTiles.clear();
+      getAutocomplete(query);
+      await searchTracks(query, limit, offset);
+      _scrollController.jumpTo(0);
+    }
   }
 
   void selectTrack(Track track) async {
@@ -155,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void setPlaylist(Track track) {
-    print("Playlist length: ${playlist.length}");
+    // print("Playlist length: ${playlist.length}");
     ListQueue<Track> tmp = ListQueue<Track>();
     bool trackFound = false;
     for (var i = 0; i < trackTiles.length; i++) {
@@ -167,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         tmp.add(tt.track);
       }
     }
-    print("Playlist length: ${tmp.length}");
+    // print("Playlist length: ${tmp.length}");
     setState(() {
       playlist.clear();
       playlist = tmp;
@@ -274,6 +277,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 onKeyboardAction: onKeyboardAction,
                               ),
                             ),
+                            //TODO: remove this text
+                            Text(trackTiles.length.toString()),
                             Expanded(
                               flex: 5,
                               child: Container(

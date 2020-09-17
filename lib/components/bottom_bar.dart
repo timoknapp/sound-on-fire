@@ -94,7 +94,9 @@ class BottomBar extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(track != null && currentAudioPosition != null ? printDuration() : ""),
+                      child: Text(track != null && currentAudioPosition != null
+                          ? printDuration()
+                          : ""),
                     ),
                   ),
                   Expanded(
