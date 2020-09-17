@@ -44,15 +44,15 @@ This is currently the roadmap, please feel free to request additions/changes.
 | Screensaver disabled when playing                            |    ✅    |
 | Comprehensive Footer (Current Track, Play/Pause, etc.)       |    ✅    |
 | In-App Update                                                |    ✅    |
-| Autofetch search results                                     |    🔜    |
+| Autofetch search results                                     |    ✅    |
 | Smartphone as Remote (Paring via QR)                         |    🔜    |
 | Store favorites locally                                      |    🔜    |
 | Use Slider to scroll through track                           |    🔜    |
 
 ## Known Issues
 
-- **BUG:** When track ends in Playlist, sometimes an error occurs related to the bottom-bar slider:
-    - `'package:flutter/src/material/slider.dart': Failed assertion: line 132 pos 15: 'value >= min && value <= max': is not true.`
+- ~~**BUG**: When track ends in Playlist, sometimes an error occurs related to the bottom-bar slider:~~
+    - ~~`'package:flutter/src/material/slider.dart': Failed assertion: line 132 pos 15: 'value >= min && value <= max': is not true.`~~
 
 ## Contribution
 

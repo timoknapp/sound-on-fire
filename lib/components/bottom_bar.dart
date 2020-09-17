@@ -94,7 +94,9 @@ class BottomBar extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(track != null && currentAudioPosition != null ? printDuration() : ""),
+                      child: Text(track != null && currentAudioPosition != null
+                          ? printDuration()
+                          : ""),
                     ),
                   ),
                   Expanded(
@@ -105,7 +107,7 @@ class BottomBar extends StatelessWidget {
                               value: currentAudioPosition.inSeconds.toDouble(),
                               min: 0.0,
                               max: track.duration.inSeconds.toDouble(),
-                              divisions: track.duration.inSeconds,
+                              divisions: null,
                               onChanged: (double value) {},
                             )
                           : Column(

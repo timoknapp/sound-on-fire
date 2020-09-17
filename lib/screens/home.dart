@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
 
+  int searchLimit = 10;
   String searchQuery = "";
   Track selectedTrack;
   List<AutocompleteItem> autocompleteItems = [];
@@ -33,6 +34,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   ScrollController _scrollController;
 
+  void _scrollControlListener() {
+    double refreshOffset = _scrollController.position.maxScrollExtent;
+    // print(
+    //     "Offset: ${_scrollController.offset}, maxScrollExtent: ${_scrollController.position.maxScrollExtent}, OutOfRange: ${_scrollController.position.outOfRange}");
+    if (_scrollController.offset >= refreshOffset &&
+        !_scrollController.position.outOfRange) {
+      // print("refresh: tracks: ${trackTiles.length}");
+      if (searchQuery.isNotEmpty) {
+        searchTracks(searchQuery, searchLimit, trackTiles.length);
+      }
+    }
+  }
+
   @override
   void initState() {
     _initAudioPlayer();
@@ -40,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
     _scrollController = ScrollController();
+    _scrollController.addListener(_scrollControlListener);
   }
 
   @override
@@ -86,12 +101,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     List<AutocompleteItem> tmp = [];
     tmp.add(AutocompleteItem(
       text: query,
-      onClick: () => searchTracks(query),
+      onClick: () => initSearchTracks(query, searchLimit, 0),
     ));
     for (var response in autocompleteResponse.collection.take(2))
       tmp.add(AutocompleteItem(
         text: response.output,
-        onClick: () => searchTracks(response.output),
+        onClick: () => initSearchTracks(response.output, searchLimit, 0),
       ));
     setState(() {
       searchQuery = query;
@@ -100,21 +115,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  void searchTracks(String query) async {
-    _scrollController.jumpTo(0);
-    getAutocomplete(query);
-    SearchResponse searchResponse =
-        await soundCloudService.searchTracks(query, 40, widget.clientId);
-    List<TrackTile> tmp = [];
+  void searchTracks(String query, int limit, int offset) async {
+    // print("search: offset=$offset limit=$limit");
+    SearchResponse searchResponse = await soundCloudService.searchTracks(
+        query, limit, offset, widget.clientId);
+    List<TrackTile> tmp = []..addAll(trackTiles);
     for (var track in searchResponse.collection)
       tmp.add(TrackTile(
         track: track,
         onClick: () => selectTrack(track),
       ));
+    // print("search: response=${tmp.length} trackTiles=${trackTiles.length}");
     setState(() {
       trackTiles.clear();
       trackTiles = tmp;
     });
+  }
+
+  void initSearchTracks(String query, int limit, int offset) async {
+    if (offset == 0) {
+      trackTiles.clear();
+      getAutocomplete(query);
+      await searchTracks(query, limit, offset);
+      _scrollController.jumpTo(0);
+    }
   }
 
   void selectTrack(Track track) async {
@@ -134,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void setPlaylist(Track track) {
-    print("Playlist length: ${playlist.length}");
+    // print("Playlist length: ${playlist.length}");
     ListQueue<Track> tmp = ListQueue<Track>();
     bool trackFound = false;
     for (var i = 0; i < trackTiles.length; i++) {
@@ -146,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         tmp.add(tt.track);
       }
     }
-    print("Playlist length: ${tmp.length}");
+    // print("Playlist length: ${tmp.length}");
     setState(() {
       playlist.clear();
       playlist = tmp;
