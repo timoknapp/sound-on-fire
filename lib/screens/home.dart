@@ -277,8 +277,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 onKeyboardAction: onKeyboardAction,
                               ),
                             ),
-                            //TODO: remove this text
-                            Text(trackTiles.length.toString()),
                             Expanded(
                               flex: 5,
                               child: Container(

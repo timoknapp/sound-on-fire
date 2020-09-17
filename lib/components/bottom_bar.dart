@@ -107,7 +107,7 @@ class BottomBar extends StatelessWidget {
                               value: currentAudioPosition.inSeconds.toDouble(),
                               min: 0.0,
                               max: track.duration.inSeconds.toDouble(),
-                              divisions: track.duration.inSeconds,
+                              divisions: null,
                               onChanged: (double value) {},
                             )
                           : Column(
