@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         !_scrollController.position.outOfRange) {
       // print("refresh: tracks: ${trackTiles.length}");
       if (searchQuery.isNotEmpty) {
-        searchTracks(searchQuery, searchLimit, trackTiles.length);
+        searchTracksWithOffset(searchQuery, searchLimit, trackTiles.length);
       }
     }
   }
@@ -101,12 +101,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     List<AutocompleteItem> tmp = [];
     tmp.add(AutocompleteItem(
       text: query,
-      onClick: () => initSearchTracks(query, searchLimit, 0),
+      onClick: () => searchTracks(query),
     ));
     for (var response in autocompleteResponse.collection.take(2))
       tmp.add(AutocompleteItem(
         text: response.output,
-        onClick: () => initSearchTracks(response.output, searchLimit, 0),
+        onClick: () => searchTracks(response.output),
       ));
     setState(() {
       searchQuery = query;
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  void searchTracks(String query, int limit, int offset) async {
+  void searchTracksWithOffset(String query, int limit, int offset) async {
     // print("search: offset=$offset limit=$limit");
     SearchResponse searchResponse = await soundCloudService.searchTracks(
         query, limit, offset, widget.clientId);
@@ -132,13 +132,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  void initSearchTracks(String query, int limit, int offset) async {
-    if (offset == 0) {
-      trackTiles.clear();
-      getAutocomplete(query);
-      await searchTracks(query, limit, offset);
-      _scrollController.jumpTo(0);
-    }
+  void searchTracks(String query) async {
+    trackTiles.clear();
+    getAutocomplete(query);
+    await searchTracksWithOffset(query, searchLimit, 0);
+    _scrollController.jumpTo(0);
   }
 
   void selectTrack(Track track) async {
