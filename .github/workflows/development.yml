@@ -33,7 +33,7 @@ jobs:
         with:
           author_name: timoknapp
           author_email: mail@timoknapp.com
-          message: "[VERSION BUMP]"
+          message: "chore(version): bump commit hash"
           add: "pubspec.yaml"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
