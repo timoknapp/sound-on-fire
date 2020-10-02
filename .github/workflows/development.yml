@@ -8,6 +8,9 @@ on:
       - "lib/**"
       - "test/**"
       - "pubspec.yaml"
+  pull_request:
+    branches:
+      - master
 name: SoundOnFire Development
 jobs:
   build:
