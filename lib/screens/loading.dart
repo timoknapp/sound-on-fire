@@ -11,7 +11,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
   String clientId;
   PackageInfo _packageInfo = PackageInfo(
     appName: '',
@@ -40,29 +39,56 @@ class _LoadingScreenState extends State<LoadingScreen> {
       clientId = id;
     });
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return HomeScreen(
-        clientId: clientId,
-      );
-    }));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return HomeScreen(
+            clientId: clientId,
+          );
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                  child: SpinKitDoubleBounce(
-                  color: primaryOrange,
-                  size: 100.0,
-                ),
+      backgroundColor: lightBackground,
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SpinKitDoubleBounce(
+                    color: primaryOrange,
+                    size: 100.0,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    appTitle,
+                    style: const TextStyle(
+                      color: primaryOrange,
+                      fontSize: 35,
+                    ),
+                  ),
+                  Image(
+                    image: AssetImage('images/pb_soundcloud.png'),
+                  ),
+                ],
               ),
-              Text("v${_packageInfo.version}+${_packageInfo.buildNumber}"),
-              SizedBox(height: 2,)
-            ],
-          ),
-        ));
+            ),
+            Text("v${_packageInfo.version}+${_packageInfo.buildNumber}"),
+            SizedBox(
+              height: 2,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

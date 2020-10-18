@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
 class InputArea extends StatelessWidget {
   InputArea({
@@ -16,7 +17,7 @@ class InputArea extends StatelessWidget {
     return Expanded(
       flex: 4,
       child: Container(
-        color: Colors.grey[200],
+        color: lightBackground,
         child: Row(
           children: <Widget>[
             Expanded(

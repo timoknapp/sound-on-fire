@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/components/track_tile.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
 class ResultArea extends StatelessWidget {
   ResultArea({
@@ -14,10 +15,13 @@ class ResultArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 5,
-      child: ListView(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        children: trackTiles,
+      child: Container(
+        color: lightBackground,
+        child: ListView(
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          children: trackTiles,
+        ),
       ),
     );
   }
