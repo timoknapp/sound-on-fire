@@ -124,13 +124,15 @@ class BottomBar extends StatelessWidget {
                             ),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(track != null ? track.printDuration() : ""),
-                    ),
-                  ),
+                  track != null
+                      ? Expanded(
+                          flex: 2,
+                          child: Container(
+                            // padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: Text(track.printDuration()),
+                          ),
+                        )
+                      : Text(""),
                 ],
               ),
             ),
