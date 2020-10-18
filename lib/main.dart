@@ -20,16 +20,9 @@ class _MyAppState extends State<MyApp> {
     return Shortcuts(
       shortcuts: _shortcuts,
       child: MaterialApp(
-        title: 'SoundOnFire',
+        title: appTitle,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: primaryMaterialColor,
-          sliderTheme: SliderThemeData(
-            disabledThumbColor: primaryOrange,
-            disabledActiveTrackColor: primaryOrange,
-            disabledInactiveTrackColor: primaryOrange.withOpacity(0.24),
-          ),
-        ),
+        theme: customTheme,
         home: LoadingScreen(),
       ),
     );

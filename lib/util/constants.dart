@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 
+const appTitle = "SoundOnFire";
+
+var customTheme = ThemeData(
+  primarySwatch: primaryMaterialColor,
+  sliderTheme: SliderThemeData(
+    disabledThumbColor: primaryOrange,
+    disabledActiveTrackColor: primaryOrange,
+    disabledInactiveTrackColor: primaryOrange.withOpacity(0.24),
+  ),
+);
+
 const MaterialColor primaryMaterialColor = const MaterialColor(
   0xffff5500,
   const <int, Color>{

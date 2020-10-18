@@ -113,9 +113,8 @@ class BottomBar extends StatelessWidget {
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(" 🔊☁️ 🔥📺"),
                                 Text(
-                                  "SoundOnFire",
+                                  appTitle,
                                   style: const TextStyle(
                                     color: primaryOrange,
                                     fontSize: 17,
