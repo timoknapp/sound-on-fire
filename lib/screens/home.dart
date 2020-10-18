@@ -263,10 +263,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 height: 5,
               ),
               MainArea(
-                  autocompleteItems: autocompleteItems,
-                  onKeyboardAction: onKeyboardAction,
-                  scrollController: _scrollController,
-                  trackTiles: trackTiles),
+                autocompleteItems: autocompleteItems,
+                onKeyboardAction: onKeyboardAction,
+                scrollController: _scrollController,
+                trackTiles: trackTiles,
+              ),
               BottomBar(
                 playPause: playPause,
                 backward: fastRewind,

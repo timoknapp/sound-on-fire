@@ -18,13 +18,13 @@ class InputArea extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 5,
+            flex: 8,
             child: Keyboard(
               onKeyboardAction: onKeyboardAction,
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 9,
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,6 +32,17 @@ class InputArea extends StatelessWidget {
               ),
             ),
           ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image(
+                  image: AssetImage('images/pb_soundcloud2.png'),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
