@@ -13,7 +13,7 @@
 
 A Flutter based SoundCloud App for your Fire TV.
 
-<img width="100%" src="screenshots/tv.png">
+<img width="100%" src="screenshots/tv.jpg">
 
 ## Getting Started
 
