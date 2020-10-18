@@ -259,9 +259,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
+                // Top Margin
                 height: 5,
               ),
               Expanded(
+                // Main Content
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   constraints: BoxConstraints.expand(),

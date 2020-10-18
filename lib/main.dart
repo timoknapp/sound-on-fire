@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Map<LogicalKeySet, Intent> _shortcuts = {
-    LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),//Intent(ActivateAction.key),
+    LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
   };
 
   @override
@@ -24,6 +24,11 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: primaryMaterialColor,
+          sliderTheme: SliderThemeData(
+            disabledThumbColor: primaryOrange,
+            disabledActiveTrackColor: primaryOrange,
+            disabledInactiveTrackColor: primaryOrange.withOpacity(0.24),
+          ),
         ),
         home: LoadingScreen(),
       ),

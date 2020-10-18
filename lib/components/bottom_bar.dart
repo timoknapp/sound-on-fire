@@ -108,7 +108,7 @@ class BottomBar extends StatelessWidget {
                               min: 0.0,
                               max: track.duration.inSeconds.toDouble(),
                               divisions: null,
-                              onChanged: (double value) {},
+                              onChanged: null,
                             )
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,
