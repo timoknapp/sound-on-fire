@@ -15,35 +15,38 @@ class InputArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 4,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 8,
-            child: Keyboard(
-              onKeyboardAction: onKeyboardAction,
-            ),
-          ),
-          Expanded(
-            flex: 9,
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: autocompleteItems,
+      child: Container(
+        color: Colors.grey[200],
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 8,
+              child: Keyboard(
+                onKeyboardAction: onKeyboardAction,
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image(
-                  image: AssetImage('images/pb_soundcloud2.png'),
+            Expanded(
+              flex: 9,
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: autocompleteItems,
                 ),
-              ],
+              ),
             ),
-          )
-        ],
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image(
+                    image: AssetImage('images/pb_soundcloud2.png'),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
