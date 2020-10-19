@@ -15,12 +15,12 @@ class TrackTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onClick,
-      focusColor: primaryOrange,
+      focusColor: Colors.grey[500],
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.20,
+        width: MediaQuery.of(context).size.width * 0.195,
         child: Card(
           color: Colors.grey[100],
           child: Container(

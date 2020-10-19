@@ -39,7 +39,7 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: lighterBackground,
+      color: lighterGrey,
       width: MediaQuery.of(context).size.width * 1,
       height: 65,
       child: Row(

@@ -54,7 +54,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightBackground,
+      backgroundColor: lightGrey,
       body: Center(
         child: Column(
           children: <Widget>[

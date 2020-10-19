@@ -6,11 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
-import 'package:sound_on_fire/components/keyboard.dart';
+import 'package:sound_on_fire/components/main_area.dart';
 import 'package:sound_on_fire/components/track_tile.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/services/soundcloud.dart' as soundCloudService;
+import 'package:sound_on_fire/util/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   final String clientId;
@@ -251,6 +252,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: lightGrey,
       body: RawKeyboardListener(
         focusNode: FocusNode(skipTraversal: true),
         onKey: _handleHardKeyEvents,
@@ -262,45 +264,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 // Top Margin
                 height: 5,
               ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  constraints: BoxConstraints.expand(),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 4,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 5,
-                              child: Keyboard(
-                                onKeyboardAction: onKeyboardAction,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: autocompleteItems,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: ListView(
-                          controller: _scrollController,
-                          scrollDirection: Axis.horizontal,
-                          children: trackTiles,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              MainArea(
+                autocompleteItems: autocompleteItems,
+                onKeyboardAction: onKeyboardAction,
+                scrollController: _scrollController,
+                trackTiles: trackTiles,
               ),
               BottomBar(
                 playPause: playPause,

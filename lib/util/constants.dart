@@ -27,7 +27,7 @@ const MaterialColor primaryMaterialColor = const MaterialColor(
   },
 );
 const primaryOrange = Color(0xffff5500);
-var lightBackground = Colors.grey[200];
-var lighterBackground = Colors.grey[100];
+var lightGrey = Colors.grey[200];
+var lighterGrey = Colors.grey[100];
 const soundCloudHost = "https://soundcloud.com";
 const soundCloudApiHost = "https://api-v2.soundcloud.com";
