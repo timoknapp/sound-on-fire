@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
-import 'package:sound_on_fire/components/main_area.dart';
+import 'package:sound_on_fire/components/keyboard.dart';
 import 'package:sound_on_fire/components/track_tile.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void playPause({bool forcePause = false}) async {
-    if (playlist.first.streamUrl != null) {
+    if (playlist.isNotEmpty && playlist.first.streamUrl != null) {
       if (audioPlayer.state == AudioPlayerState.PLAYING || forcePause) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
@@ -262,11 +262,45 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 // Top Margin
                 height: 5,
               ),
-              MainArea(
-                autocompleteItems: autocompleteItems,
-                onKeyboardAction: onKeyboardAction,
-                scrollController: _scrollController,
-                trackTiles: trackTiles,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  constraints: BoxConstraints.expand(),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 5,
+                              child: Keyboard(
+                                onKeyboardAction: onKeyboardAction,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: autocompleteItems,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: ListView(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          children: trackTiles,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               BottomBar(
                 playPause: playPause,
