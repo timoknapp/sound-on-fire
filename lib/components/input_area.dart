@@ -19,18 +19,18 @@ class InputArea extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 8,
-            child: Keyboard(
-              onKeyboardAction: onKeyboardAction,
-            ),
-          ),
-          Expanded(
             flex: 9,
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: autocompleteItems,
               ),
+            ),
+          ),
+          Expanded(
+            flex: 8,
+            child: Keyboard(
+              onKeyboardAction: onKeyboardAction,
             ),
           ),
           Expanded(

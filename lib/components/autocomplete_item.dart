@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
 class AutocompleteItem extends StatelessWidget {
   final String text;
@@ -9,11 +10,11 @@ class AutocompleteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: lighterGrey,
       child: ListTile(
         title: Text(text),
         onTap: onClick,
       ),
     );
   }
-
 }

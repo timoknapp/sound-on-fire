@@ -28,7 +28,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int searchLimit = 10;
   String searchQuery = "";
   Track selectedTrack;
-  List<AutocompleteItem> autocompleteItems = [];
+  List<AutocompleteItem> autocompleteItems = [
+    AutocompleteItem(
+      text: "",
+      onClick: null,
+    )
+  ];
   List<TrackTile> trackTiles = [];
   ListQueue<Track> playlist = ListQueue<Track>();
   Duration currentAudioPosition;
@@ -190,7 +195,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
     if (searchQuery == "") {
       setState(() {
-        autocompleteItems.clear();
+        autocompleteItems = [
+          AutocompleteItem(
+            text: "",
+            onClick: null,
+          ),
+        ];
       });
     } else {
       getAutocomplete(searchQuery);
