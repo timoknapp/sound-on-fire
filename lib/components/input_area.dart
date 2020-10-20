@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
-import 'package:sound_on_fire/util/constants.dart';
 
 class InputArea extends StatelessWidget {
   InputArea({
     @required this.autocompleteItems,
     @required this.onKeyboardAction,
+    @required this.isAlphabeticalKeyboard,
   });
 
   final List<AutocompleteItem> autocompleteItems;
   final Function onKeyboardAction;
+  final bool isAlphabeticalKeyboard;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class InputArea extends StatelessWidget {
             flex: 8,
             child: Keyboard(
               onKeyboardAction: onKeyboardAction,
+              isAlphabeticalKeyboard: isAlphabeticalKeyboard,
             ),
           ),
           Expanded(

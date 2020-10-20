@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<TrackTile> trackTiles = [];
   ListQueue<Track> playlist = ListQueue<Track>();
   Duration currentAudioPosition;
+  bool isAlphabeticalKeyboard = true;
 
   ScrollController _scrollController;
 
@@ -190,6 +191,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     } else if (key == "CLEAR") {
       searchQuery = "";
+    } else if (key == "&123" || key == "ABC") {
+      setState(() {
+        isAlphabeticalKeyboard = !isAlphabeticalKeyboard;
+      });
     } else {
       searchQuery += key;
     }
@@ -277,6 +282,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               MainArea(
                 autocompleteItems: autocompleteItems,
                 onKeyboardAction: onKeyboardAction,
+                isAlphabeticalKeyboard: isAlphabeticalKeyboard,
                 scrollController: _scrollController,
                 trackTiles: trackTiles,
               ),

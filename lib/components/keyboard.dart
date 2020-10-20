@@ -3,239 +3,345 @@ import 'package:sound_on_fire/components/small_button.dart';
 
 class Keyboard extends StatelessWidget {
   final Function(String) onKeyboardAction;
+  final bool isAlphabeticalKeyboard;
 
   Keyboard({
     @required this.onKeyboardAction,
+    @required this.isAlphabeticalKeyboard,
   });
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-      child: new Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              SmallButton(
-                text: "A",
-                onClick: () => this.onKeyboardAction("a"),
-                autoFocus: true,
-              ),
-              SmallButton(
-                text: "B",
-                onClick: () => this.onKeyboardAction("b"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "C",
-                onClick: () => this.onKeyboardAction("c"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "D",
-                onClick: () => this.onKeyboardAction("d"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "E",
-                onClick: () => this.onKeyboardAction("e"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "F",
-                onClick: () => this.onKeyboardAction("f"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "G",
-                onClick: () => this.onKeyboardAction("g"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "BACK",
-                icon: Icon(Icons.backspace),
-                onClick: () => this.onKeyboardAction("BACK"),
-                autoFocus: false,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              SmallButton(
-                text: "H",
-                onClick: () => this.onKeyboardAction("h"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "I",
-                onClick: () => this.onKeyboardAction("i"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "J",
-                onClick: () => this.onKeyboardAction("j"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "K",
-                onClick: () => this.onKeyboardAction("k"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "L",
-                onClick: () => this.onKeyboardAction("l"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "M",
-                onClick: () => this.onKeyboardAction("m"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "N",
-                onClick: () => this.onKeyboardAction("n"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "CLEAR",
-                onClick: () => this.onKeyboardAction("CLEAR"),
-                autoFocus: false,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              SmallButton(
-                text: "O",
-                onClick: () => this.onKeyboardAction("o"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "P",
-                onClick: () => this.onKeyboardAction("P"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "Q",
-                onClick: () => this.onKeyboardAction("q"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "R",
-                onClick: () => this.onKeyboardAction("r"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "S",
-                onClick: () => this.onKeyboardAction("s"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "T",
-                onClick: () => this.onKeyboardAction("t"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "U",
-                onClick: () => this.onKeyboardAction("u"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "SPACE",
-                onClick: () => this.onKeyboardAction(" "),
-                autoFocus: false,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              SmallButton(
-                text: "V",
-                onClick: () => this.onKeyboardAction("v"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "W",
-                onClick: () => this.onKeyboardAction("w"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "X",
-                onClick: () => this.onKeyboardAction("x"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "Y",
-                onClick: () => this.onKeyboardAction("y"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "Z",
-                onClick: () => this.onKeyboardAction("z"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "-",
-                onClick: () => this.onKeyboardAction("-"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "0",
-                onClick: () => this.onKeyboardAction("0"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "1",
-                onClick: () => this.onKeyboardAction("1"),
-                autoFocus: false,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              SmallButton(
-                text: "2",
-                onClick: () => this.onKeyboardAction("2"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "3",
-                onClick: () => this.onKeyboardAction("3"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "4",
-                onClick: () => this.onKeyboardAction("4"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "5",
-                onClick: () => this.onKeyboardAction("5"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "6",
-                onClick: () => this.onKeyboardAction("6"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "7",
-                onClick: () => this.onKeyboardAction("7"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "8",
-                onClick: () => this.onKeyboardAction("8"),
-                autoFocus: false,
-              ),
-              SmallButton(
-                text: "9",
-                onClick: () => this.onKeyboardAction("9"),
-                autoFocus: false,
-              ),
-            ],
-          ),
-        ],
-      ),
+        child: isAlphabeticalKeyboard ? getAlphabet() : getNumbers());
+  }
+
+  Column getAlphabet() {
+    return new Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "A",
+              onClick: () => this.onKeyboardAction("a"),
+              autoFocus: true,
+              border: true,
+            ),
+            SmallButton(
+              text: "B",
+              onClick: () => this.onKeyboardAction("b"),
+              border: true,
+            ),
+            SmallButton(
+              text: "C",
+              onClick: () => this.onKeyboardAction("c"),
+              border: true,
+            ),
+            SmallButton(
+              text: "D",
+              onClick: () => this.onKeyboardAction("d"),
+              border: true,
+            ),
+            SmallButton(
+              text: "E",
+              onClick: () => this.onKeyboardAction("e"),
+              border: true,
+            ),
+            SmallButton(
+              text: "F",
+              onClick: () => this.onKeyboardAction("f"),
+              border: true,
+            ),
+            SmallButton(
+              text: "G",
+              onClick: () => this.onKeyboardAction("g"),
+              border: true,
+            ),
+            SmallButton(
+              text: "BACK",
+              icon: Icon(Icons.backspace),
+              onClick: () => this.onKeyboardAction("BACK"),
+              border: true,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "H",
+              onClick: () => this.onKeyboardAction("h"),
+              border: true,
+            ),
+            SmallButton(
+              text: "I",
+              onClick: () => this.onKeyboardAction("i"),
+              border: true,
+            ),
+            SmallButton(
+              text: "J",
+              onClick: () => this.onKeyboardAction("j"),
+              border: true,
+            ),
+            SmallButton(
+              text: "K",
+              onClick: () => this.onKeyboardAction("k"),
+              border: true,
+            ),
+            SmallButton(
+              text: "L",
+              onClick: () => this.onKeyboardAction("l"),
+              border: true,
+            ),
+            SmallButton(
+              text: "M",
+              onClick: () => this.onKeyboardAction("m"),
+              border: true,
+            ),
+            SmallButton(
+              text: "N",
+              onClick: () => this.onKeyboardAction("n"),
+              border: true,
+            ),
+            SmallButton(
+              text: "&123",
+              onClick: () => this.onKeyboardAction("&123"),
+              border: true,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "O",
+              onClick: () => this.onKeyboardAction("o"),
+              border: true,
+            ),
+            SmallButton(
+              text: "P",
+              onClick: () => this.onKeyboardAction("P"),
+              border: true,
+            ),
+            SmallButton(
+              text: "Q",
+              onClick: () => this.onKeyboardAction("q"),
+              border: true,
+            ),
+            SmallButton(
+              text: "R",
+              onClick: () => this.onKeyboardAction("r"),
+              border: true,
+            ),
+            SmallButton(
+              text: "S",
+              onClick: () => this.onKeyboardAction("s"),
+              border: true,
+            ),
+            SmallButton(
+              text: "T",
+              onClick: () => this.onKeyboardAction("t"),
+              border: true,
+            ),
+            SmallButton(
+              text: "U",
+              onClick: () => this.onKeyboardAction("u"),
+              border: true,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "V",
+              onClick: () => this.onKeyboardAction("v"),
+              border: true,
+            ),
+            SmallButton(
+              text: "W",
+              onClick: () => this.onKeyboardAction("w"),
+              border: true,
+            ),
+            SmallButton(
+              text: "X",
+              onClick: () => this.onKeyboardAction("x"),
+              border: true,
+            ),
+            SmallButton(
+              text: "Y",
+              onClick: () => this.onKeyboardAction("y"),
+              border: true,
+            ),
+            SmallButton(
+              text: "Z",
+              onClick: () => this.onKeyboardAction("z"),
+              border: true,
+            ),
+            SmallButton(
+              text: "-",
+              onClick: () => this.onKeyboardAction("-"),
+              border: true,
+            ),
+            SmallButton(
+              text: "'",
+              onClick: () => this.onKeyboardAction("'"),
+              border: true,
+            ),
+          ],
+        ),
+        getLastRow(),
+      ],
+    );
+  }
+
+  Column getNumbers() {
+    return new Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "1",
+              onClick: () => this.onKeyboardAction("1"),
+              border: true,
+            ),
+            SmallButton(
+              text: "2",
+              onClick: () => this.onKeyboardAction("2"),
+              border: true,
+            ),
+            SmallButton(
+              text: "3",
+              onClick: () => this.onKeyboardAction("3"),
+              border: true,
+            ),
+            SmallButton(
+              text: "&",
+              onClick: () => this.onKeyboardAction("&"),
+              border: true,
+            ),
+            SmallButton(
+              text: "#",
+              onClick: () => this.onKeyboardAction("#"),
+              border: true,
+            ),
+            SmallButton(
+              text: "(",
+              onClick: () => this.onKeyboardAction("("),
+              border: true,
+            ),
+            SmallButton(
+              text: ")",
+              onClick: () => this.onKeyboardAction(")"),
+              border: true,
+            ),
+            SmallButton(
+              text: "BACK",
+              icon: Icon(Icons.backspace),
+              onClick: () => this.onKeyboardAction("BACK"),
+              border: true,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "4",
+              onClick: () => this.onKeyboardAction("4"),
+              border: true,
+            ),
+            SmallButton(
+              text: "5",
+              onClick: () => this.onKeyboardAction("5"),
+              border: true,
+            ),
+            SmallButton(
+              text: "6",
+              onClick: () => this.onKeyboardAction("6"),
+              border: true,
+            ),
+            SmallButton(
+              text: "@",
+              onClick: () => this.onKeyboardAction("@"),
+              border: true,
+            ),
+            SmallButton(
+              text: "!",
+              onClick: () => this.onKeyboardAction("!"),
+              border: true,
+            ),
+            SmallButton(
+              text: "?",
+              onClick: () => this.onKeyboardAction("?"),
+              border: true,
+            ),
+            SmallButton(
+              text: ":",
+              onClick: () => this.onKeyboardAction(":"),
+              border: true,
+            ),
+            SmallButton(
+              text: "ABC",
+              onClick: () => this.onKeyboardAction("ABC"),
+              border: true,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            SmallButton(
+              text: "7",
+              onClick: () => this.onKeyboardAction("7"),
+              border: true,
+            ),
+            SmallButton(
+              text: "8",
+              onClick: () => this.onKeyboardAction("8"),
+              border: true,
+            ),
+            SmallButton(
+              text: "9",
+              onClick: () => this.onKeyboardAction("9"),
+              border: true,
+            ),
+            SmallButton(
+              text: "0",
+              onClick: () => this.onKeyboardAction("0"),
+              border: true,
+            ),
+            SmallButton(
+              text: ".",
+              onClick: () => this.onKeyboardAction("."),
+              border: true,
+            ),
+            SmallButton(
+              text: "_",
+              onClick: () => this.onKeyboardAction("_"),
+              border: true,
+            ),
+            SmallButton(
+              text: "\"",
+              onClick: () => this.onKeyboardAction("\""),
+              border: true,
+            ),
+          ],
+        ),
+        getLastRow(),
+      ],
+    );
+  }
+
+  Row getLastRow() {
+    return Row(
+      children: <Widget>[
+        SmallButton(
+          text: "             SPACE             ",
+          onClick: () => this.onKeyboardAction(" "),
+          border: true,
+        ),
+        SmallButton(
+          text: "           CLEAR           ",
+          onClick: () => this.onKeyboardAction("CLEAR"),
+          border: true,
+        ),
+      ],
     );
   }
 }

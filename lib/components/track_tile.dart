@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sound_on_fire/models/Track.dart';
-import 'package:sound_on_fire/util/constants.dart';
 
 class TrackTile extends StatelessWidget {
   final Track track;
@@ -20,7 +19,7 @@ class TrackTile extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.195,
+        width: MediaQuery.of(context).size.width * 0.20,
         child: Card(
           color: Colors.grey[100],
           child: Container(

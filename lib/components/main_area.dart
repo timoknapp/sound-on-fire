@@ -8,12 +8,14 @@ class MainArea extends StatelessWidget {
   const MainArea({
     @required this.autocompleteItems,
     @required this.onKeyboardAction,
+    @required this.isAlphabeticalKeyboard,
     @required ScrollController scrollController,
     @required this.trackTiles,
   }) : _scrollController = scrollController;
 
   final List<AutocompleteItem> autocompleteItems;
   final Function onKeyboardAction;
+  final bool isAlphabeticalKeyboard;
   final ScrollController _scrollController;
   final List<TrackTile> trackTiles;
 
@@ -29,6 +31,7 @@ class MainArea extends StatelessWidget {
             InputArea(
               autocompleteItems: autocompleteItems,
               onKeyboardAction: onKeyboardAction,
+              isAlphabeticalKeyboard: isAlphabeticalKeyboard,
             ),
             ResultArea(
               scrollController: _scrollController,
