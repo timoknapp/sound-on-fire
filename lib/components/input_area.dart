@@ -28,6 +28,9 @@ class InputArea extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            width: 10,
+          ),
           Expanded(
             flex: 8,
             child: Keyboard(
