@@ -74,15 +74,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Create PR for In-App Update Config
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     commit-message: "chore(in-app-update): update config"
-      #     title: Update In-App Update Config
-      #     body: Update In-App Update config to reflect release changes
-      #     branch: ${{ github.ref }}
-      #     base: "master"
-
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
