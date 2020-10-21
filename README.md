@@ -48,7 +48,7 @@ This is currently the roadmap, please feel free to request additions/changes.
 | Smartphone as Remote (Paring via QR)                         |    🔜    |
 | Store favorites locally                                      |    🔜    |
 | Use Slider to scroll through track                           |    🔜    |
-| Build Verison for AppleTV and MacOS                          |    🔜    |
+| Build Version for AppleTV and MacOS                          |    🔜    |
 
 ## Known Issues
 
