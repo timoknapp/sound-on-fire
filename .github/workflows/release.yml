@@ -64,8 +64,9 @@ jobs:
         run: ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
 
       - name: Update In-App Update Config
-        uses: EndBug/add-and-commit@v4
+        uses: EndBug/add-and-commit@v5
         with:
+          branch: master
           author_name: timoknapp
           author_email: mail@timoknapp.com
           message: "chore(in-app-update): update config"
@@ -73,17 +74,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create PR for In-App Update Config
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: "chore(in-app-update): update config"
-          title: Update In-App Update Config
-          body: Update In-App Update config to reflect release changes
-          branch: ${{ github.ref }}
-          base: master
+      # - name: Create PR for In-App Update Config
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     commit-message: "chore(in-app-update): update config"
+      #     title: Update In-App Update Config
+      #     body: Update In-App Update config to reflect release changes
+      #     branch: ${{ github.ref }}
+      #     base: "master"
 
       - name: Upload to App Center
-        uses: wzieba/AppCenter-Github-Action@v1.0.0
+        uses: wzieba/AppCenter-Github-Action@v1
         with:
           appName: timo_knapp/SoundOnFire
           token: ${{secrets.APP_CENTER_API_TOKEN}}
