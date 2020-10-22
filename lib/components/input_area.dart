@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/keyboard.dart';
+import 'package:sound_on_fire/util/constants.dart';
 
 class InputArea extends StatelessWidget {
   InputArea({
     @required this.autocompleteItems,
     @required this.onKeyboardAction,
     @required this.isAlphabeticalKeyboard,
+    @required this.isLoading,
   });
 
   final List<AutocompleteItem> autocompleteItems;
   final Function onKeyboardAction;
   final bool isAlphabeticalKeyboard;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,7 @@ class InputArea extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10),
           Expanded(
             flex: 8,
             child: Keyboard(
@@ -46,6 +48,14 @@ class InputArea extends StatelessWidget {
                 Image(
                   image: AssetImage('images/pb_soundcloud2.png'),
                 ),
+                SizedBox(height: 10),
+                isLoading
+                    ? SpinKitDualRing(
+                        color: primaryOrange,
+                        lineWidth: 2,
+                        size: 35,
+                      )
+                    : Text(""),
               ],
             ),
           )

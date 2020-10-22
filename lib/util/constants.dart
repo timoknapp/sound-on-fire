@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sound_on_fire/components/track_tile.dart';
+import 'package:sound_on_fire/models/Track.dart';
 
 const appTitle = "SoundOnFire";
 
@@ -31,3 +33,36 @@ var lightGrey = Colors.grey[200];
 var lighterGrey = Colors.grey[100];
 const soundCloudHost = "https://soundcloud.com";
 const soundCloudApiHost = "https://api-v2.soundcloud.com";
+
+List<TrackTile> shimmerTrackTiles = [
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+  TrackTile(
+    isLoading: true,
+    track: null,
+    onClick: null,
+  ),
+];

@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
 
+  bool isLoading = false;
   int searchLimit = 10;
   String searchQuery = "";
   Track selectedTrack;
@@ -124,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void searchTracks(String query, int limit, int offset) async {
     // print("search: offset=$offset limit=$limit");
+    isLoading = true;
     SearchResponse searchResponse = await soundCloudService.searchTracks(
         query, limit, offset, widget.clientId);
     List<TrackTile> tmp = []..addAll(trackTiles);
@@ -131,8 +133,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       tmp.add(TrackTile(
         track: track,
         onClick: () => selectTrack(track),
+        isLoading: false,
       ));
     // print("search: response=${tmp.length} trackTiles=${trackTiles.length}");
+    isLoading = false;
     setState(() {
       trackTiles.clear();
       trackTiles = tmp;
@@ -285,6 +289,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 isAlphabeticalKeyboard: isAlphabeticalKeyboard,
                 scrollController: _scrollController,
                 trackTiles: trackTiles,
+                isLoading: isLoading,
               ),
               BottomBar(
                 playPause: playPause,

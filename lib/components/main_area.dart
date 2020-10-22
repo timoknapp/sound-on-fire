@@ -11,6 +11,7 @@ class MainArea extends StatelessWidget {
     @required this.isAlphabeticalKeyboard,
     @required ScrollController scrollController,
     @required this.trackTiles,
+    @required this.isLoading,
   }) : _scrollController = scrollController;
 
   final List<AutocompleteItem> autocompleteItems;
@@ -18,6 +19,7 @@ class MainArea extends StatelessWidget {
   final bool isAlphabeticalKeyboard;
   final ScrollController _scrollController;
   final List<TrackTile> trackTiles;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,12 @@ class MainArea extends StatelessWidget {
               autocompleteItems: autocompleteItems,
               onKeyboardAction: onKeyboardAction,
               isAlphabeticalKeyboard: isAlphabeticalKeyboard,
+              isLoading: isLoading,
             ),
             ResultArea(
               scrollController: _scrollController,
               trackTiles: trackTiles,
+              isLoading: isLoading,
             ),
           ],
         ),
