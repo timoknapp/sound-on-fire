@@ -92,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     });
     audioPlayer.onPlayerCompletion.listen((data) {
+      print("Player Completion Event.");
       setState(() {
         // playlist.removeFirst();
         playlist = ListQueue<Track>.from(playlist.skip(1));
@@ -100,6 +101,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (playlist.isEmpty == false) {
         selectTrack(playlist.first);
       }
+    });
+    audioPlayer.onPlayerError.listen((event) {
+      print("Player Error Event: $event");
+      // TODO: do sth when errors occur!
     });
   }
 
@@ -223,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         await FlutterWindowManager.clearFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
-        await audioPlayer.play(playlist.first.streamUrl);
+        await audioPlayer.play(playlist.first.streamUrl); //, stayAwake: true);
         await FlutterWindowManager.addFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }
