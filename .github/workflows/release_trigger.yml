@@ -24,6 +24,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:
-          npx semantic-release --dry-run
+          npx semantic-release
           # echo "::set-outout name=release-version::${nextRelease.version}"
           # echo "::set-output name=release-notes::${nextRelease.notes}"
