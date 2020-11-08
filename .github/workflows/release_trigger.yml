@@ -23,7 +23,7 @@ jobs:
         id: release-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
+        run:
           npx semantic-release --dry-run
-          echo "::set-outout name=release-version::${nextRelease.version}"
-          echo "::set-output name=release-notes::${nextRelease.notes}"
+          # echo "::set-outout name=release-version::${nextRelease.version}"
+          # echo "::set-output name=release-notes::${nextRelease.notes}"
