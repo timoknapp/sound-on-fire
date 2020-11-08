@@ -8,16 +8,26 @@
         "plugins": [
             "@semantic-release/commit-analyzer",
             "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
             [
                 "@semantic-release/exec",
                 {
-                    "prepareCmd": "./.github/scripts/updateVersion.sh ${nextRelease.version}",
-                    "publishCmd": "echo Version: ${nextRelease.version}, Branch: ${options.branch}, Commit-Length: ${commits.length},  Date: ${Date.now()}"
+                    "prepareCmd": "./.github/scripts/updateVersion.sh ${nextRelease.version}"
+                }
+            ],
+            [
+                "@semantic-release/git",
+                {
+                    "assets": [
+                        "pubspec.yaml"
+                    ],
+                    "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
                 }
             ]
         ]
     },
     "devDependencies": {
-        "@semantic-release/exec": "^5.0.0"
+        "@semantic-release/exec": "^5.0.0",
+        "@semantic-release/git": "^9.0.0"
     }
 }
