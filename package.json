@@ -1,0 +1,23 @@
+{
+    "name": "SoundOnFire",
+    "_comment": "1. Generate new Version, 2. Use Version to modify pubspec.yaml, 3. Create Tag with Version and VersionCode, 4. Use Release notes for Github Release and in Update changelog",
+    "release": {
+        "branches": [
+            "master"
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            [
+                "@semantic-release/exec",
+                {
+                    "prepareCmd": "./.github/scripts/updateVersion.sh ${nextRelease.version}",
+                    "publishCmd": "echo Version: ${nextRelease.version}, Branch: ${options.branch}, Commit-Length: ${commits.length},  Date: ${Date.now()}"
+                }
+            ]
+        ]
+    },
+    "devDependencies": {
+        "@semantic-release/exec": "^5.0.0"
+    }
+}

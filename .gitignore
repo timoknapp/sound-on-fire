@@ -41,3 +41,5 @@ tmp_artifact_path.txt
 tmp_artifact_name.txt
 
 #android/key.properties
+
+node_modules/
