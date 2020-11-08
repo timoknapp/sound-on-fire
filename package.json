@@ -11,7 +11,7 @@
             [
                 "@semantic-release/exec",
                 {
-                    "verifyReleae": "echo $1",
+                    "generateNotesCmd": "echo $stdout",
                     "prepareCmd": "./.github/scripts/updateVersion.sh ${nextRelease.version}",
                     "publishCmd": "echo Version: ${nextRelease.version}, Branch: ${options.branch}, Commit-Length: ${commits.length},  Date: ${Date.now()}"
                 }
