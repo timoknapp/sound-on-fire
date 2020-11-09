@@ -14,7 +14,8 @@ class SearchResponse {
     List<Track> list = [];
     if (json['collection'].length > 0) {
       for (var item in json['collection']) {
-        list.add(Track.fromJson(item));
+        Track track = Track.fromJson(item);
+        if (track != null) list.add(track);
       }
     }
     return SearchResponse(
@@ -95,17 +96,22 @@ class Track {
         break;
       }
     }
-    return Track(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      uri: json['uri'],
-      transcodingURL: transcodingURL,
-      duration: Duration(milliseconds: json['duration']),
-      playbackCount: json['playback_count'],
-      artwork: json['artwork_url'],
-      likesCount: json['likes_count'],
-      date: DateTime.parse(json['display_date']),
-    );
+    if (transcodingURL != "") {
+      return Track(
+        id: json['id'],
+        title: json['title'],
+        description: json['description'],
+        uri: json['uri'],
+        transcodingURL: transcodingURL,
+        duration: Duration(milliseconds: json['duration']),
+        playbackCount: json['playback_count'],
+        artwork: json['artwork_url'],
+        likesCount: json['likes_count'],
+        date: DateTime.parse(json['display_date']),
+      );
+    } else {
+      // This will ignore all track which do not consist of "protocol" type "progressive"
+      return null;
+    }
   }
 }

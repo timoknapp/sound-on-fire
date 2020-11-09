@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   bool isLoading = false;
   int searchLimit = 10;
+  int amountCorruptTracks = 0;
   String searchQuery = "";
   Track selectedTrack;
   List<AutocompleteItem> autocompleteItems = [
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   ListQueue<Track> playlist = ListQueue<Track>();
   Duration currentAudioPosition;
   bool isAlphabeticalKeyboard = true;
+  bool errorHasOccured = false;
 
   ScrollController _scrollController;
 
@@ -50,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         !_scrollController.position.outOfRange) {
       // print("refresh: tracks: ${trackTiles.length}");
       if (searchQuery.isNotEmpty) {
-        searchTracks(searchQuery, searchLimit, trackTiles.length);
+        searchTracks(
+            searchQuery, searchLimit, trackTiles.length + amountCorruptTracks);
       }
     }
   }
@@ -92,18 +95,34 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     });
     audioPlayer.onPlayerCompletion.listen((data) {
-      print("Player Completion Event.");
-      setState(() {
-        // playlist.removeFirst();
-        playlist = ListQueue<Track>.from(playlist.skip(1));
-        currentAudioPosition = Duration(seconds: 0);
-      });
-      if (playlist.isEmpty == false) {
-        selectTrack(playlist.first);
+      print("Player Completion Event. Player error occured: $errorHasOccured");
+      // Check if  Player have had an error, if so ignore onCompletionEvent.
+      if (errorHasOccured) {
+        audioPlayer.release();
+        audioPlayer.seek(currentAudioPosition);
+        audioPlayer.play(playlist.first.streamUrl);
+        setState(() {
+          errorHasOccured = false;
+        });
+      } else {
+        setState(() {
+          // playlist.removeFirst();
+          playlist = ListQueue<Track>.from(playlist.skip(1));
+          currentAudioPosition = Duration(seconds: 0);
+        });
+        if (playlist.isEmpty == false) {
+          selectTrack(playlist.first);
+        }
       }
     });
     audioPlayer.onPlayerError.listen((event) {
-      print("Player Error Event: $event");
+      print("Player Error Event: $event ; Position: $currentAudioPosition");
+      // playPause(forcePause: true);
+      // selectTrack(playlist.first);
+      // audioPlayer.seek(currentAudioPosition);
+      setState(() {
+        errorHasOccured = true;
+      });
       // TODO: do sth when errors occur!
     });
   }
@@ -134,17 +153,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     SearchResponse searchResponse = await soundCloudService.searchTracks(
         query, limit, offset, widget.clientId);
     List<TrackTile> tmp = []..addAll(trackTiles);
-    for (var track in searchResponse.collection)
-      tmp.add(TrackTile(
-        track: track,
-        onClick: () => selectTrack(track),
-        isLoading: false,
-      ));
+    List<int> existingTracks = [];
+    trackTiles.forEach((element) {
+      existingTracks.add(element.track.id);
+    });
+    for (var track in searchResponse.collection) {
+      if (!existingTracks.contains(track.id)) {
+        tmp.add(TrackTile(
+          track: track,
+          onClick: () => selectTrack(track),
+          isLoading: false,
+        ));
+      }
+    }
     // print("search: response=${tmp.length} trackTiles=${trackTiles.length}");
     isLoading = false;
     setState(() {
       trackTiles.clear();
       trackTiles = tmp;
+      // diff between search limit and actual working tracks from response need to be kept in mind for next search.
+      amountCorruptTracks =
+          amountCorruptTracks + limit - searchResponse.collection.length;
     });
   }
 
