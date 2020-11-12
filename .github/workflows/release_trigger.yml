@@ -34,8 +34,9 @@ jobs:
         id: semrel
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          changelog-file: true
+          update-file: .version
           dry: true
-          # changelog-file: true
       - name: Post Semantic Release Job
         run: echo ${{ steps.semrel.outputs }}
         # if: steps.semrel.outputs.version != ''
