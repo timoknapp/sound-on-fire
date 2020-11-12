@@ -31,7 +31,7 @@ jobs:
         if: steps.semrel.outputs.version != ''
 
       - name: Post Semantic Release Job
-        run: ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}""
+        run: ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}"
         if: steps.semrel.outputs.version != ''
 
       # - name: Update Release Version
