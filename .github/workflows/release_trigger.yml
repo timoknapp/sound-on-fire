@@ -10,23 +10,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      # Semantic Release
-      # - name: Setup Node.js # this is only needed for semantic-release, There is no other need for Node or the package.json
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 12
-
-      # - name: Install dependencies
-      #   run: npm ci
-
-      # - name: Run Semantic Release
-      #   id: release-version
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run:
-      #     npx semantic-release
-      #     # echo "::set-outout name=release-version::${nextRelease.version}"
-      #     # echo "::set-output name=release-notes::${nextRelease.notes}"
 
       # Go Semantic Release
       - name: Run Semantic Release
@@ -37,6 +20,18 @@ jobs:
           changelog-file: true
           update-file: .version
           dry: true
+
       - name: Post Semantic Release Job
-        run: echo ${{ steps.semrel.outputs }}
-        # if: steps.semrel.outputs.version != ''
+        run: ./.github/scripts/updateVersion.sh ${{ steps.semrel.outputs }}
+        if: steps.semrel.outputs.version != ''
+
+      - name: Update Release Version
+        if: steps.semrel.outputs.version != ''
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: timoknapp
+          author_email: mail@timoknapp.com
+          message: "chore(version): update version"
+          add: "pubspec.yaml"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
