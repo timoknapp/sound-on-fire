@@ -12,10 +12,10 @@ on:
   pull_request:
     branches:
       - master
-name: SoundOnFire Development
+name: SoundOnFire-Development
 jobs:
   build:
-    name: Prepare, Build, Upload
+    name: Prepare-Build-Upload
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

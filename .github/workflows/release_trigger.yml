@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: SoundOnFire Semantic-Release
+name: SoundOnFire-Semantic-Release
 
 jobs:
   build:

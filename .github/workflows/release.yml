@@ -3,11 +3,11 @@ on:
     tags:
       - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
-name: SoundOnFire Release
+name: SoundOnFire-Release
 
 jobs:
   build:
-    name: Prepare, Build, Release, Publish
+    name: Prepare-Build-Release-Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
