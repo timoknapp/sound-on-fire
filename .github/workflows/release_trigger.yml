@@ -10,20 +10,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      # Semantic Release
+      # - name: Setup Node.js # this is only needed for semantic-release, There is no other need for Node or the package.json
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 12
 
-      - name: Setup Node.js # this is only needed for semantic-release, There is no other need for Node or the package.json
-        uses: actions/setup-node@v1
+      # - name: Install dependencies
+      #   run: npm ci
+
+      # - name: Run Semantic Release
+      #   id: release-version
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run:
+      #     npx semantic-release
+      #     # echo "::set-outout name=release-version::${nextRelease.version}"
+      #     # echo "::set-output name=release-notes::${nextRelease.notes}"
+
+      # Go Semantic Release
+      - uses: go-semantic-release/action@v1
+        id: semrel
         with:
-          node-version: 12
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Semantic Release
-        id: release-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run:
-          npx semantic-release
-          # echo "::set-outout name=release-version::${nextRelease.version}"
-          # echo "::set-output name=release-notes::${nextRelease.notes}"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          changelog-file: true
+          dry: true
