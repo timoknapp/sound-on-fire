@@ -29,9 +29,13 @@ jobs:
       #     # echo "::set-output name=release-notes::${nextRelease.notes}"
 
       # Go Semantic Release
-      - uses: go-semantic-release/action@v1
+      - name: Run Semantic Release
+        uses: go-semantic-release/action@v1
         id: semrel
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           changelog-file: true
           dry: true
+      - name: Post Semantic Release Job
+        run: echo ${{ steps.semrel.outputs }}
+        # if: steps.semrel.outputs.version != ''
