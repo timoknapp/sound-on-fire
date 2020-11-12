@@ -23,14 +23,14 @@ jobs:
 
       - name: Post Semantic Release Job
         run: |
-          echo Version: ${{ steps.semrel.outputs.version.version }}
-          echo Raw: ${{ steps.semrel.outputs.version.raw }}
-          echo Major: ${{ steps.semrel.outputs.version.major }}
-          echo Minor: ${{ steps.semrel.outputs.version.minor }}
-          echo Patch: ${{ steps.semrel.outputs.version.patch }}
+          echo "Version: ${{ steps.semrel.outputs.version }}"
+          echo "Major: ${{ steps.semrel.outputs.version_major }}"
+          echo "Minor: ${{ steps.semrel.outputs.version_minor }}"
+          echo "Patch: ${{ steps.semrel.outputs.version_patch }}"
+          echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
         if: steps.semrel.outputs.version != ''
       # - name: Post Semantic Release Job
-      #   run: ./.github/scripts/updateVersion.sh ${{ steps.semrel.outputs.version }}
+      #   run: ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}""
       #   if: steps.semrel.outputs.version != ''
       # - name: Update Release Version
       #   if: steps.semrel.outputs.version != ''
