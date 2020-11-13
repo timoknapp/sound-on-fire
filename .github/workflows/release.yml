@@ -1,83 +1,83 @@
-on:
-  push:
-    tags:
-      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+# on:
+#   push:
+#     tags:
+#       - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
-name: Release
+# name: Release
 
-jobs:
-  build:
-    name: Prepare-Build-Release-Publish
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+# jobs:
+#   build:
+#     name: Prepare-Build-Release-Publish
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Restore Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE }}" > sound-on-fire.jks.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch sound-on-fire.jks.asc > android/sound-on-fire.jks
+#       - name: Restore Keystore
+#         run: |
+#           echo "${{ secrets.KEYSTORE }}" > sound-on-fire.jks.asc
+#           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch sound-on-fire.jks.asc > android/sound-on-fire.jks
 
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
+#       - name: Setup Java
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: "12.x"
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          channel: "stable" # or: 'dev' or 'beta'
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v1
+#         with:
+#           channel: "stable" # or: 'dev' or 'beta'
 
-      - name: Prepare & Build
-        id: prepare-build
-        run: |
-          ./.github/scripts/buildAndroid.sh release "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
-          echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
-          echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
+#       - name: Prepare & Build
+#         id: prepare-build
+#         run: |
+#           ./.github/scripts/buildAndroid.sh release "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
+#           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
+#           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-          # body: |
-          #   # Changelog:
+#       - name: Create Release
+#         id: create_release
+#         uses: actions/create-release@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           tag_name: ${{ github.ref }}
+#           release_name: Release ${{ github.ref }}
+#           draft: false
+#           prerelease: false
+#           # body: |
+#           #   # Changelog:
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.prepare-build.outputs.dir }}
-          asset_name: ${{ steps.prepare-build.outputs.file }}
-          asset_content_type: application/apk
+#       - name: Upload Release Asset
+#         id: upload-release-asset
+#         uses: actions/upload-release-asset@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+#           asset_path: ${{ steps.prepare-build.outputs.dir }}
+#           asset_name: ${{ steps.prepare-build.outputs.file }}
+#           asset_content_type: application/apk
 
-      - name: Generate In-App Update Config
-        id: update-config
-        run: ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
+#       - name: Generate In-App Update Config
+#         id: update-config
+#         run: ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
 
-      - name: Update In-App Update Config
-        uses: EndBug/add-and-commit@v5
-        with:
-          branch: master
-          author_name: timoknapp
-          author_email: mail@timoknapp.com
-          message: "chore(in-app-update): update config"
-          add: "app-update-changelog.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Update In-App Update Config
+#         uses: EndBug/add-and-commit@v5
+#         with:
+#           branch: master
+#           author_name: timoknapp
+#           author_email: mail@timoknapp.com
+#           message: "chore(in-app-update): update config"
+#           add: "app-update-changelog.json"
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload to App Center
-        uses: wzieba/AppCenter-Github-Action@v1
-        with:
-          appName: timo_knapp/SoundOnFire
-          token: ${{secrets.APP_CENTER_API_TOKEN}}
-          group: public
-          file: ${{ steps.prepare-build.outputs.dir }}
+#       - name: Upload to App Center
+#         uses: wzieba/AppCenter-Github-Action@v1
+#         with:
+#           appName: timo_knapp/SoundOnFire
+#           token: ${{secrets.APP_CENTER_API_TOKEN}}
+#           group: public
+#           file: ${{ steps.prepare-build.outputs.dir }}

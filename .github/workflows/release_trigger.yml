@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: Trigger
+name: Release
 
 jobs:
   build:
@@ -18,8 +18,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           changelog-file: CHANGELOG.md
-          update-file: .version
           dry: true # this will put the new version only in the '.version-unreleased' file.
+          # update-file: .version
 
       - name: Set up Git
         if: steps.semrel.outputs.version != ''
@@ -36,21 +36,8 @@ jobs:
           echo "Version Release: ${{ steps.semrel.outputs.version }}"
           echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
           echo "Version Unreleased: $(cat .version-unreleased)"
+          echo "CHANGELOG.md: $(cat CHANGELOG.md)"
           ./.github/scripts/updateVersion.sh "$(cat .version-unreleased)"
-
-      - name: Push tag
-        id: tag
-        if: steps.semrel.outputs.version != ''
-        run: |
-          appVersionName=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f1)
-          appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f2)
-          echo "Version: $appVersionName"
-          echo "Version-Code: $appVersionCode"
-          TAG="v$appVersionName+$appVersionCode"
-          echo "::set-output name=name::$TAG"
-          git push origin :refs/tags/${TAG}
-          git tag -fa ${TAG} -m "Release $TAG"
-          git push origin ${TAG}
 
       - name: Restore Keystore
         run: |
@@ -74,6 +61,28 @@ jobs:
           echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
 
+      - name: Update In-App Update Config
+        id: update-config
+        run: |
+          ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
+          git add pubspec.yaml app-update-changelog.json CHANGELOG.md
+          git commit -m "chore(version): update release output"
+          git push
+
+      - name: Push tag
+        id: tag
+        if: steps.semrel.outputs.version != ''
+        run: |
+          appVersionName=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f1)
+          appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f2)
+          echo "Version: $appVersionName"
+          echo "Version-Code: $appVersionCode"
+          TAG="v$appVersionName+$appVersionCode"
+          echo "::set-output name=name::$TAG"
+          git push origin :refs/tags/${TAG}
+          git tag -fa ${TAG} -m "Release $TAG"
+          git push origin ${TAG}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -84,8 +93,7 @@ jobs:
           release_name: Release ${{ steps.tag.outputs.name }}
           draft: false
           prerelease: false
-          body: |
-            "${{ steps.semrel.outputs.changelog }}"
+          body: ${{ steps.semrel.outputs.changelog }}
 
       - name: Upload Release Asset
         id: upload-release-asset
@@ -97,14 +105,6 @@ jobs:
           asset_path: ${{ steps.prepare-build.outputs.dir }}
           asset_name: ${{ steps.prepare-build.outputs.file }}
           asset_content_type: application/apk
-
-      - name: Update In-App Update Config
-        id: update-config
-        run: |
-          ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
-          git add pubspec.yaml app-update-changelog.json
-          git commit -m "chore(version): update release output"
-          git push
 
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
