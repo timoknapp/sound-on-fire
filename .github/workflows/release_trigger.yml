@@ -49,7 +49,7 @@ jobs:
           TAG="v$appVersionName+$appVersionCode"
           echo "::set-output name=name::$TAG"
           git push origin :refs/tags/${TAG}
-          git tag -fa ${TAG}
+          git tag -fa ${TAG} -m "Release $TAG"
           git push origin ${TAG}
 
       - name: Restore Keystore
