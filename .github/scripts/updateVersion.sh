@@ -14,4 +14,4 @@ new="version: $newAppVersionName+$appVersionCode"
 sed -i "s/$old/$new/g" pubspec.yaml
 # --> MacOS
 # sed -i '' "s/$old/$new/g" pubspec.yaml
-git add pubspec.yaml
+# git add pubspec.yaml
