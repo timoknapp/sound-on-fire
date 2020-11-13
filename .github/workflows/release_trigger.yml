@@ -11,6 +11,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - run: echo "1.0.0+1" > .version # this file seems to be required for the dry-mode
+
       # Go Semantic Release
       - name: Run Semantic Release
         uses: go-semantic-release/action@v1
