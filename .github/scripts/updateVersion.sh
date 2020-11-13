@@ -4,11 +4,10 @@ appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '
 
 # Bump Version
 newAppVersionName=$1
-newAppVersionCode=$(expr $appVersionCode + 1)
-echo "Bump Version: $appVersionName+$appVersionCode >> $newAppVersionName+$newAppVersionCode"
+echo "Bump Version: $appVersionName+$appVersionCode >> $newAppVersionName+$appVersionCode"
 
 old="version: $appVersionName+$appVersionCode"
-new="version: $newAppVersionName+$newAppVersionCode"
+new="version: $newAppVersionName+$appVersionCode"
 #echo "$old > $new"
 
 # Replace Version in pubspec.yaml

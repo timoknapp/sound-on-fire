@@ -28,42 +28,38 @@ jobs:
           echo "Minor: ${{ steps.semrel.outputs.version_minor }}"
           echo "Patch: ${{ steps.semrel.outputs.version_patch }}"
           echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
+          cat .version-unreleased
         if: steps.semrel.outputs.version != ''
-
-      - name: Post Semantic Release Job
-        run: ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}"
-        if: steps.semrel.outputs.version != ''
-
-      # - name: Update Release Version
+      # - name: Post Semantic Release Job
+      #   run: ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}"
       #   if: steps.semrel.outputs.version != ''
-      #   uses: EndBug/add-and-commit@v4
-      #   with:
-      #     author_name: timoknapp
-      #     author_email: mail@timoknapp.com
-      #     message: "chore(version): update version"
-      #     add: "pubspec.yaml"
+      # # - name: Update Release Version
+      # #   if: steps.semrel.outputs.version != ''
+      # #   uses: EndBug/add-and-commit@v4
+      # #   with:
+      # #     author_name: timoknapp
+      # #     author_email: mail@timoknapp.com
+      # #     message: "chore(version): update version"
+      # #     add: "pubspec.yaml"
+      # #   env:
+      # #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Set up Git
+      #   if: steps.semrel.outputs.version != ''
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Git
-        if: steps.semrel.outputs.version != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Update tag
-        if: steps.semrel.outputs.version != ''
-        run: |
-          appVersionName=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f1)
-          appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f2)
-          echo "Version Semrel: ${{ steps.semrel.outputs.version }}"
-          echo "Version: $appVersionName"
-          echo "Version-Code: $appVersionCode"
-        # run: |
-        #   TAG=v${{ steps.semrel.outputs.version }}
-        #   git push origin :refs/tags/${TAG}
-        #   git tag -fa ${TAG} -m "Release v${{ steps.semrel.outputs.version }}"
-        #   git push origin ${TAG}
+      #   run: |
+      #     git config user.name "${{ github.actor }}"
+      #     git config user.email "${{ github.actor }}@users.noreply.github.com"
+      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+      # - name: Update tag
+      #   if: steps.semrel.outputs.version != ''
+      #   run: |
+      #     appVersionName=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f1)
+      #     appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f2)
+      #     echo "Version Semrel: ${{ steps.semrel.outputs.version }}"
+      #     echo "Version: $appVersionName"
+      #     echo "Version-Code: $appVersionCode"
+      #     TAG="v${{ steps.semrel.outputs.version }}+$appVersionCode"
+      #     git push origin :refs/tags/${TAG}
+      #     git tag -fa ${TAG} -m "${{ steps.semrel.outputs.changelog }}"
+      #     git push origin ${TAG}
