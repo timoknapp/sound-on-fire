@@ -12,7 +12,7 @@ on:
   pull_request:
     branches:
       - master
-name: SoundOnFire-Development
+name: Development
 jobs:
   build:
     name: Prepare-Build-Upload
