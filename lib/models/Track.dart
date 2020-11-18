@@ -104,9 +104,10 @@ class Track {
         uri: json['uri'],
         transcodingURL: transcodingURL,
         duration: Duration(milliseconds: json['duration']),
-        playbackCount: json['playback_count'],
+        playbackCount:
+            json['playback_count'] != null ? json['playback_count'] : 0,
         artwork: json['artwork_url'],
-        likesCount: json['likes_count'],
+        likesCount: json['likes_count'] != null ? json['likes_count'] : 0,
         date: DateTime.parse(json['display_date']),
       );
     } else {
