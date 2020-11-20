@@ -1,7 +1,7 @@
 <p align="center">
     <img width="30%" src="screenshots/logo_with_bg.png">
 </p>
-<h1 align="center" style="border-bottom: none;">🔊☁️ 🔥📺  SoundOnFire </h1>
+<h1 align="center" style="border-bottom: none;">SoundOnFire </h1>
 <h3 align="center">A Flutter based SoundCloud App for your Fire TV.</h3>
 <p align="center">
     <a href="https://github.com/timoknapp/sound-on-fire/actions?query=workflow%3A%22SoundOnFire+Development%22">
