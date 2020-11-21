@@ -17,7 +17,6 @@ jobs:
   build:
     name: Build-Upload
     runs-on: ubuntu-latest
-    needs: prepare
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
