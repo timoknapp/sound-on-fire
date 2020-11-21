@@ -14,29 +14,6 @@ on:
       - master
 name: Development
 jobs:
-  prepare:
-    name: Prepare
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Update build number
-        if: github.ref != 'refs/heads/master' && github.repository == 'timoknapp/sound-on-fire'
-        run: ./.github/scripts/bumpVersion.sh
-
-      - name: Push to Git
-        if: github.ref != 'refs/heads/master' && github.repository == 'timoknapp/sound-on-fire'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git add pubspec.yaml
-          git commit -m "chore(version): bump build number"
-          git push
-
   build:
     name: Build-Upload
     runs-on: ubuntu-latest
@@ -50,6 +27,19 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE }}" > sound-on-fire.jks.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch sound-on-fire.jks.asc > android/sound-on-fire.jks
+
+      - name: Update build number
+        if: github.ref != 'refs/heads/master' && github.repository == 'timoknapp/sound-on-fire'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./.github/scripts/bumpVersion.sh
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git add pubspec.yaml
+          git commit -m "chore(version): bump build number"
+          git push
 
       - name: Setup Java
         uses: actions/setup-java@v1
