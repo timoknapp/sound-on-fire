@@ -38,6 +38,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add pubspec.yaml
           git commit -m "chore(version): bump build number"
+          git pull
           git push origin HEAD:${{ github.head_ref }}
 
       - name: Setup Java
