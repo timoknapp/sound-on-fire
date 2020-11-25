@@ -95,7 +95,7 @@ jobs:
           release_name: Release ${{ steps.tag.outputs.name }}
           draft: false
           prerelease: false
-          body: ${{ steps.semrel.outputs.changelog }}
+          body: ${{ steps.semrel.outputs.changelog }} | sed '/^#### Feature/s!\(#### \)!#### 🎁 !' | sed '/^#### Bug/s!\(#### \)!#### 🐞 !' | sed '/^#### Chores/s!\(#### \)!#### 🚧 !' | sed '/^#### CI/s!\(#### \)!#### 🔁 !'
 
       - name: Upload Release Asset
         id: upload-release-asset
