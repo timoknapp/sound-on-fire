@@ -38,7 +38,7 @@ jobs:
           echo "Version Release: ${{ steps.semrel.outputs.version }}"
           echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
           echo "Version Unreleased: $(cat .version-unreleased)"
-          echo "CHANGELOG.md: $(cat CHANGELOG.md | sed '/^#### Feature/s!\(#### \)!#### 🎁 !' | sed '/^#### Bug/s!\(#### \)!#### 🐞 !' | sed '/^#### Chores/s!\(#### \)!#### 🚧 !' | sed '/^#### CI/s!\(#### \)!#### 🔁 !')"
+          echo "CHANGELOG.md: $(cat CHANGELOG.md | sed '/^#### Feature/s!\(#### \)!#### 🎁 !' | sed '/^#### Bug/s!\(#### \)!#### 🐞 !' | sed '/^#### Chores/s!\(#### \)!#### 🚧 !' | sed '/^#### CI/s!\(#### \)!#### 🔁 !' | sed '/^#### Tests/s!\(#### \)!#### 🔎 !')"
           ./.github/scripts/updateVersion.sh "$(cat .version-unreleased)"
 
       - name: Restore Keystore
@@ -95,7 +95,7 @@ jobs:
           release_name: Release ${{ steps.tag.outputs.name }}
           draft: false
           prerelease: false
-          body: ${{ steps.semrel.outputs.changelog }} | sed '/^#### Feature/s!\(#### \)!#### 🎁 !' | sed '/^#### Bug/s!\(#### \)!#### 🐞 !' | sed '/^#### Chores/s!\(#### \)!#### 🚧 !' | sed '/^#### CI/s!\(#### \)!#### 🔁 !'
+          body: ${{ steps.semrel.outputs.changelog }}
 
       - name: Upload Release Asset
         id: upload-release-asset
