@@ -38,7 +38,7 @@ jobs:
           echo "Version Release: ${{ steps.semrel.outputs.version }}"
           echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
           echo "Version Unreleased: $(cat .version-unreleased)"
-          echo "CHANGELOG.md: $(cat CHANGELOG.md)"
+          echo "CHANGELOG.md: $(cat CHANGELOG.md | sed '/^#### Feature/s!\(#### \)!#### 🎁 !' | sed '/^#### Bug/s!\(#### \)!#### 🐞 !' | sed '/^#### Chores/s!\(#### \)!#### 🚧 !' | sed '/^#### CI/s!\(#### \)!#### 🔁 !')"
           ./.github/scripts/updateVersion.sh "$(cat .version-unreleased)"
 
       - name: Restore Keystore
