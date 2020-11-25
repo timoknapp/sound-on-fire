@@ -63,7 +63,7 @@ This is currently the roadmap, please feel free to request additions/changes.
 
 ## Known Issues
 
-- **BUG**: Tracks longer than ~ 40 minutes will stop unexpectedly and next track continues. Its a known issue and it seems to relate to an unexpected connection loss of the stream. The logs show the following error:
+- **BUG**: ✅ [#27](https://github.com/timoknapp/sound-on-fire/issues/27) Tracks longer than ~ 40 minutes will stop unexpectedly and next track continues. Its a known issue and it seems to relate to an unexpected connection loss of the stream. The logs show the following error:
     - `W/MediaHTTPConnection( 3979): readAt 36823797 / 7435 => java.net.ProtocolException: unexpected end of stream`
 
 ## Contribution
