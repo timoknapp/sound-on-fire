@@ -8,7 +8,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="SoundOnFire"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/ic_launcher">
         <activity
             android:name="com.example.sound_on_fire.MainActivity"
             android:launchMode="singleTop"
