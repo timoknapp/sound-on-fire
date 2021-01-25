@@ -6,6 +6,7 @@
 
 #### 🐞 Bug Fixes
 
+* semantic-release using dry-run (6f8b1a4a)
 * **icon:** change from mipmap to drawable icons (#36) (2e6330fb)
 * release notes in ci pipeline (9bc4ced8)
 * resolve the case in which a track would not have a playbackCount or likeCount (cfc019e6)
@@ -16,6 +17,7 @@
 
 #### 🚧 Chores
 
+* **version:** update release output (2e787cf1)
 * **deps:** update dependency gradle to v6.8.1 (#35) (54c539b4)
 * **deps:** update dependency gradle to v6.8 (#34) (d3278337)
 * fix typo in readme (f75e04c3)
