@@ -1,19 +1,29 @@
-## 1.3.0 (2020-11-18)
+## 1.3.0 (2021-01-25)
 
-#### Feature
+#### 🎁 Feature
 
 * **semrel:** add semantic release (105b5788)
 
-#### Bug Fixes
+#### 🐞 Bug Fixes
 
+* **icon:** change from mipmap to drawable icons (#36) (2e6330fb)
+* release notes in ci pipeline (9bc4ced8)
 * resolve the case in which a track would not have a playbackCount or likeCount (cfc019e6)
 * **deps:** update dependency audioplayers to ^0.17.0 (#32) (390e8e81)
 * noticed that not all tracks support a proper audioformat, only progressive works (8849994c)
 * **version:** bump commit hash (0fd16a8d)
 * test semantic release (merge only) (f7317033)
 
-#### Chores
+#### 🚧 Chores
 
+* **deps:** update dependency gradle to v6.8.1 (#35) (54c539b4)
+* **deps:** update dependency gradle to v6.8 (#34) (d3278337)
+* fix typo in readme (f75e04c3)
+* adapted formatting of semantic-release notes (7f34410e)
+* adapted formatting of semantic-release notes (3d8ebca5)
+* readme (4aaebe42)
+* update screenshot in readme (36bc67bc)
+* **version:** update release output (17961868)
 * **version:** bump commit hash (46b72fb6)
 * **flutter:** upgrade flutter (4fa3eadd)
 * **version:** bump commit hash (51e27180)
@@ -97,8 +107,9 @@
 * **version:** bump commit hash (489a63f3)
 * **in-app-update:** update config (8c10e08a)
 
-#### CI
+#### 🔁 CI
 
+* update to latest semantic-release action (4628aa61)
 * small adpations (7ce12223)
 * add workflow_dispatch (5526794e)
 
