@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - run: echo "1.0.0+1" > .version # this file seems to be required for the dry-mode
+      # - run: echo "1.0.0+1" > .version # this file seems to be required for the dry-mode
 
       # Go Semantic Release
       - name: Run Semantic Release
@@ -41,7 +41,7 @@ jobs:
           echo "Changelog: ${{ steps.semrel.outputs.changelog }}"
           echo "Version Unreleased: $(cat .version-unreleased)"
           echo "CHANGELOG.md: $(cat CHANGELOG.md)"
-          ./.github/scripts/updateVersion.sh "$(cat .version-unreleased)"
+          ./.github/scripts/updateVersion.sh "${{ steps.semrel.outputs.version }}"
 
       - name: Restore Keystore
         run: |
