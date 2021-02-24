@@ -61,6 +61,12 @@ This is currently the roadmap, please feel free to request additions/changes.
 | Use Slider to scroll through track                           |    🔜    |
 | Build Version for AppleTV and MacOS                          |    🔜    |
 
+## Remote Control via Smartphone
+
+The main idea with this is to simply use your smartphone as a remote control for using SoundOnFire. The first draft of the this will focus on using it as a keyboard such that you could search for tracks using your smartphone keyboard.
+
+In case you are more interested in this feature you can go [here](REMOTE_CONTROL.md) and have a look the diagrams.
+
 ## Known Issues
 
 - **BUG**: ✅ [#27](https://github.com/timoknapp/sound-on-fire/issues/27) Tracks longer than ~ 40 minutes will stop unexpectedly and next track continues. Its a known issue and it seems to relate to an unexpected connection loss of the stream. The logs show the following error:

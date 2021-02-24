@@ -1,0 +1,37 @@
+@startuml
+title "Remote Control Pairing"
+actor User
+participant "Smartphone"
+participant "SoundOnFire"
+participant "Serverless Function"
+participant "Remote Control Web App"
+
+User -> "SoundOnFire": Open remote control pairing
+activate "SoundOnFire"
+    "SoundOnFire" -> "Serverless Function": Post generated device ID
+        activate "Serverless Function"
+        "Serverless Function" -> "Serverless Function": Cache device ID
+        return Remote control pairing redirect URL 
+    "SoundOnFire" -> "SoundOnFire": Show QR-Code using pairing redirect URL
+    "SoundOnFire" -> "Serverless Function": Polls pairing status
+    activate "Serverless Function"
+    return Pairing incomplete
+    "SoundOnFire" -> "Serverless Function": ...
+    activate "Serverless Function"
+    return ...
+    
+    "User" -> "Smartphone": Uses Smartphone to scan QR-Code
+    activate "Smartphone"
+    "Smartphone" -> "SoundOnFire": Scan QR-Code
+    "SoundOnFire" -> "Smartphone": Remote control pairing redirect URL
+        "Smartphone" -> "Smartphone": Open remote control pairing URL
+        "Smartphone" -> "Serverless Function": Complete remote control pairing
+        activate "Serverless Function"
+        return Redirect to remote control web app
+    "SoundOnFire" -> "Serverless Function": Polls pairing status
+        activate "Serverless Function"
+        return Confirm pairing status
+        deactivate "SoundOnFire"
+        "Smartphone" -> "Remote Control Web App": Open remote control web app
+
+@enduml
