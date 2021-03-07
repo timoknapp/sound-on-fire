@@ -1,0 +1,12 @@
+@startuml
+title "Remote Control Interaction"
+actor User
+participant "Smartphone"
+participant "SoundOnFire"
+participant "Serverless Function"
+participant "Remote Control Web App"
+
+"User" -> "Smartphone": Opens remote control web app after pairing
+"Smartphone" -> "Remote Control Web App":
+
+@enduml
