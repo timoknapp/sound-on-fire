@@ -6,9 +6,7 @@ import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/util/constants.dart';
 
 Future<String> fetchUrl(url) async {
-  final response = await http.get(
-    Uri.encodeFull(url),
-  );
+  final response = await http.get(Uri.parse(Uri.encodeFull(url)));
   return response.body.toString();
 }
 
@@ -61,8 +59,7 @@ Future<String> getMediaUrl(clientID, transcodingURL) async {
 Future<AutocompleteResponse> queryResults(
     String query, int limit, String clientId) async {
   if (query != "") {
-    final response = await http.get(
-        '$soundCloudApiHost/search/queries?q=$query&client_id=$clientId&limit=$limit&offset=0');
+    final response = await http.get(Uri.parse('$soundCloudApiHost/search/queries?q=$query&client_id=$clientId&limit=$limit&offset=0'));
 
     // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
@@ -81,8 +78,7 @@ Future<AutocompleteResponse> queryResults(
 Future<SearchResponse> searchTracks(
     String query, int limit, int offset, String clientId) async {
   if (query != "") {
-    final response = await http.get(
-        '$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=$offset');
+    final response = await http.get(Uri.parse('$soundCloudApiHost/search/tracks?q=$query&client_id=$clientId&limit=$limit&offset=$offset'));
 
     // print('Response Status-Code: ${response.statusCode}');
     if (response.statusCode == 200) {
