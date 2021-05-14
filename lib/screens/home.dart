@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void playPause({bool forcePause = false}) async {
     if (playlist.isNotEmpty && playlist.first.streamUrl != null) {
-      if (audioPlayer.state == AudioPlayerState.PLAYING || forcePause) {
+      if (audioPlayer.state == PlayerState.PLAYING || forcePause) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
