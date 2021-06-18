@@ -93,6 +93,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       setState(() {
         currentAudioPosition = d;
       });
+      // TODO: This is a workaround fixing the behaviour of connectin closures after ~40 minutes on Fire TVs
+      // It will stop and rerun the track after every 35 minutes.
+      int audioPositionInSeconds = d.inSeconds;
+      if (audioPlayer.state == PlayerState.PLAYING && audioPositionInSeconds > 0 && audioPositionInSeconds % 2100 == 0) {
+        print("Error every 35 min! $audioPositionInSeconds Sec.");
+        audioPlayer.pause();
+        audioPlayer.resume();
+      }
     });
     audioPlayer.onPlayerCompletion.listen((data) {
       print("Player Completion Event. Player error occured: $errorHasOccured");
