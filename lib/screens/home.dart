@@ -99,9 +99,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (
         audioPlayer.state == PlayerState.PLAYING && 
         audioPosition.inSeconds > 0 && 
-        audioPosition.inMilliseconds % audioPlayerCalibrationInterval.inMilliseconds == 0
+        audioPosition.inSeconds % audioPlayerCalibrationInterval.inSeconds == 0
       ) {
-        print("Audioplayer calibration every ${audioPlayerCalibrationInterval.inMinutes}min. Current audio position: ${audioPosition.inMinutes}min ${audioPosition.inSeconds}sec.");
+        print("Audioplayer calibration every ${audioPlayerCalibrationInterval.inMinutes} min. Current audio position: ${audioPosition.inMinutes} min.");
         audioPlayer.pause();
         audioPlayer.resume();
       }
