@@ -33,6 +33,7 @@ In order to get started with **SoundOnFire** on your FireTV, you need to do the 
     - [GitHub](https://github.com/timoknapp/sound-on-fire/releases) 
     - [Microsoft App-Center](https://install.appcenter.ms/users/timo_knapp/apps/soundonfire/distribution_groups/public)
 - Install the `.apk` on your FireTV
+    - (**easiest**) install [Downloader by AFTVnews](https://www.aftvnews.com/downloader/) on your FireTV, open it and enter `tinyurl.com/sof-release`, then read, understand and confirm the security prompts. (<small>You can also enter [**40787**](https://aftv.news/40787), but this requires an extra step to install the AFTVnews Downloader browser addon if you haven't already.</small>)
     - with your Android Smartphone using this [App](https://play.google.com/store/apps/details?id=mobi.koni.appstofiretv&hl=en)
     - with your computer or another FireTV App [read here](https://www.howtogeek.com/336602/how-to-sideload-apps-on-the-fire-tv-and-fire-tv-stick/)
 - Once the **SoundOnFire** App has been installed on your FireTV, a small modal will pop up on the bottom right of your screen. Otherwhise you will find the App under: `Home > Your Apps > All Apps > SoundOnFire`

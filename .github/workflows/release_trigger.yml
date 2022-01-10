@@ -62,13 +62,15 @@ jobs:
         id: prepare-build
         run: |
           ./.github/scripts/buildAndroid.sh release "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
-          echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
-          echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
+          echo "::set-output name=artifact-filepath::$(cat tmp_artifact_path.txt)"
+          echo "::set-output name=artifact-filename::$(cat tmp_artifact_name.txt)"
+          echo "::set-output name=artifact-filepath-latest::$(cat tmp_artifact_path_latest.txt)"
+          echo "::set-output name=artifact-filename-latest::$(cat tmp_artifact_name_latest.txt)"
 
       - name: Update In-App Update Config
         id: update-config
         run: |
-          ./.github/scripts/updateAppChangelog.sh ${{ steps.create_release.outputs.upload_url }}
+          ./.github/scripts/updateAppChangelog.sh ${{ steps.create-release-version.outputs.upload_url }}
           git add pubspec.yaml app-update-changelog.json CHANGELOG.md
           git commit -m "chore(version): update release output"
           git push
@@ -84,11 +86,14 @@ jobs:
           TAG="v$appVersionName+$appVersionCode"
           echo "::set-output name=name::$TAG"
           git push origin :refs/tags/${TAG}
+          git push origin :refs/tags/latest
           git tag ${TAG}
+          git tag latest
           git push origin ${TAG}
+          git push origin latest
 
-      - name: Create Release
-        id: create_release
+      - name: Create Release Version
+        id: create-release-version
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -99,15 +104,37 @@ jobs:
           prerelease: false
           body: ${{ steps.semrel.outputs.changelog }}
 
-      - name: Upload Release Asset
-        id: upload-release-asset
+      - name: Upload Release Asset Version
+        id: upload-release-asset-version
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.prepare-build.outputs.dir }}
-          asset_name: ${{ steps.prepare-build.outputs.file }}
+          upload_url: ${{ steps.create-release-version.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ steps.prepare-build.outputs.artifact-filepath }}
+          asset_name: ${{ steps.prepare-build.outputs.artifact-filename }}
+          asset_content_type: application/apk
+
+      - name: Create Release Latest
+        id: create-release-latest
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: latest
+          release_name: Latest release
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset Latest
+        id: upload-release-asset-latest
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release-latest.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ steps.prepare-build.outputs.artifact-filepath-latest }}
+          asset_name: ${{ steps.prepare-build.outputs.artifact-filename-latest }}
           asset_content_type: application/apk
 
       - name: Upload to App Center
@@ -116,4 +143,4 @@ jobs:
           appName: timo_knapp/SoundOnFire
           token: ${{secrets.APP_CENTER_API_TOKEN}}
           group: public
-          file: ${{ steps.prepare-build.outputs.dir }}
+          file: ${{ steps.prepare-build.outputs.artifact-filepath }}
