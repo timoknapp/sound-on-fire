@@ -56,11 +56,11 @@ jobs:
         id: prepare-build
         run: |
           ./.github/scripts/buildAndroid.sh beta "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
-          echo "::set-output name=dir::$(cat tmp_artifact_path.txt)"
-          echo "::set-output name=file::$(cat tmp_artifact_name.txt)"
+          echo "::set-output name=artifact-filepath::$(cat tmp_artifact_path.txt)"
+          echo "::set-output name=artifact-filename::$(cat tmp_artifact_name.txt)"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ steps.prepare-build.outputs.file }}
-          path: ${{ steps.prepare-build.outputs.dir }}
+          name: ${{ steps.prepare-build.outputs.artifact-filename }}
+          path: ${{ steps.prepare-build.outputs.artifact-filepath }}
