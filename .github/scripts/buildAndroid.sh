@@ -18,8 +18,8 @@ sed -i "s/KEY_ALIAS/$keyAlias/g" android/key.properties
 sed -i "s/APP_CENTER_SECRET/$appCenterSecret/g" android/app/src/main/kotlin/com/example/sound_on_fire/MainActivity.kt
 
 # Build .apk with flutter command
-flutter pub get --ignore-deprecation
-flutter build apk --ignore-deprecation
+flutter pub get
+flutter build apk
 fileName=$path/$archiveName
 
 # Rename artifact
