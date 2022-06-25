@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # - run: echo "1.0.0+1" > .version # this file seems to be required for the dry-mode
 
@@ -54,8 +54,9 @@ jobs:
           java-version: "12.x"
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
+          flutter-version: '2.8.1'
           channel: "stable" # or: 'dev' or 'beta'
 
       - name: Prepare & Build

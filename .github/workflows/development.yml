@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Restore Keystore
         if: github.repository == 'timoknapp/sound-on-fire'
@@ -48,13 +48,16 @@ jobs:
           java-version: "12.x"
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
+          flutter-version: '2.8.1'
           channel: "stable" # or: 'dev' or 'beta'
 
       - name: Prepare & Build
         id: prepare-build
         run: |
+          flutter --version
+          
           ./.github/scripts/buildAndroid.sh beta "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
           echo "::set-output name=artifact-filepath::$(cat tmp_artifact_path.txt)"
           echo "::set-output name=artifact-filename::$(cat tmp_artifact_name.txt)"
