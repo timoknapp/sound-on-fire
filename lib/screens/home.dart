@@ -90,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _initAudioPlayer() {
     audioPlayer = AudioPlayer();
-    audioPlayer.onAudioPositionChanged.listen((Duration audioPosition) {
+    audioPlayer.onPositionChanged.listen((Duration audioPosition) {
       setState(() {
         currentAudioPosition = audioPosition;
       });
       // TODO: This is a workaround fixing the behaviour of connectin closures after ~40 minutes on Fire TVs
       // It will stop and rerun the track after every 35 minutes.
       if (
-        audioPlayer.state == PlayerState.PLAYING && 
+        audioPlayer.state == PlayerState.playing &&
         audioPosition.inSeconds > 0 && 
         audioPosition.inSeconds % audioPlayerCalibrationInterval.inSeconds == 0
       ) {
@@ -106,13 +106,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         audioPlayer.resume();
       }
     });
-    audioPlayer.onPlayerCompletion.listen((data) {
+    audioPlayer.onPlayerComplete.listen((data) {
       print("Player Completion Event. Player error occured: $errorOccured");
       // Check if  Player have had an error, if so ignore onCompletionEvent.
       if (errorOccured) {
         audioPlayer.release();
         audioPlayer.seek(currentAudioPosition);
-        audioPlayer.play(playlist.first.streamUrl);
+        audioPlayer.play(UrlSource(playlist.first.streamUrl));
         setState(() {
           errorOccured = false;
         });
@@ -127,16 +127,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       }
     });
-    audioPlayer.onPlayerError.listen((event) {
-      print("Player Error Event: $event ; Position: $currentAudioPosition");
-      // playPause(forcePause: true);
-      // selectTrack(playlist.first);
-      // audioPlayer.seek(currentAudioPosition);
-      setState(() {
-        errorOccured = true;
-      });
-      // TODO: do sth when errors occur!
-    });
+    // audioPlayer.onPlayerError.listen((event) {
+    //   print("Player Error Event: $event ; Position: $currentAudioPosition");
+    //   // playPause(forcePause: true);
+    //   // selectTrack(playlist.first);
+    //   // audioPlayer.seek(currentAudioPosition);
+    //   setState(() {
+    //     errorOccured = true;
+    //   });
+    //   // TODO: do sth when errors occur!
+    // });
   }
 
   void getAutocomplete(String query) async {
@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       currentAudioPosition = Duration(seconds: 0);
     });
     setPlaylist(track);
-    audioPlayer.play(track.streamUrl);
+    audioPlayer.play(UrlSource(track.streamUrl));
     await FlutterWindowManager.addFlags(
         FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
   }
@@ -264,12 +264,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void playPause({bool forcePause = false}) async {
     if (playlist.isNotEmpty && playlist.first.streamUrl != null) {
-      if (audioPlayer.state == PlayerState.PLAYING || forcePause) {
+      if (audioPlayer.state == PlayerState.playing || forcePause) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       } else {
-        await audioPlayer.play(playlist.first.streamUrl); //, stayAwake: true);
+        await audioPlayer.play(UrlSource(playlist.first.streamUrl)); //, stayAwake: true);
         await FlutterWindowManager.addFlags(
             FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
       }

@@ -61,7 +61,7 @@ class BottomBar extends StatelessWidget {
                   Expanded(
                     child: SmallButton(
                       autoFocus: false,
-                      icon: Icon(audioPlayer.state != PlayerState.PLAYING
+                      icon: Icon(audioPlayer.state != PlayerState.playing
                           ? Icons.play_arrow
                           : Icons.pause),
                       onClick: track != null ? playPause : null,
