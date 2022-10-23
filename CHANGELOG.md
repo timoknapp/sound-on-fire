@@ -1,6 +1,7 @@
-## 1.3.6 (2022-06-25)
+## 1.3.7 (2022-10-23)
 
-#### 🐞 Bug Fixes
+#### 🚧 Chores
 
-* **deps:** update dependency audioplayers to v1 (#57) (84c32ff7)
+* **deps:** update dependency gradle to v6.9.3 (#59) (0eeef050)
+* **deps:** upgrade to flutter v3.x (#58) (969dba54)
 
