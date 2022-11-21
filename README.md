@@ -4,11 +4,11 @@
 <h1 align="center" style="border-bottom: none;">SoundOnFire </h1>
 <h3 align="center">A Flutter based SoundCloud App for your Fire TV.</h3>
 <p align="center">
-    <a href="https://github.com/timoknapp/sound-on-fire/actions?query=workflow%3A%22SoundOnFire+Development%22">
-        <img alt="beta build" src="https://img.shields.io/github/workflow/status/timoknapp/sound-on-fire/SoundOnFire%20Development?label=beta">
+    <a href="https://github.com/timoknapp/sound-on-fire/actions/workflows/development.yml">
+        <img alt="beta build" src="https://github.com/timoknapp/sound-on-fire/actions/workflows/development.yml/badge.svg">
     </a>
-    <a href="https://github.com/timoknapp/sound-on-fire/actions?query=workflow%3A%22SoundOnFire+Release%22">
-        <img alt="release build" src="https://img.shields.io/github/workflow/status/timoknapp/sound-on-fire/SoundOnFire%20Release?label=release">
+    <a href="https://github.com/timoknapp/sound-on-fire/actions/workflows/release_trigger.yml">
+        <img alt="release build" src="https://github.com/timoknapp/sound-on-fire/actions/workflows/release_trigger.yml/badge.svg">
     </a>
     <a href="https://github.com/timoknapp/sound-on-fire/releases">
         <img alt="release version" src="https://img.shields.io/github/v/release/timoknapp/sound-on-fire?include_prereleases">
