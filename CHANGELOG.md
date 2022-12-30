@@ -1,7 +1,11 @@
-## 1.3.7 (2022-10-23)
+## 1.3.8 (2022-12-30)
+
+#### 🐞 Bug Fixes
+
+* **deps:** update dependency intl to ^0.18.0 (#65) (777b8dc9)
 
 #### 🚧 Chores
 
-* **deps:** update dependency gradle to v6.9.3 (#59) (0eeef050)
-* **deps:** upgrade to flutter v3.x (#58) (969dba54)
+* convert image to png (f4ad2ff0)
+* fixing CI pipeline badges (3fca40c4)
 
