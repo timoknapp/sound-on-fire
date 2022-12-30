@@ -24,7 +24,7 @@
     </a>
 </p>
 
-<img width="100%" src="screenshots/tv.jpg">
+<img width="100%" src="screenshots/tv.png">
 
 ## Getting Started
 
