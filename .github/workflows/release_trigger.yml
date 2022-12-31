@@ -63,10 +63,10 @@ jobs:
         id: prepare-build
         run: |
           ./.github/scripts/buildAndroid.sh release "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
-          echo "::set-output name=artifact-filepath::$(cat tmp_artifact_path.txt)"
-          echo "::set-output name=artifact-filename::$(cat tmp_artifact_name.txt)"
-          echo "::set-output name=artifact-filepath-latest::$(cat tmp_artifact_path_latest.txt)"
-          echo "::set-output name=artifact-filename-latest::$(cat tmp_artifact_name_latest.txt)"
+          echo "artifact-filepath=$(cat tmp_artifact_path.txt)" >> $GITHUB_OUTPUT
+          echo "artifact-filename=$(cat tmp_artifact_name.txt)" >> $GITHUB_OUTPUT
+          echo "artifact-filepath-latest=$(cat tmp_artifact_path_latest.txt)" >> $GITHUB_OUTPUT
+          echo "artifact-filename-latest=$(cat tmp_artifact_name_latest.txt)" >> $GITHUB_OUTPUT
 
       - name: Update In-App Update Config
         id: update-config
@@ -85,7 +85,7 @@ jobs:
           echo "Version: $appVersionName"
           echo "Version-Code: $appVersionCode"
           TAG="v$appVersionName+$appVersionCode"
-          echo "::set-output name=name::$TAG"
+          echo "name=$TAG" >> $GITHUB_OUTPUT
           git push origin :refs/tags/${TAG}
           git push origin :refs/tags/latest
           git tag ${TAG}

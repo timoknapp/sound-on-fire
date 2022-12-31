@@ -59,8 +59,8 @@ jobs:
           flutter --version
           
           ./.github/scripts/buildAndroid.sh beta "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.APP_CENTER_SECRET }}"
-          echo "::set-output name=artifact-filepath::$(cat tmp_artifact_path.txt)"
-          echo "::set-output name=artifact-filename::$(cat tmp_artifact_name.txt)"
+          echo "artifact-filepath=$(cat tmp_artifact_path.txt)" >> $GITHUB_OUTPUT
+          echo "artifact-filename=$(cat tmp_artifact_name.txt)" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1
