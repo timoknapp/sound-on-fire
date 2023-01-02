@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: "12.x"
 
@@ -63,7 +63,7 @@ jobs:
           echo "artifact-filename=$(cat tmp_artifact_name.txt)" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.prepare-build.outputs.artifact-filename }}
           path: ${{ steps.prepare-build.outputs.artifact-filepath }}
