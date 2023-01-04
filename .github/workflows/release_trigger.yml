@@ -96,48 +96,30 @@ jobs:
 
       - name: Create Release Version
         id: create-release-version
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ steps.tag.outputs.name }}
-          release_name: Release ${{ steps.tag.outputs.name }}
+          name: Release ${{ steps.tag.outputs.name }}
           draft: false
           prerelease: false
           body: ${{ steps.semrel.outputs.changelog }}
-
-      - name: Upload Release Asset Version
-        id: upload-release-asset-version
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release-version.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.prepare-build.outputs.artifact-filepath }}
-          asset_name: ${{ steps.prepare-build.outputs.artifact-filename }}
-          asset_content_type: application/apk
+          files: ${{ steps.prepare-build.outputs.artifact-filepath }}
 
       - name: Create Release Latest
         id: create-release-latest
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: latest
-          release_name: Latest release
+          name: Latest release
           draft: false
           prerelease: false
-
-      - name: Upload Release Asset Latest
-        id: upload-release-asset-latest
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release-latest.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.prepare-build.outputs.artifact-filepath-latest }}
-          asset_name: ${{ steps.prepare-build.outputs.artifact-filename-latest }}
-          asset_content_type: application/apk
+          files: ${{ steps.prepare-build.outputs.artifact-filepath-latest }}
 
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
