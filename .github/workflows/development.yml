@@ -68,3 +68,28 @@ jobs:
         with:
           name: ${{ steps.prepare-build.outputs.artifact-filename }}
           path: ${{ steps.prepare-build.outputs.artifact-filepath }}
+
+# TEST ----------------
+      # - name: Upload Release Asset Version
+      #   id: upload-release-asset-version
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create-release-version.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+      #     asset_path: ${{ steps.prepare-build.outputs.artifact-filepath }}
+      #     asset_name: ${{ steps.prepare-build.outputs.artifact-filename }}
+      #     asset_content_type: application/apk
+
+      - name: Test Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: test
+          name: test release
+          draft: true
+          prerelease: true
+          body: ${{ steps.semrel.outputs.changelog }}
+          files: ${{ steps.prepare-build.outputs.artifact-filepath }}
