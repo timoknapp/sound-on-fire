@@ -1,11 +1,7 @@
-## 1.3.8 (2022-12-30)
-
-#### 🐞 Bug Fixes
-
-* **deps:** update dependency intl to ^0.18.0 (#65) (777b8dc9)
+## 1.3.9 (2023-01-05)
 
 #### 🚧 Chores
 
-* convert image to png (f4ad2ff0)
-* fixing CI pipeline badges (3fca40c4)
+* update GitHub Actions versions (#67) (83efa8d6)
+* update job outputs to new schema (#66) (6a70e43b)
 
