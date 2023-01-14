@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # Extract Version from pubspec.yaml
 appVersionName=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f1)
 appVersionCode=$(cat pubspec.yaml | grep "version: " | cut -d ' ' -f2 | cut -d '+' -f2)
