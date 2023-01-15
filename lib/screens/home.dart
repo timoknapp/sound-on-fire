@@ -26,6 +26,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static AudioPlayer audioPlayer;
 
   bool isLoading = false;
+  bool isDarkModeEnabled = false;
+  Color backgroundColor1 = backgroundColorLightMode1;
+  Color backgroundColor2 = backgroundColorLightMode2;
   int searchLimit = 10;
   int amountCorruptTracks = 0;
   String searchQuery = "";
@@ -314,10 +317,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  void toggleDarkMode() {
+    print(isDarkModeEnabled);
+    if (isDarkModeEnabled) {
+      print("light");
+    } else print("dark");
+    setState(() {
+      isDarkModeEnabled = !isDarkModeEnabled;
+      backgroundColor1 = isDarkModeEnabled ? backgroundColorDarkMode1 : backgroundColorLightMode1;
+      backgroundColor2 = isDarkModeEnabled ? backgroundColorDarkMode2 : backgroundColorLightMode2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightGrey,
+      backgroundColor: backgroundColor1,
       body: RawKeyboardListener(
         focusNode: FocusNode(skipTraversal: true),
         onKey: _handleHardKeyEvents,
@@ -336,8 +351,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 scrollController: _scrollController,
                 trackTiles: trackTiles,
                 isLoading: isLoading,
+                isDarkModeEnabled: isDarkModeEnabled,
+                toggleDarkMode: toggleDarkMode,
               ),
               BottomBar(
+                backgroundColor: backgroundColor2,
                 playPause: playPause,
                 backward: fastRewind,
                 forward: fastForward,

@@ -10,7 +10,7 @@ class AutocompleteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: lighterGrey,
+      color: backgroundColorLightMode2,
       child: ListTile(
         title: Text(text),
         onTap: onClick,
