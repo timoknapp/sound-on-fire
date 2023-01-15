@@ -47,29 +47,4 @@ class SmallButton extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return ButtonTheme(
-  //     height: 35,
-  //     minWidth: 40,
-  //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-  //     child: FlatButton(
-  //       shape: border
-  //           ? RoundedRectangleBorder(
-  //               side: BorderSide(
-  //                 color: Colors.grey[300],
-  //                 width: 1,
-  //                 style: BorderStyle.solid
-  //               ),
-  //               borderRadius: BorderRadius.circular(10),
-  //             )
-  //           : null,
-  //       padding: EdgeInsets.symmetric(horizontal: 5),
-  //       child: icon != null ? icon : Text(text),
-  //       onPressed: onClick,
-  //       autofocus: autoFocus,
-  //     ),
-  //   );
-  // }
 }
