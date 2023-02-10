@@ -12,6 +12,7 @@ class BottomBar extends StatelessWidget {
   final Track track;
   final AudioPlayer audioPlayer;
   final Duration currentAudioPosition;
+  final Color backgroundColor;
 
   BottomBar({
     this.playPause,
@@ -21,6 +22,7 @@ class BottomBar extends StatelessWidget {
     this.track,
     this.audioPlayer,
     this.currentAudioPosition,
+    this.backgroundColor,
   });
 
   String printDuration() {
@@ -39,7 +41,7 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: lighterGrey,
+      color: backgroundColor,
       width: MediaQuery.of(context).size.width * 1,
       height: 65,
       child: Row(
@@ -55,6 +57,7 @@ class BottomBar extends StatelessWidget {
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_rewind),
+                      color: primaryOrange,
                       onClick: track != null ? backward : null,
                     ),
                   ),
@@ -64,6 +67,7 @@ class BottomBar extends StatelessWidget {
                       icon: Icon(audioPlayer.state != PlayerState.playing
                           ? Icons.play_arrow
                           : Icons.pause),
+                      color: primaryOrange,
                       onClick: track != null ? playPause : null,
                     ),
                   ),
@@ -71,6 +75,7 @@ class BottomBar extends StatelessWidget {
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_forward),
+                      color: primaryOrange,
                       onClick: track != null ? forward : null,
                     ),
                   ),
@@ -78,6 +83,7 @@ class BottomBar extends StatelessWidget {
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.stop),
+                      color: primaryOrange,
                       onClick: stop,
                     ),
                   ),
