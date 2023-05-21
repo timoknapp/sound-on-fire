@@ -31,7 +31,7 @@ dependencies:
   flutter_spinkit: ^5.0.0
   flutter_windowmanager: ^0.2.0
   package_info: ^2.0.0
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
