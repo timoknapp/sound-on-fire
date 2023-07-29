@@ -16,34 +16,35 @@ import 'package:sound_on_fire/util/constants.dart';
 class HomeScreen extends StatefulWidget {
   final String clientId;
 
-  const HomeScreen({Key key, this.clientId}) : super(key: key);
+  const HomeScreen({required Key key, required this.clientId}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  static AudioPlayer audioPlayer;
+  late final AudioPlayer audioPlayer;
 
   bool isLoading = false;
   int searchLimit = 10;
   int amountCorruptTracks = 0;
   String searchQuery = "";
-  Track selectedTrack;
+  Track selectedTrack = Track();
   List<AutocompleteItem> autocompleteItems = [
     AutocompleteItem(
+      key: UniqueKey(),
       text: "",
-      onClick: null,
+      onClick: () {},
     )
   ];
   List<TrackTile> trackTiles = [];
   ListQueue<Track> playlist = ListQueue<Track>();
-  Duration currentAudioPosition;
+  Duration currentAudioPosition = Duration(seconds: -1);
   bool isAlphabeticalKeyboard = true;
   bool errorOccured = false;
   Duration audioPlayerCalibrationInterval = Duration(minutes: 35);
 
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   void _scrollControlListener() {
     double refreshOffset = _scrollController.position.maxScrollExtent;
@@ -144,11 +145,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         await soundCloudService.queryResults(query, 2, widget.clientId);
     List<AutocompleteItem> tmp = [];
     tmp.add(AutocompleteItem(
+      key: UniqueKey(),
       text: query,
       onClick: () => initSearchTracks(query, searchLimit, 0),
     ));
     for (var response in autocompleteResponse.collection.take(2))
       tmp.add(AutocompleteItem(
+        key: UniqueKey(),
         text: response.output,
         onClick: () => initSearchTracks(response.output, searchLimit, 0),
       ));
@@ -193,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (offset == 0) {
       trackTiles.clear();
       getAutocomplete(query);
-      await searchTracks(query, limit, offset);
+      searchTracks(query, limit, offset);
       _scrollController.jumpTo(0);
     }
   }
@@ -252,8 +255,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       setState(() {
         autocompleteItems = [
           AutocompleteItem(
+            key: UniqueKey(),
             text: "",
-            onClick: null,
+            onClick: () {},
           ),
         ];
       });
@@ -263,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void playPause({bool forcePause = false}) async {
-    if (playlist.isNotEmpty && playlist.first.streamUrl != null) {
+    if (playlist.isNotEmpty && playlist.first.streamUrl.isNotEmpty) {
       if (audioPlayer.state == PlayerState.playing || forcePause) {
         await audioPlayer.pause();
         await FlutterWindowManager.clearFlags(
@@ -342,10 +346,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 backward: fastRewind,
                 forward: fastForward,
                 stop: stop,
-                track: playlist.isEmpty ? null : playlist.first,
+                track: playlist.isEmpty ? Track() : playlist.first,
                 audioPlayer: audioPlayer,
                 currentAudioPosition:
-                    playlist.isEmpty || currentAudioPosition == null
+                    playlist.isEmpty || currentAudioPosition == Duration(seconds: -1)
                         ? Duration(seconds: 0)
                         : currentAudioPosition,
               ),

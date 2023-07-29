@@ -6,14 +6,14 @@ import 'package:sound_on_fire/util/constants.dart';
 
 class InputArea extends StatelessWidget {
   InputArea({
-    @required this.autocompleteItems,
-    @required this.onKeyboardAction,
-    @required this.isAlphabeticalKeyboard,
-    @required this.isLoading,
+    required this.autocompleteItems,
+    required this.onKeyboardAction,
+    required this.isAlphabeticalKeyboard,
+    required this.isLoading,
   });
 
   final List<AutocompleteItem> autocompleteItems;
-  final Function onKeyboardAction;
+  final Function(String) onKeyboardAction;
   final bool isAlphabeticalKeyboard;
   final bool isLoading;
 

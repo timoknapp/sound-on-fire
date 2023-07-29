@@ -4,9 +4,9 @@ import 'package:sound_on_fire/util/constants.dart';
 
 class ResultArea extends StatelessWidget {
   ResultArea({
-    @required ScrollController scrollController,
-    @required this.trackTiles,
-    @required this.isLoading,
+    required ScrollController scrollController,
+    required this.trackTiles,
+    required this.isLoading,
   }) : _scrollController = scrollController;
 
   final ScrollController _scrollController;
