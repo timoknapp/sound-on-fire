@@ -6,16 +6,16 @@ import 'package:sound_on_fire/components/track_tile.dart';
 
 class MainArea extends StatelessWidget {
   const MainArea({
-    @required this.autocompleteItems,
-    @required this.onKeyboardAction,
-    @required this.isAlphabeticalKeyboard,
-    @required ScrollController scrollController,
-    @required this.trackTiles,
-    @required this.isLoading,
+    required this.autocompleteItems,
+    required this.onKeyboardAction,
+    required this.isAlphabeticalKeyboard,
+    required ScrollController scrollController,
+    required this.trackTiles,
+    required this.isLoading,
   }) : _scrollController = scrollController;
 
   final List<AutocompleteItem> autocompleteItems;
-  final Function onKeyboardAction;
+  final Function(String) onKeyboardAction;
   final bool isAlphabeticalKeyboard;
   final ScrollController _scrollController;
   final List<TrackTile> trackTiles;

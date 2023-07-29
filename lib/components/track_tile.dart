@@ -4,13 +4,13 @@ import 'package:sound_on_fire/models/Track.dart';
 
 class TrackTile extends StatelessWidget {
   final Track track;
-  final Function onClick;
+  final void Function() onClick;
   final bool isLoading;
 
   TrackTile({
-    @required this.track,
-    @required this.onClick,
-    @required this.isLoading,
+    required this.track,
+    required this.onClick,
+    required this.isLoading,
   });
 
   @override
@@ -28,8 +28,8 @@ class TrackTile extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             child: isLoading
-                ? ShimmerTrackTileContent()
-                : TrackTileContent(track: track),
+                ? ShimmerTrackTileContent(key: UniqueKey())
+                : TrackTileContent(key: UniqueKey(), track: track),
           ),
         ),
       ),
@@ -39,8 +39,8 @@ class TrackTile extends StatelessWidget {
 
 class TrackTileContent extends StatelessWidget {
   const TrackTileContent({
-    Key key,
-    @required this.track,
+    required Key key,
+    required this.track,
   }) : super(key: key);
 
   final Track track;
@@ -55,7 +55,7 @@ class TrackTileContent extends StatelessWidget {
           child: Container(
             height: 100,
             child: track.artwork != null
-                ? Image.network(track.artwork)
+                ? Image.network(track.artwork!)
                 : FlutterLogo(
                     size: 100,
                   ),
@@ -103,7 +103,7 @@ class TrackTileContent extends StatelessWidget {
 
 class ShimmerTrackTileContent extends StatelessWidget {
   const ShimmerTrackTileContent({
-    Key key,
+    required Key key,
   }) : super(key: key);
 
   @override
@@ -113,11 +113,11 @@ class ShimmerTrackTileContent extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: <Color>[
-            Colors.grey[350],
-            Colors.grey[350],
-            Colors.grey[500],
-            Colors.grey[350],
-            Colors.grey[350]
+            Colors.grey[350]!,
+            Colors.grey[350]!,
+            Colors.grey[500]!,
+            Colors.grey[350]!,
+            Colors.grey[350]!
           ],
           stops: const <double>[
             0.0,

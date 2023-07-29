@@ -37,32 +37,32 @@ const soundCloudApiHost = "https://api-v2.soundcloud.com";
 List<TrackTile> shimmerTrackTiles = [
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
   TrackTile(
     isLoading: true,
-    track: null,
-    onClick: null,
+    track: Track(),
+    onClick: () {},
   ),
 ];
