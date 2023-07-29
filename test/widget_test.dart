@@ -13,7 +13,7 @@ import 'package:sound_on_fire/main.dart';
 void main() {
   testWidgets('SoundOnFire Tests', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(SoundOnFireApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
