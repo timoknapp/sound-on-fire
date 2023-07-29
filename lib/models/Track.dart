@@ -39,6 +39,7 @@ class Track {
   final String? artwork;
   final int likesCount;
   DateTime? date;// = DateTime.now();
+  final String username;
 
   Track({
     this.id = -1,
@@ -52,6 +53,7 @@ class Track {
     this.likesCount = 0,
     this.date,
     this.streamUrl = "",
+    this.username = "",
   });
 
   // write method isNull() which will check if id, title streamUrl and uri is null
@@ -125,6 +127,7 @@ class Track {
         artwork: json['artwork_url'],
         likesCount: json['likes_count'] != null ? json['likes_count'] : 0,
         date: DateTime.parse(json['display_date']),
+        username: json['user']['username'] != null ? json['user']['username'] : "",
       );
     } else {
       // This will ignore all track which do not consist of "protocol" type "progressive"

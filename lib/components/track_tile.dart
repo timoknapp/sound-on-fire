@@ -70,6 +70,15 @@ class TrackTileContent extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        Text(
+          track.username,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 12.0,
+            color: Colors.black87,
+          ),
+        ),
         SizedBox(height: 5),
         Text(
           track.printDuration(),
