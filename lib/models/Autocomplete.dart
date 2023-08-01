@@ -1,9 +1,9 @@
 class AutocompleteResponse {
   final List<AutocompleteResult> collection;
-  final String nextHref;
+  final String? nextHref;
   final String queryUrn;
 
-  AutocompleteResponse({this.collection, this.nextHref, this.queryUrn});
+  AutocompleteResponse({required this.collection, required this.nextHref, required this.queryUrn});
 
   factory AutocompleteResponse.fromJson(Map<String, dynamic> json) {
     List<AutocompleteResult> list = [];
@@ -24,7 +24,7 @@ class AutocompleteResult {
   final String output;
   final String query;
 
-  AutocompleteResult({this.output, this.query});
+  AutocompleteResult({required this.output, required this.query});
 
   factory AutocompleteResult.fromJson(Map<String, dynamic> json) {
     return AutocompleteResult(

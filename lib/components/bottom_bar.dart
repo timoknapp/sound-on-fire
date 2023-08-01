@@ -5,22 +5,22 @@ import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/util/constants.dart';
 
 class BottomBar extends StatelessWidget {
-  final Function playPause;
-  final Function backward;
-  final Function forward;
-  final Function stop;
+  final void Function() playPause;
+  final void Function() backward;
+  final void Function() forward;
+  final void Function() stop;
   final Track track;
   final AudioPlayer audioPlayer;
   final Duration currentAudioPosition;
 
   BottomBar({
-    this.playPause,
-    this.backward,
-    this.forward,
-    this.stop,
-    this.track,
-    this.audioPlayer,
-    this.currentAudioPosition,
+    required this.playPause,
+    required this.backward,
+    required this.forward,
+    required this.stop,
+    required this.track,
+    required this.audioPlayer,
+    required this.currentAudioPosition,
   });
 
   String printDuration() {
@@ -55,7 +55,7 @@ class BottomBar extends StatelessWidget {
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_rewind),
-                      onClick: track != null ? backward : null,
+                      onClick: track.isNull() ? () {} : backward,
                     ),
                   ),
                   Expanded(
@@ -64,14 +64,14 @@ class BottomBar extends StatelessWidget {
                       icon: Icon(audioPlayer.state != PlayerState.playing
                           ? Icons.play_arrow
                           : Icons.pause),
-                      onClick: track != null ? playPause : null,
+                      onClick: track.isNull() ? () {} : playPause,
                     ),
                   ),
                   Expanded(
                     child: SmallButton(
                       autoFocus: false,
                       icon: Icon(Icons.fast_forward),
-                      onClick: track != null ? forward : null,
+                      onClick: track.isNull() ? () {} : forward,
                     ),
                   ),
                   Expanded(
@@ -95,7 +95,7 @@ class BottomBar extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       // padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(track != null && currentAudioPosition != null
+                      child: Text(track.isNull() == false && currentAudioPosition != Duration.zero
                           ? printDuration()
                           : ""),
                     ),
@@ -103,7 +103,7 @@ class BottomBar extends StatelessWidget {
                   Expanded(
                     flex: 12,
                     child: Container(
-                      child: track != null && currentAudioPosition != null
+                      child: track.isNull() == false && currentAudioPosition != Duration.zero
                           ? Slider(
                               value: currentAudioPosition.inSeconds.toDouble(),
                               min: 0.0,
@@ -125,7 +125,7 @@ class BottomBar extends StatelessWidget {
                             ),
                     ),
                   ),
-                  track != null
+                  track.isNull() == false
                       ? Expanded(
                           flex: 2,
                           child: Container(
@@ -146,10 +146,10 @@ class BottomBar extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 3,
-                    child: track != null
+                    child: track.isNull() == false
                         ? Container(
                             child: track.artwork != null
-                                ? Image.network(track.artwork)
+                                ? Image.network(track.artwork!)
                                 : FlutterLogo(),
                           )
                         : Text(""),
@@ -160,7 +160,7 @@ class BottomBar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          track != null ? track.title : "",
+                          track.isNull() == false ? track.title : "",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

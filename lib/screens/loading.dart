@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sound_on_fire/screens/home.dart';
 import 'package:sound_on_fire/util/constants.dart';
 import 'package:sound_on_fire/services/soundcloud.dart' as soundcloudService;
@@ -11,7 +11,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  String clientId;
+  String clientId = "";
   PackageInfo _packageInfo = PackageInfo(
     appName: '',
     packageName: '',
@@ -44,6 +44,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       MaterialPageRoute(
         builder: (context) {
           return HomeScreen(
+            key: UniqueKey(),
             clientId: clientId,
           );
         },

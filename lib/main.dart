@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:sound_on_fire/screens/loading.dart';
 import 'package:sound_on_fire/util/constants.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(SoundOnFireApp());
 
-class MyApp extends StatefulWidget {
+class SoundOnFireApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _SoundOnFireState createState() => _SoundOnFireState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _SoundOnFireState extends State<SoundOnFireApp> {
   final Map<LogicalKeySet, Intent> _shortcuts = {
     LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
   };

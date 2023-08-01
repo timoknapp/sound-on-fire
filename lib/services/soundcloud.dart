@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:beautifulsoup/beautifulsoup.dart';
+import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:sound_on_fire/models/Autocomplete.dart';
 import 'package:sound_on_fire/models/Track.dart';
 import 'package:sound_on_fire/util/constants.dart';
@@ -12,8 +12,8 @@ Future<String> fetchUrl(url) async {
 
 Future<String> getClientId() async {
   String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
-  Beautifulsoup soup = Beautifulsoup(body);
-  final scriptElements = soup.find_all("script");
+  BeautifulSoup soup = BeautifulSoup(body);
+  final scriptElements = soup.findAll("script");
   for (var element in scriptElements) {
     if (element.attributes["src"] != null) {
       String script = await fetchUrl(element.attributes["src"]);

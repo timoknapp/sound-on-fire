@@ -3,9 +3,9 @@ import 'package:sound_on_fire/util/constants.dart';
 
 class AutocompleteItem extends StatelessWidget {
   final String text;
-  final Function onClick;
+  final void Function() onClick;
 
-  const AutocompleteItem({Key key, this.text, this.onClick}) : super(key: key);
+  const AutocompleteItem({required Key key, required this.text, required this.onClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

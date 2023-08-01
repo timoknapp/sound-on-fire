@@ -8,15 +8,15 @@ class SearchResponse {
   final String queryUrn;
 
   SearchResponse(
-      {this.collection, this.totalResults, this.nextHref, this.queryUrn});
+      {required this.collection, required this.totalResults, required this.nextHref, required this.queryUrn});
 
   factory SearchResponse.fromJson(Map<String, dynamic> json) {
     List<Track> list = [];
     if (json['collection'].length > 0) {
       for (var item in json['collection']) {
         Track track = Track.fromJson(item);
-        if (track != null) list.add(track);
-      }
+        if (track.isNull() == false) list.add(track);
+      } 
     }
     return SearchResponse(
       collection: list,
@@ -30,29 +30,44 @@ class SearchResponse {
 class Track {
   final int id;
   final String title;
-  final String description;
+  final String? description;
   final String uri;
   final String transcodingURL;
   String streamUrl;
   final Duration duration;
-  final int playbackCount;
-  final String artwork;
+  final int? playbackCount;
+  final String? artwork;
   final int likesCount;
-  final DateTime date;
+  DateTime? date;// = DateTime.now();
+  final String username;
 
   Track({
-    this.id,
-    this.title,
+    this.id = -1,
+    this.title = "", 
     this.description,
-    this.uri,
-    this.transcodingURL,
-    this.duration,
-    this.playbackCount,
-    this.artwork,
-    this.likesCount,
+    this.uri = "",
+    this.transcodingURL = "",
+    this.duration = const Duration(seconds: 0),
+    this.playbackCount = 0,
+    this.artwork = "",
+    this.likesCount = 0,
     this.date,
-    this.streamUrl,
+    this.streamUrl = "",
+    this.username = "",
   });
+
+  // write method isNull() which will check if id, title streamUrl and uri is null
+  bool isNull() {
+    if (this.id == -1 ||
+        this.title == "" ||
+        this.transcodingURL == "" ||
+        this.duration == Duration(seconds: 0) ||
+        this.uri == "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void setStreamUrl(String streamUrl) {
     this.streamUrl = streamUrl;
@@ -81,11 +96,14 @@ class Track {
 
   String printUploadSince() {
     var now = DateTime.now();
-    var old = this.date;
-    Duration difference = now.difference(old);
-    final timeAgo = now.subtract(difference);
-
-    return timeago.format(timeAgo);
+    if (this.date != null) {
+      var old = this.date;
+      Duration difference = now.difference(old!);
+      final timeAgo = now.subtract(difference);
+      return timeago.format(timeAgo);
+    } else {
+      return "";
+    }
   }
 
   factory Track.fromJson(Map<String, dynamic> json) {
@@ -109,10 +127,11 @@ class Track {
         artwork: json['artwork_url'],
         likesCount: json['likes_count'] != null ? json['likes_count'] : 0,
         date: DateTime.parse(json['display_date']),
+        username: json['user']['username'] != null ? json['user']['username'] : "",
       );
     } else {
       // This will ignore all track which do not consist of "protocol" type "progressive"
-      return null;
+      return Track();
     }
   }
 }
