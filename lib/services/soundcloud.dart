@@ -14,19 +14,17 @@ Future<String> getClientId() async {
   String body = await fetchUrl("$soundCloudHost/mt-marcy/cold-nights");
   BeautifulSoup soup = BeautifulSoup(body);
   final scriptElements = soup.findAll("script");
-  for (var element in scriptElements) {
-    if (element.attributes["src"] != null) {
-      String script = await fetchUrl(element.attributes["src"]);
-      RegExp exp = new RegExp(r'client_id:"([a-zA-Z0-9]+)"');
-      Iterable<Match> matches = exp.allMatches(script);
-      if (matches.length == 0) {
-        continue;
-      }
-      for (var match in matches) {
-        return match.group(1).toString();
-      }
+  var lastElement = scriptElements.last;
+  if (lastElement.attributes["src"] != null) {
+    String script = await fetchUrl(lastElement.attributes["src"]!);
+    RegExp exp = RegExp(r',client_id:"([^\"]*?.[^\"]*?)"');
+    Iterable<Match> matches = exp.allMatches(script);
+    if (matches.isEmpty) {
+      throw Exception("soundcloud: clientID could not be parsed");
     }
+    return matches.first.group(1)!;
   }
+
   return "";
 }
 
