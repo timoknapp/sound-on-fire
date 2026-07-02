@@ -96,7 +96,7 @@ jobs:
 
       - name: Create Release Version
         id: create-release-version
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -110,7 +110,7 @@ jobs:
 
       - name: Create Release Latest
         id: create-release-latest
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
