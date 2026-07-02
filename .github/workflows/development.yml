@@ -64,7 +64,7 @@ jobs:
           echo "artifact-filename=$(cat tmp_artifact_name.txt)" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.prepare-build.outputs.artifact-filename }}
           path: ${{ steps.prepare-build.outputs.artifact-filepath }}
