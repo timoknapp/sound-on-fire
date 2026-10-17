@@ -22,7 +22,8 @@ android {
     }
 
     lint {
-        disable 'InvalidPackage'
+        // ExpiredTargetSdkVersion is a Google Play rule; the app is sideloaded on FireTV (GitHub/AppCenter).
+        disable 'InvalidPackage', 'ExpiredTargetSdkVersion'
     }
 
     defaultConfig {
