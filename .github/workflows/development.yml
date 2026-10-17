@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Restore Keystore
         if: github.repository == 'timoknapp/sound-on-fire'
@@ -33,7 +33,7 @@ jobs:
 
       - name: VB Step 2
         if: github.ref != 'refs/heads/master' && github.repository == 'timoknapp/sound-on-fire'
-        uses: EndBug/add-and-commit@v4
+        uses: EndBug/add-and-commit@v11
         with:
           author_name: timoknapp
           author_email: mail@timoknapp.com
@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -64,7 +64,7 @@ jobs:
           echo "artifact-filename=$(cat tmp_artifact_name.txt)" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.prepare-build.outputs.artifact-filename }}
           path: ${{ steps.prepare-build.outputs.artifact-filepath }}
