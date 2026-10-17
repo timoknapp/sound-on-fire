@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          # PRs: check out the head branch (not the detached merge ref) so the version bump can be pushed back
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.head_ref || github.ref }}
 
       - name: Restore Keystore
         if: github.repository == 'timoknapp/sound-on-fire'
