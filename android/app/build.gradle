@@ -92,6 +92,11 @@ dependencies {
 
 configurations.all {
     resolutionStrategy {
+        // AppUpdater 2.9 pulls prdownloader 0.6.0, which was only hosted on the shut-down JCenter.
+        // 1.0.2 on JitPack ships the same com.downloader classes.
+        dependencySubstitution {
+            substitute module('com.mindorks.android:prdownloader') using module('com.github.amitshekhariitbhu:PRDownloader:1.0.2')
+        }
         eachDependency {
             if ((requested.group == "org.jetbrains.kotlin") && (requested.name.startsWith("kotlin-stdlib"))) {
                 useVersion("1.8.0")
