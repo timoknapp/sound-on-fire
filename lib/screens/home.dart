@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:sound_on_fire/components/autocomplete_item.dart';
 import 'package:sound_on_fire/components/bottom_bar.dart';
 import 'package:sound_on_fire/components/main_area.dart';
@@ -213,8 +213,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
     setPlaylist(track);
     audioPlayer.play(UrlSource(track.streamUrl));
-    await FlutterWindowManager.addFlags(
-        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+    await WakelockPlus.enable();
   }
 
   void setPlaylist(Track track) {
@@ -270,12 +269,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (playlist.isNotEmpty && playlist.first.streamUrl.isNotEmpty) {
       if (audioPlayer.state == PlayerState.playing || forcePause) {
         await audioPlayer.pause();
-        await FlutterWindowManager.clearFlags(
-            FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+        await WakelockPlus.disable();
       } else {
         await audioPlayer.play(UrlSource(playlist.first.streamUrl)); //, stayAwake: true);
-        await FlutterWindowManager.addFlags(
-            FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+        await WakelockPlus.enable();
       }
     }
     setState(() {});
@@ -300,8 +297,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void stop() async {
     await audioPlayer.stop();
-    await FlutterWindowManager.clearFlags(
-        FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
+    await WakelockPlus.disable();
     setState(() {
       playlist.clear();
     });
