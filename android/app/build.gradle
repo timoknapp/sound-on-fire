@@ -79,5 +79,8 @@ configurations.all {
         dependencySubstitution {
             substitute module('com.mindorks.android:prdownloader') using module('com.github.amitshekhariitbhu:PRDownloader:1.0.2')
         }
+        // Jetified support libs (AppUpdater) pull vectordrawable-animated 1.0.0, whose manifest reuses the
+        // 'androidx.vectordrawable' namespace; AGP 8+ rejects that. 1.1.0+ has its own namespace.
+        force 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     }
 }
