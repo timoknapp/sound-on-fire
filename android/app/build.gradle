@@ -82,6 +82,6 @@ configurations.all {
         }
         // Jetified support libs (AppUpdater) pull vectordrawable-animated 1.0.0, whose manifest reuses the
         // 'androidx.vectordrawable' namespace; AGP 8+ rejects that. 1.1.0+ has its own namespace.
-        force 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
+        force 'androidx.vectordrawable:vectordrawable-animated:1.2.0'
     }
 }
